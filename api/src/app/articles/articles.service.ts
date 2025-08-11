@@ -7,9 +7,9 @@ import { firstValueFrom } from 'rxjs';
 export class ArticlesService {
   constructor(private readonly httpService: HttpService) {}
 
-  async getIndonesianArticles() {
+  async getIndonesianArticles(query:string) {
     const apiKey = process.env.NEWS_API_KEY;
-    const url = `https://newsapi.org/v2/everything?q=finansial&language=id&apiKey=${apiKey}`;
+    const url = `https://newsapi.org/v2/everything?q=${query}&language=id&apiKey=${apiKey}`;
 
     try {
       const response = await firstValueFrom(this.httpService.get(url));
