@@ -23,16 +23,17 @@ import BasicCombobox from "../combobox/BasicCombobox";
 import { dummyCategori } from "@/dummies/dummyCategory";
 import InputTags from "@/components/atoms/inputs/InputTags";
 import { Textarea } from "@/components/ui/textarea";
-import React from "react";
+import React, { useState } from "react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Info } from "lucide-react";
+import { Info, Loader } from "lucide-react";
 import ImagePicker from "@/components/atoms/inputs/ImagePicker";
 import RichTextEditor from "../editor/RichTextEditor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import axios, { isAxiosError } from "axios";
 
 interface Props {
   defaultValues?: ArticleSchemaType;
@@ -48,6 +49,7 @@ export default function ArticleForm({ handler, defaultValues }: Props) {
     defaultValues: defaultValues ?? articleDefaultValues,
     resolver: zodResolver(articleSchema),
   });
+  const [isLoadingAi, setIsLoadingAi] = useState<boolean>(false);
 
   const onSubmit = (values: ArticleSchemaType) => {
     handler(values);
@@ -58,11 +60,19 @@ export default function ArticleForm({ handler, defaultValues }: Props) {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Tabs defaultValue="metadata">
           <TabsList>
-            <TabsTrigger value="metadata">Metadata</TabsTrigger>
-            <TabsTrigger value="editor">Editor</TabsTrigger>
+            <TabsTrigger disabled={isLoadingAi} value="metadata">
+              Metadata
+            </TabsTrigger>
+            <TabsTrigger disabled={isLoadingAi} value="editor">
+              Editor
+            </TabsTrigger>
           </TabsList>
           <MetadataTabs form={form} />
-          <EditorTabs form={form} />
+          <EditorTabs
+            form={form}
+            setIsLoading={setIsLoadingAi}
+            isLoading={isLoadingAi}
+          />
         </Tabs>
         <Button type="submit">Submit</Button>
       </form>
@@ -220,9 +230,60 @@ const MetadataTabs: React.FC<SubComponentProps> = ({ form }) => {
   );
 };
 
-const EditorTabs: React.FC<SubComponentProps> = ({ form }) => {
+type EditorTabsProps = {
+  setIsLoading: (state: boolean) => void;
+  isLoading: boolean;
+};
+const EditorTabs: React.FC<SubComponentProps & EditorTabsProps> = ({
+  form,
+  setIsLoading,
+  isLoading,
+}) => {
+  const [mountCount, setMounCount] = useState<number>(0);
+
+  const aiHandler = async () => {
+    const title = form.getValues("title");
+    const description = form.getValues("description");
+
+    try {
+      setIsLoading(true);
+      const { data } = await axios.post("/api/articles/generate", {
+        title,
+        description,
+      });
+
+      alert("Generate AI Berhasil");
+      console.log(data.content);
+      form.setValue("content", data.content);
+      setMounCount(mountCount + 1);
+    } catch (error) {
+      console.error(error);
+      if (isAxiosError(error)) {
+        const data = error.response?.data;
+
+        alert(data.message ?? "Terjadi kesalahan");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
-    <TabsContent value="editor">
+    <TabsContent value="editor" className="space-y-8">
+      <Button
+        type="button"
+        variant={"outline"}
+        disabled={isLoading}
+        onClick={aiHandler}
+      >
+        {isLoading ? (
+          <>
+            {" "}
+            <Loader className="animate-spin" /> Generating...
+          </>
+        ) : (
+          "Generate AI"
+        )}
+      </Button>
       <FormField
         control={form.control}
         name="content"
@@ -231,8 +292,9 @@ const EditorTabs: React.FC<SubComponentProps> = ({ form }) => {
             <FormLabel>Konten Artikel</FormLabel>
             <FormControl>
               <RichTextEditor
+                key={mountCount}
                 onChange={field.onChange}
-                initialContent={field.value}
+                value={field.value}
               />
             </FormControl>
             <FormMessage />
