@@ -59,7 +59,7 @@ export default function ArticleForm({ handler, defaultValues }: Props) {
         <Tabs defaultValue="metadata">
           <TabsList>
             <TabsTrigger value="metadata">Metadata</TabsTrigger>
-            <TabsTrigger value="editor">Edior</TabsTrigger>
+            <TabsTrigger value="editor">Editor</TabsTrigger>
           </TabsList>
           <MetadataTabs form={form} />
           <EditorTabs form={form} />

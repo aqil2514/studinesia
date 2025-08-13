@@ -12,6 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { contentMenuItems } from "@/constants/sidebarMenu";
+import { useHasHydrated } from "@/hooks/use-has-hydrated";
 import { Home } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,8 +21,11 @@ import React from "react";
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const isHydrated = useHasHydrated()
+  if(!isHydrated) return null;
+  
   return (
-    <Sidebar>
+    <Sidebar className="z-[51]">
       <SidebarHeader>
         <Link href="/dashboard" className="flex items-center">
           <Image
@@ -78,9 +82,9 @@ const ContentSidebarGroup: React.FC<{ pathname: string }> = ({ pathname }) => {
               </SidebarMenuButton>
               {item.actionUrl && item.ActionIcon && (
                 <SidebarMenuAction asChild>
-                  <Link href={item.actionUrl}>
+                  <a href={item.actionUrl} target="_blank">
                     <item.ActionIcon />
-                  </Link>
+                  </a>
                 </SidebarMenuAction>
               )}
             </SidebarMenuItem>
