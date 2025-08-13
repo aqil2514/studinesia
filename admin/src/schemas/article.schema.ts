@@ -1,14 +1,10 @@
 import { z } from "zod";
+import { slugSchema } from "./common.schema";
 
 export const articleSchema = z.object({
   author: z.string().min(1, "Penulis harus diisi"),
   title: z.string().min(1, "Judul artikel harus diisi"),
-  slug: z
-    .string()
-    .regex(
-      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-      "Slug hanya boleh huruf kecil, angka, dan tanda minus"
-    ),
+  slug: slugSchema,
   description: z.string().min(1, "Deskripsi artikel harus diisi"),
   metaDescription: z
     .string()
@@ -33,7 +29,7 @@ export const articleSchema = z.object({
 export type ArticleSchemaType = z.infer<typeof articleSchema>;
 
 export const articleDefaultValues: ArticleSchemaType = {
-  author: "Admin",
+  author: "",
   category: "",
   content: "",
   description: "",

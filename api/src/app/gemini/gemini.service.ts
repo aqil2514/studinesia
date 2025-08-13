@@ -19,6 +19,13 @@ Tulislah sebuah artikel *evergreen* dalam bahasa Indonesia.
 Judul: ${title}
 Deskripsi: ${description}
 
+Pastikan agar outputnya berupa struktur HTML. 
+Misal jika tulisan tebal <strong>Ini tulisan tebal</strong>
+Jika ada list <ul><li>Ini list</li></ul>
+...dst
+
+Langsung tulis dari dalam <body> saja. Tidak perlu satu HTML full
+
 Kriteria penulisan:
 - Gaya bahasa informatif, mudah dipahami, dan menarik bagi pembaca awam.
 - Hindari konten musiman atau berita yang cepat kadaluarsa.

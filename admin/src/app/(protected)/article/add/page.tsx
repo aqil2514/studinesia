@@ -5,6 +5,6 @@ export const metadata: Metadata = {
   title: "Tambah Artikel",
 };
 
-export default function ArticleAddPage() {
+export default async function ArticleAddPage() {
   return <ArticleAddTemplate />;
 }

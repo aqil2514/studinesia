@@ -43,7 +43,7 @@ export default function BasicCombobox({
         >
           {value
             ? options.find((option) => option.value === value)?.label
-            : `Select ${comboboxFor}...`}
+            : `Pilih ${comboboxFor}...`}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -51,7 +51,7 @@ export default function BasicCombobox({
         <Command>
           <CommandInput placeholder={`Cari ${comboboxFor}...`} />
           <CommandList>
-            <CommandEmpty>No {comboboxFor} found.</CommandEmpty>
+            <CommandEmpty>Tida ada {comboboxFor} yang ditemukan.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem

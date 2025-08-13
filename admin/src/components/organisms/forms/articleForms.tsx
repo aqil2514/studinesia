@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { generateSlug } from "@/utils/generateSlug";
 
 import { IoIosSettings, IoMdRefresh } from "react-icons/io";
-import BasicCombobox from "../combobox/BasicCombobox";
+import BasicCombobox from "../../molecules/combobox/BasicCombobox";
 import { dummyCategori } from "@/dummies/dummyCategory";
 import InputTags from "@/components/atoms/inputs/InputTags";
 import { Textarea } from "@/components/ui/textarea";
@@ -31,20 +31,19 @@ import {
 } from "@/components/ui/popover";
 import { Info, Loader } from "lucide-react";
 import ImagePicker from "@/components/atoms/inputs/ImagePicker";
-import RichTextEditor from "../editor/RichTextEditor";
+import RichTextEditor from "../../molecules/editor/RichTextEditor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import axios, { isAxiosError } from "axios";
-
-interface Props {
-  defaultValues?: ArticleSchemaType;
-  handler: (values: ArticleSchemaType) => void | Promise<void>;
-}
+import { BasicFormsProps } from "@/@types/forms";
 
 interface SubComponentProps {
   form: UseFormReturn<ArticleSchemaType>;
 }
 
-export default function ArticleForm({ handler, defaultValues }: Props) {
+export default function ArticleForm({
+  handler,
+  defaultValues,
+}: BasicFormsProps<ArticleSchemaType>) {
   const form = useForm<ArticleSchemaType>({
     defaultValues: defaultValues ?? articleDefaultValues,
     resolver: zodResolver(articleSchema),
@@ -97,9 +96,13 @@ const MetadataTabs: React.FC<SubComponentProps> = ({ form }) => {
           <FormItem>
             <FormLabel>Penulis</FormLabel>
             <FormControl>
-              <Input placeholder="Penulis Artikel" {...field} />
+              <BasicCombobox
+                comboboxFor="penulis"
+                options={dummyCategori}
+                value={field.value}
+                onChange={field.onChange}
+              />
             </FormControl>
-            <FormDescription>Defaultnya Admin</FormDescription>
             <FormMessage />
           </FormItem>
         )}

@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ArticlesModule } from './articles/articles.module';
 import { GeminiService } from './gemini/gemini.service';
 import { GeminiModule } from './gemini/gemini.module';
+import { AuthorModule } from './author/author.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { GeminiModule } from './gemini/gemini.module';
     }),
     ArticlesModule,
     GeminiModule,
+    AuthorModule,
   ],
   controllers: [AppController],
   providers: [AppService, GeminiService],

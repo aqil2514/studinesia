@@ -1,7 +1,7 @@
 "use client";
 
 import MainContainer from "../layouts/Container/MainContainer";
-import ArticleForm from "../molecules/forms/articleForms";
+import ArticleForm from "../organisms/forms/articleForms";
 
 export default function ArticleAddTemplate() {
   return (
