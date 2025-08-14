@@ -24,7 +24,7 @@ export default function NewestArticleSection({ articles }: Props) {
           <ArticleCard articleSummary={article} key={index} />
         ))}
       </div>
-      <Link href={`/article`} className="w-1/5 mt-4">
+      <Link href={`/articles`} className="w-1/5 mt-4">
         <Button variant={"outline"} className="w-full">
           <BsFillSkipForwardFill />
         </Button>

@@ -26,6 +26,21 @@ export class ArticlesService {
     }
   }
 
+  async getPublishedArticles() {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .lte('published_at', new Date().toISOString())
+      .order('published_at', { ascending: false });
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  }
+
   async createNewArticle(payload: ArticleDB) {
     const { data, error } = await this.supabase
       .from(this.tableName)

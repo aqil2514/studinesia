@@ -1,16 +1,25 @@
 export interface Article {
-  image_url?: string;
-  description: string;
+  id: number;
+  author_id: number;
   title: string;
-  publishedAt: string;
-  content: string;
   slug: string;
+  description: string;
+  meta_description: string;
+  url: string | null;
+  url_to_image: string;
+  published_at: string; // ISO datetime string
+  updated_at: string; // ISO datetime string
+  content: string; // HTML string
+  category_id: number;
+  reading_time: number;
 }
 
 export type ArticleSummary = Pick<
   Article,
-  "title" | "description" | "slug" | "publishedAt" | "image_url"
+  "title" | "description" | "slug" | "published_at" | "url_to_image"
 >;
+
+export type ArticleFetchMode = "published";
 
 export interface Category {
   id: number;

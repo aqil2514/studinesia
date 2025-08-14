@@ -12,6 +12,11 @@ export class ArticlesController {
     return this.articlesService.getIndonesianArticles(query);
   }
 
+  @Get("/published")
+  async getPublishedArticles() {
+    return await this.articlesService.getPublishedArticles();
+  }
+
   @Post()
   async createNewArticle(@Body() payload: ArticleDB) {
     return await this.articlesService.createNewArticle(payload);
