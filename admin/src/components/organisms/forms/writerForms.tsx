@@ -1,5 +1,5 @@
 import { BasicFormsProps } from "@/@types/forms";
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/atoms/button/submitButton";
 import {
   Form,
   FormControl,
@@ -15,14 +15,12 @@ import {
   WriterSchemaType,
 } from "@/schemas/writer.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 export default function WriterForm({
   handler,
   defaultValues,
 }: BasicFormsProps<WriterSchemaType>) {
-
   const form = useForm<WriterSchemaType>({
     defaultValues: defaultValues ?? writerDefaultValues,
     resolver: zodResolver(writerSchema),
@@ -50,15 +48,7 @@ export default function WriterForm({
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (
-            <>
-              <Loader /> Menyimpan...{" "}
-            </>
-          ) : (
-            "Simpan"
-          )}
-        </Button>
+        <SubmitButton isSubmitting={isSubmitting} />
       </form>
     </Form>
   );

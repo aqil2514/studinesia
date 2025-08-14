@@ -1,4 +1,5 @@
 import { BasicFormsProps } from "@/@types/forms";
+import SubmitButton from "@/components/atoms/button/submitButton";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -29,6 +30,8 @@ export default function TagsForm({
 
     form.setValue("slug", slug);
   };
+
+  const {isSubmitting} = form.formState
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handler)} className="space-y-8">
@@ -39,7 +42,7 @@ export default function TagsForm({
             <FormItem>
               <FormLabel>Nama Tag</FormLabel>
               <FormControl>
-                <Input placeholder="Finansial" {...field} />
+                <Input disabled={isSubmitting} placeholder="Finansial" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -54,7 +57,7 @@ export default function TagsForm({
               <FormLabel>Slug Tag</FormLabel>
               <FormControl>
                 <div className="flex gap-4">
-                  <Input placeholder="Finansial" {...field} />
+                  <Input disabled={isSubmitting} placeholder="Finansial" {...field} />
                   <Button
                     type="button"
                     onClick={getSlug}
@@ -70,7 +73,7 @@ export default function TagsForm({
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        <SubmitButton isSubmitting={isSubmitting} />
       </form>
     </Form>
   );

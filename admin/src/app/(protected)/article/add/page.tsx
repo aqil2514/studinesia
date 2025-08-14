@@ -1,4 +1,6 @@
 import ArticleAddTemplate from "@/components/templates/ArticleAddTemplate";
+import { getAllAuthor } from "@/lib/server-api/author.api";
+import { getAllCategory } from "@/lib/server-api/category.api";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ArticleAddPage() {
-  return <ArticleAddTemplate />;
+  const [authors, categories] = await Promise.all([
+    getAllAuthor(),
+    getAllCategory(),
+  ]);
+
+  return <ArticleAddTemplate authors={authors} categories={categories} />;
 }

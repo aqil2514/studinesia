@@ -6,6 +6,8 @@ import { ArticlesModule } from './articles/articles.module';
 import { GeminiService } from './gemini/gemini.service';
 import { GeminiModule } from './gemini/gemini.module';
 import { AuthorModule } from './author/author.module';
+import { CategoryModule } from './category/category.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { AuthorModule } from './author/author.module';
     ArticlesModule,
     GeminiModule,
     AuthorModule,
+    CategoryModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [AppService, GeminiService],

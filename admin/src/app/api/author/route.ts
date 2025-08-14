@@ -18,9 +18,7 @@ export async function POST(req: NextRequest) {
   const body: Author = await req.json();
 
   try {
-    const { data } = await axios.post(`${serverEndpoint}/author`, body);
-
-    console.log(data);
+    await axios.post(`${serverEndpoint}/author`, body);
   } catch (error) {
     console.error(error);
     throw error;

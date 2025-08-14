@@ -22,7 +22,6 @@ export default function ArticleDialog({ onSelect }: { onSelect: (article: Articl
     const res = await axios.get(`/api/articles/search`, {
       params: { query: data.query },
     })
-    console.log(res.data)
     setArticles(res.data?.data || [])
   } catch (err) {
     console.error("Error fetching articles:", err)

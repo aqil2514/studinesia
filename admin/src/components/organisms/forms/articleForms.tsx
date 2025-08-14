@@ -20,7 +20,6 @@ import { generateSlug } from "@/utils/generateSlug";
 
 import { IoIosSettings, IoMdRefresh } from "react-icons/io";
 import BasicCombobox from "../../molecules/combobox/BasicCombobox";
-import { dummyCategori } from "@/dummies/dummyCategory";
 import InputTags from "@/components/atoms/inputs/InputTags";
 import { Textarea } from "@/components/ui/textarea";
 import React, { useState } from "react";
@@ -35,6 +34,8 @@ import RichTextEditor from "../../molecules/editor/RichTextEditor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import axios, { isAxiosError } from "axios";
 import { BasicFormsProps } from "@/@types/forms";
+import { useArticleFormData } from "@/providers/ArticleFormProvider";
+import { BasicOption } from "@/@types/items";
 
 interface SubComponentProps {
   form: UseFormReturn<ArticleSchemaType>;
@@ -80,6 +81,18 @@ export default function ArticleForm({
 }
 
 const MetadataTabs: React.FC<SubComponentProps> = ({ form }) => {
+  const { authors, categories } = useArticleFormData();
+
+  const authorOptions: BasicOption[] = authors.map((author) => ({
+    label: author.name,
+    value: String(author.id),
+  }));
+
+  const categoryOptions: BasicOption[] = categories.map((category) => ({
+    label: category.name,
+    value: String(category.id),
+  }));
+
   const getSlug = () => {
     const title = form.getValues("title");
     const slug = generateSlug(title);
@@ -98,7 +111,7 @@ const MetadataTabs: React.FC<SubComponentProps> = ({ form }) => {
             <FormControl>
               <BasicCombobox
                 comboboxFor="penulis"
-                options={dummyCategori}
+                options={authorOptions}
                 value={field.value}
                 onChange={field.onChange}
               />
@@ -155,7 +168,7 @@ const MetadataTabs: React.FC<SubComponentProps> = ({ form }) => {
             <FormControl>
               <BasicCombobox
                 comboboxFor="kategori"
-                options={dummyCategori}
+                options={categoryOptions}
                 value={field.value}
                 onChange={field.onChange}
               />
@@ -256,7 +269,6 @@ const EditorTabs: React.FC<SubComponentProps & EditorTabsProps> = ({
       });
 
       alert("Generate AI Berhasil");
-      console.log(data.content);
       form.setValue("content", data.content);
       setMounCount(mountCount + 1);
     } catch (error) {

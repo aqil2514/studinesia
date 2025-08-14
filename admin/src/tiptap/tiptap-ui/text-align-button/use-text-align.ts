@@ -158,7 +158,7 @@ export function shouldShowButton(props: {
  *     editor: myEditor,
  *     align: "right",
  *     hideWhenUnavailable: true,
- *     onAligned: () => console.log('Text aligned!')
+ *     onAligned: () => console.info('Text aligned!')
  *   })
  *
  *   if (!isVisible) return null

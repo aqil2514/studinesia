@@ -1,4 +1,5 @@
 import { Author } from "@/@types/author";
+import { writerChannel } from "@/components/templates/WriterTemplate";
 import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
 
@@ -8,7 +9,9 @@ export async function postAuthor(formData: Author) {
   try {
     await axios.post(endpoint, formData);
 
-    toast.success("Penulis berhasil ditambah");
+    writerChannel.postMessage({ type: "New_Author" });
+    writerChannel.close();
+    window.close();
   } catch (error) {
     console.error(error);
     if (isAxiosError(error)) {
@@ -16,16 +19,5 @@ export async function postAuthor(formData: Author) {
 
       toast.error(data.message ?? "Terjadi kesalahan saat menambahkan data");
     }
-  }
-}
-
-export async function getAuthor() {
-  try {
-    const { data } = await axios.get(endpoint);
-
-    return data.authors as Author[];
-  } catch (error) {
-    console.error(error);
-    throw error;
   }
 }
