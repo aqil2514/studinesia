@@ -8,6 +8,7 @@ import { GeminiModule } from './gemini/gemini.module';
 import { AuthorModule } from './author/author.module';
 import { CategoryModule } from './category/category.module';
 import { TagsModule } from './tags/tags.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TagsModule } from './tags/tags.module';
     AuthorModule,
     CategoryModule,
     TagsModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService, GeminiService],

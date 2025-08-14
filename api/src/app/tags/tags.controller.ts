@@ -13,4 +13,9 @@ export class TagsController {
       async createNewTags(@Body() body: Tag) {
         return await this.tagsService.createNewTags(body);
       }
+
+    @Post('/bulks')
+      async createBulksNewTags(@Body() body: Tag[]) {
+        return await this.tagsService.createBulksNewTags(body);
+      }
 }

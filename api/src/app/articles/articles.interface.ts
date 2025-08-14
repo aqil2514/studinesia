@@ -32,8 +32,8 @@ export interface ArticleDB {
 }
 
 export interface ArticleTags {
-  id?: number;
-  created_at?: string;
+  id: number;
+  created_at: string;
   article_id: number;
   tag_id: number;
 }

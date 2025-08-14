@@ -36,6 +36,8 @@ import axios, { isAxiosError } from "axios";
 import { BasicFormsProps } from "@/@types/forms";
 import { useArticleFormData } from "@/providers/ArticleFormProvider";
 import { BasicOption } from "@/@types/items";
+import SubmitButton from "@/components/atoms/button/submitButton";
+import { toast } from "sonner";
 
 interface SubComponentProps {
   form: UseFormReturn<ArticleSchemaType>;
@@ -51,13 +53,11 @@ export default function ArticleForm({
   });
   const [isLoadingAi, setIsLoadingAi] = useState<boolean>(false);
 
-  const onSubmit = (values: ArticleSchemaType) => {
-    handler(values);
-  };
+  const { isSubmitting } = form.formState;
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(handler)}>
         <Tabs defaultValue="metadata">
           <TabsList>
             <TabsTrigger disabled={isLoadingAi} value="metadata">
@@ -74,7 +74,7 @@ export default function ArticleForm({
             isLoading={isLoadingAi}
           />
         </Tabs>
-        <Button type="submit">Submit</Button>
+        <SubmitButton isSubmitting={isSubmitting} />
       </form>
     </Form>
   );
@@ -268,7 +268,7 @@ const EditorTabs: React.FC<SubComponentProps & EditorTabsProps> = ({
         description,
       });
 
-      alert("Generate AI Berhasil");
+      toast.success("Generate AI Berhasil");
       form.setValue("content", data.content);
       setMounCount(mountCount + 1);
     } catch (error) {
@@ -276,7 +276,7 @@ const EditorTabs: React.FC<SubComponentProps & EditorTabsProps> = ({
       if (isAxiosError(error)) {
         const data = error.response?.data;
 
-        alert(data.message ?? "Terjadi kesalahan");
+        toast.error(data.message ?? "Terjadi kesalahan");
       }
     } finally {
       setIsLoading(false);

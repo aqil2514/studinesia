@@ -1,13 +1,20 @@
-// src/article/article.service.ts
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { ArticleDB, ArticleTags } from './articles.interface';
+import { SupabaseService } from 'src/config/supabase/supabase.service';
 
 @Injectable()
 export class ArticlesService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly supabaseService: SupabaseService,
+  ) {}
 
-  async getIndonesianArticles(query:string) {
+  private supabase = this.supabaseService.getClient();
+  private tableName = 'articles';
+
+  async getIndonesianArticles(query: string) {
     const apiKey = process.env.NEWS_API_KEY;
     const url = `https://newsapi.org/v2/everything?q=${query}&language=id&apiKey=${apiKey}`;
 
@@ -16,6 +23,28 @@ export class ArticlesService {
       return response.data;
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async createNewArticle(payload: ArticleDB) {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .insert(payload)
+      .select();
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return { message: 'OK', data };
+  }
+
+  async createNewArticleTag(payload: ArticleTags[]) {
+    const { error } = await this.supabase.from('article_tags').insert(payload);
+
+    if (error) {
+      console.error(error);
+      throw error;
     }
   }
 }
