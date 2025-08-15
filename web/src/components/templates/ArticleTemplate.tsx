@@ -9,11 +9,12 @@ import useSWR from "swr";
 import { getPublishedArticles } from "@/lib/api-client/article.api";
 import { Article } from "@/@types/article";
 import { mapArticleToSummarized } from "@/lib/mapper/article.map";
+import Loading from "@/app/loading";
 
 export default function ArticleTemplate() {
-  const { data, error, isLoading } = useSWR("articles", getPublishedArticles);
+  const { data, isLoading } = useSWR("articles", getPublishedArticles);
 
-  if (isLoading || !data) return null;
+  if (isLoading || !data) return <Loading />;
 
   const articles: Article[] = data.articles;
   const summarizedArticles = articles.map(mapArticleToSummarized)

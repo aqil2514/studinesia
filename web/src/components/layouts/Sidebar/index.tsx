@@ -7,7 +7,7 @@ export default function Sidebar() {
   const articles = dummyArticleSummaries;
 
   return (
-    <aside className="bg-white">
+    <aside className="bg-white sticky top-0 self-start">
       <PopularArticlesSidebar
         articles={articles.slice(0, 5)}
         title="Artikel Terbaru"

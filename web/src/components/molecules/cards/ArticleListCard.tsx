@@ -12,11 +12,12 @@ export default function ArticleListCard({ article }: Props) {
   return (
     <>
       <div className="relative w-16 h-12 flex-shrink-0 rounded overflow-hidden">
-        {article.image_url ? (
+        {article.url_to_image ? (
           <Image
-            src={article.image_url}
+            src={article.url_to_image}
             alt={article.title}
             fill
+            sizes="64px"
             className="object-cover"
           />
         ) : (
@@ -31,7 +32,7 @@ export default function ArticleListCard({ article }: Props) {
           {article.title}
         </Link>
         <p className="text-xs text-gray-500">
-          {formatDateWithDay(article.publishedAt)}
+          {formatDateWithDay(article.published_at)}
         </p>
       </div>
     </>

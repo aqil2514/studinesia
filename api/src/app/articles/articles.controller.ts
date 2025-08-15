@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { ArticleDB, ArticleTags } from './articles.interface';
 
@@ -11,11 +11,19 @@ export class ArticlesController {
 
     return this.articlesService.getIndonesianArticles(query);
   }
-
-  @Get("/published")
+  
+  @Get('/published')
   async getPublishedArticles() {
     return await this.articlesService.getPublishedArticles();
   }
+
+  @Get(':slug')
+  async getArticleBySlug(@Param() param: { slug: string }) {
+    const { slug } = param;
+
+    return await this.articlesService.getArticleBySlug(slug);
+  }
+
 
   @Post()
   async createNewArticle(@Body() payload: ArticleDB) {

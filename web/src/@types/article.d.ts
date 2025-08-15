@@ -14,6 +14,19 @@ export interface Article {
   reading_time: number;
 }
 
+export interface ArticleWithAuthorAndCategory
+  extends Omit<Article, "author_id" | "category_id"> {
+  author_id: {
+    id: number;
+    name: string;
+  };
+  category_id: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+}
+
 export type ArticleSummary = Pick<
   Article,
   "title" | "description" | "slug" | "published_at" | "url_to_image"
