@@ -5,7 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   const body = await req.json();
   try {
-    await axios.post(`${serverEndpoint}/category`, body);
+    const { data } = await axios.post(`${serverEndpoint}/category`, body);
+
+    if (!data.success) {
+      return NextResponse.json({ message: data.message }, { status: 400 });
+    }
 
     return NextResponse.json({ message: "OK" });
   } catch (error) {

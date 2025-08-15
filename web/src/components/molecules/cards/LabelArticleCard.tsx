@@ -11,7 +11,7 @@ interface HighlightArticleCardProps {
 export default function LabelArticleCard({
   articleSummary,
 }: HighlightArticleCardProps) {
-  const { description, publishedAt, title } = articleSummary;
+  const { description, published_at, title } = articleSummary;
   return (
     <div className="bg-white h-[450px] w-[350px] shadow-2xl rounded-2xl group">
       <div className="overflow-hidden rounded-tl-2xl rounded-tr-2xl">
@@ -37,7 +37,7 @@ export default function LabelArticleCard({
           {description}
         </p>
         <br />
-        <p className="text-right">{formatDateWithDay(publishedAt)}</p>
+        <p className="text-right">{formatDateWithDay(published_at)}</p>
       </div>
     </div>
   );

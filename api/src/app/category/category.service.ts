@@ -28,10 +28,13 @@ export class CategoryService {
     const { error } = await this.supabase.from(this.tableName).insert(data);
 
     if (error) {
-      console.error();
-      throw error;
+      console.error(error);
+      return {
+        success: false,
+        message: this.supabaseService.handleSupabaseError(error),
+      };
     }
 
-    return { message: 'OK' };
+    return { success: true, message: 'OK' };
   }
 }

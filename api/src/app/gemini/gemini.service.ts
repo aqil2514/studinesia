@@ -30,6 +30,7 @@ Kriteria penulisan:
 - Gaya bahasa informatif, mudah dipahami, dan menarik bagi pembaca awam.
 - Hindari konten musiman atau berita yang cepat kadaluarsa.
 - Sertakan pembukaan yang memancing rasa ingin tahu.
+- Tag HTML <body> jangan ditulis lagi. Karena ini nantinya akan ditempatkan di dalam tag <main>. Jadi, <main>article ini</main>
 - Gunakan subjudul (H2/H3) untuk membagi topik menjadi bagian-bagian.
 - Tambahkan contoh konkret atau tips praktis jika relevan.
 - Panjang artikel minimal 800 kata.
