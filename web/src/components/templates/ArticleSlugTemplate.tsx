@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Pen } from "lucide-react";
 import { BiSolidCategory } from "react-icons/bi";
 import Link from "next/link";
-
+import ArticleBreadcrumb from "../molecules/breadcrumbs/ArticleBreadcrumb";
 
 interface Props {
   article: ArticleWithAuthorAndCategory;
@@ -21,6 +21,11 @@ export default function ArticleSlugTemplate({ article }: Props) {
     <MainContainer className="grid grid-cols-1 md:grid-cols-[75%_auto] gap-4 pt-4 px-4">
       <div className="px-20">
         <header className="space-y-8">
+          <ArticleBreadcrumb
+            articleTitle={article.title}
+            categoryName={article.category_id.name}
+            categoryLink={`/category/${article.category_id.slug}`}
+          />
           <h1 className={`text-center ${rubik.className} text-4xl`}>
             {article.title}
           </h1>
@@ -30,9 +35,9 @@ export default function ArticleSlugTemplate({ article }: Props) {
               <Pen /> {article.author_id.name}
             </span>
             <Link href={`/category/${article.category_id.slug}`}>
-            <span className="flex gap-2 items-center">
-              <BiSolidCategory /> {article.category_id.name}
-            </span>
+              <span className="flex gap-2 items-center">
+                <BiSolidCategory /> {article.category_id.name}
+              </span>
             </Link>
           </div>
           <Image
@@ -44,7 +49,10 @@ export default function ArticleSlugTemplate({ article }: Props) {
           />
           <Divider />
         </header>
-        <main className="prose prose-slate max-w-none" dangerouslySetInnerHTML={{__html:sanitizedContent}} />
+        <main
+          className="prose prose-slate max-w-none"
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+        />
       </div>
 
       <Sidebar />
