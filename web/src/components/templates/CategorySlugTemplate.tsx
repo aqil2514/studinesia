@@ -10,6 +10,7 @@ import GridContainer from "../layouts/containers/GridContainer";
 import Sidebar from "../layouts/Sidebar";
 import { mapArticleToSummarized } from "@/lib/mapper/article.map";
 import CategoryArticleCard from "../molecules/cards/CategoryArticleCard";
+import Link from "next/link";
 
 export default function CategorySlugTemplate({
   categoryId,
@@ -39,7 +40,9 @@ export default function CategorySlugTemplate({
       </header>
       <GridContainer>
         {summarizedArticles.map((article) => (
-          <CategoryArticleCard articleSummary={article} key={article.title} />
+          <Link key={article.title} href={`/articles/${article.slug}`}>
+            <CategoryArticleCard articleSummary={article} />
+          </Link>
         ))}
         <Sidebar />
       </GridContainer>
