@@ -24,6 +24,22 @@ export class CategoryService {
     return data;
   }
 
+  async getCategoryBySlug(slug: string) {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .eq('slug', slug);
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    if (!data) return [];
+
+    return data;
+  }
+
   async getCategoryAndLimit(limit: number) {
     const { data, error } = await this.supabase
       .from(this.tableName)

@@ -1,25 +1,15 @@
 import { Category } from "@/@types/article";
 import axios from "axios";
 
-export async function getCategory() {
-  try {
-    const { data } = await axios.get("/api/category");
-
-    const resData = data.data as Category[];
-
-    return resData;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+interface GetCategoryQuery {
+  limit?: number;
+  slug?: string;
 }
 
-export async function getCategoryAndLimit(limit: number) {
+export async function getCategory(query?: GetCategoryQuery) {
   try {
     const { data } = await axios.get("/api/category", {
-      params: {
-        limit,
-      },
+      params: query,
     });
 
     const resData = data.data as Category[];

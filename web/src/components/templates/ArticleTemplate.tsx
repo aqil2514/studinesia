@@ -9,18 +9,25 @@ import useSWR from "swr";
 import { getPublishedArticles } from "@/lib/api-client/article.api";
 import { mapArticleToSummarized } from "@/lib/mapper/article.map";
 import Loading from "@/app/loading";
+import GridContainer from "../layouts/containers/GridContainer";
+import OneStepBreadcrumb from "../molecules/breadcrumbs/OneStepBreadcrumb";
 
 export default function ArticleTemplate() {
   const { data, isLoading } = useSWR("articles", getPublishedArticles);
 
   if (isLoading || !data) return <Loading />;
 
-  const summarizedArticles = data.map(mapArticleToSummarized)
+  const summarizedArticles = data.map(mapArticleToSummarized);
 
   return (
     <MainContainer className="flex flex-col items-center justify-center md:block px-4 space-y-4 pt-4">
-      <h1 className={`${rubik.className} font-bold text-2xl`}>Semua Artikel</h1>
-      <div className="grid grid-cols-1 md:grid-cols-[75%_auto] gap-4">
+      <header>
+        <OneStepBreadcrumb currentStepName="Artikel" />
+        <h1 className={`${rubik.className} font-bold text-2xl`}>
+          Semua Artikel
+        </h1>
+      </header>
+      <GridContainer>
         <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center justify-center">
           {summarizedArticles.map((article, index) => (
             <ArticleCard articleSummary={article} key={index} />
@@ -34,7 +41,7 @@ export default function ArticleTemplate() {
         </main>
 
         <Sidebar />
-      </div>
+      </GridContainer>
     </MainContainer>
   );
 }

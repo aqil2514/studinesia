@@ -41,6 +41,9 @@ const Navigation = () => {
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
             <Link href={"/articles"}>Artikel</Link>
           </NavigationMenuLink>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href={"/category"}>Kategori</Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

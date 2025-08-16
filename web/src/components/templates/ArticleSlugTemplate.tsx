@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Pen } from "lucide-react";
 import { BiSolidCategory } from "react-icons/bi";
 import Link from "next/link";
-import ArticleBreadcrumb from "../molecules/breadcrumbs/ArticleBreadcrumb";
+import TwoStepBreadcrumb from "../molecules/breadcrumbs/TwoStepBreadcrumb";
 
 interface Props {
   article: ArticleWithAuthorAndCategory;
@@ -21,10 +21,10 @@ export default function ArticleSlugTemplate({ article }: Props) {
     <MainContainer className="grid grid-cols-1 md:grid-cols-[75%_auto] gap-4 pt-4 px-4">
       <div className="px-20">
         <header className="space-y-8">
-          <ArticleBreadcrumb
-            articleTitle={article.title}
-            categoryName={article.category_id.name}
-            categoryLink={`/category/${article.category_id.slug}`}
+          <TwoStepBreadcrumb
+            currentStepName={article.title}
+            secondStepName={article.category_id.name}
+            secondStepLink={`/category/${article.category_id.slug}`}
           />
           <h1 className={`text-center ${rubik.className} text-4xl`}>
             {article.title}

@@ -5,3 +5,8 @@ export interface Category {
   slug: string;
   description: string;
 }
+
+export interface GetCategoryQuery {
+  limit?: number;
+  slug?: string;
+}

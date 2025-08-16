@@ -1,15 +1,15 @@
 import { NavigationWithBackground } from "@/@types/navigation";
 import Loading from "@/app/loading";
 import { rubik } from "@/config/fonts";
-import {
-  getCategoryAndLimit,
-} from "@/lib/api-client/category.api";
+import { getCategory } from "@/lib/api-client/category.api";
 import { mapCategoryToNavigationWithBackground } from "@/lib/mapper/category.map";
 import Link from "next/link";
 import useSWR from "swr";
 
 export default function CategoryNavigation() {
-  const { data, isLoading } = useSWR("category", () => getCategoryAndLimit(6));
+  const { data, isLoading } = useSWR("category", () =>
+    getCategory({ limit: 6 })
+  );
 
   if (!data || isLoading) return <Loading />;
 

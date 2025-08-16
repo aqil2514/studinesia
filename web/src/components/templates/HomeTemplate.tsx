@@ -17,7 +17,7 @@ export default function HomeTemplate() {
       <Separator />
 
       <CategoryNavigation />
-      <CategoryArticleSection />
+      <CategoryArticleSection category_id="3"  />
 
       <SearchCard />
       <NewestArticleSection />

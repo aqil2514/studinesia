@@ -14,9 +14,13 @@ import React from "react";
 import { BsFillSkipForwardFill } from "react-icons/bs";
 import useSWR from "swr";
 
-export default function CategoryArticleSection() {
-  const { data, isLoading } = useSWR("article-category", () =>
-    getArticlesByCategory("3")
+export default function CategoryArticleSection({
+  category_id,
+}: {
+  category_id: string;
+}) {
+  const { data, isLoading } = useSWR(`${category_id}-category`, () =>
+    getArticlesByCategory(category_id)
   );
 
   if (isLoading || !data) return <SkeletonSection />;
@@ -45,10 +49,13 @@ const SkeletonSection = () => {
   );
 };
 
-const DataSection: React.FC<{ data: ArticleWithAuthorAndCategory[] }> = ({
-  data,
-}) => {
+const DataSection: React.FC<{
+  data: ArticleWithAuthorAndCategory[];
+  asMainPage?: boolean;
+}> = ({ data, asMainPage = false }) => {
   const categoryArticle: ArticleSummary[] = data.map(mapArticleToSummarized);
+  if (!data || data.length === 0) return null;
+
   const categoryName = data[0].category_id.name;
   const categorySlug = data[0].category_id.slug;
 
@@ -65,11 +72,13 @@ const DataSection: React.FC<{ data: ArticleWithAuthorAndCategory[] }> = ({
           </Link>
         ))}
       </div>
-      <Link href={`/category/${categorySlug}`} className="w-1/5 mt-4">
-        <Button variant={"outline"} className="w-full">
-          <BsFillSkipForwardFill />
-        </Button>
-      </Link>
+      {!asMainPage && (
+        <Link href={`/category/${categorySlug}`} className="w-1/5 mt-4">
+          <Button variant={"outline"} className="w-full">
+            <BsFillSkipForwardFill />
+          </Button>
+        </Link>
+      )}
     </section>
   );
 };

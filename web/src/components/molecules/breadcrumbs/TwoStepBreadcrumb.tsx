@@ -6,31 +6,36 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 interface Props {
-  categoryLink: string;
-  categoryName: string;
-  articleTitle: string;
+  secondStepLink: string;
+  secondStepName: string;
+  currentStepName: string;
 }
 
-export default function ArticleBreadcrumb({
-  articleTitle,
-  categoryLink,
-  categoryName,
+export default function TwoStepBreadcrumb({
+  currentStepName,
+  secondStepLink,
+  secondStepName,
 }: Props) {
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Beranda</BreadcrumbLink>
+          <BreadcrumbLink asChild>
+            <Link href={"/"}>Beranda</Link>
+          </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href={categoryLink}>{categoryName}</BreadcrumbLink>
+          <BreadcrumbLink asChild>
+            <Link href={secondStepLink}>{secondStepName}</Link>
+          </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>{articleTitle}</BreadcrumbPage>
+          <BreadcrumbPage>{currentStepName}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
