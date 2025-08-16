@@ -4,18 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
-  const mode = searchParams.get("mode");
-  const category_id = searchParams.get("category_id");
-
+  const limit = searchParams.get("limit");
   try {
-    const { data } = await axios.get(`${serverEndpoint}/articles`, {
+    const { data } = await axios.get(`${serverEndpoint}/category`, {
       params: {
-        mode,
-        category_id,
+        limit,
       },
     });
 
-    return NextResponse.json({ articles: data });
+    return NextResponse.json({ data });
   } catch (error) {
     console.error(error);
     throw error;

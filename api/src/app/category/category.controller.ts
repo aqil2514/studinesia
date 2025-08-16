@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category } from './category.interface';
 
@@ -7,7 +7,10 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get('')
-  async getCategories() {
+  async getCategories(@Query() query) {
+    const { limit } = query;
+    if (limit) return await this.categoryService.getCategoryAndLimit(limit);
+
     return await this.categoryService.getCategories();
   }
 

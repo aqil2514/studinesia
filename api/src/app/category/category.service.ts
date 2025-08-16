@@ -24,6 +24,22 @@ export class CategoryService {
     return data;
   }
 
+  async getCategoryAndLimit(limit: number) {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .limit(limit);
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    if (!data) return [];
+
+    return data;
+  }
+
   async createNewCategory(data: Category) {
     const { error } = await this.supabase.from(this.tableName).insert(data);
 

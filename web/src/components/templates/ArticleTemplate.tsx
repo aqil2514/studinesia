@@ -7,7 +7,6 @@ import Sidebar from "../layouts/Sidebar";
 import { Button } from "../ui/button";
 import useSWR from "swr";
 import { getPublishedArticles } from "@/lib/api-client/article.api";
-import { Article } from "@/@types/article";
 import { mapArticleToSummarized } from "@/lib/mapper/article.map";
 import Loading from "@/app/loading";
 
@@ -16,8 +15,7 @@ export default function ArticleTemplate() {
 
   if (isLoading || !data) return <Loading />;
 
-  const articles: Article[] = data.articles;
-  const summarizedArticles = articles.map(mapArticleToSummarized)
+  const summarizedArticles = data.map(mapArticleToSummarized)
 
   return (
     <MainContainer className="flex flex-col items-center justify-center md:block px-4 space-y-4 pt-4">

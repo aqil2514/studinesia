@@ -5,16 +5,20 @@ import { ArticleDB, ArticleTags } from './articles.interface';
 @Controller('articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
-  @Get()
-  getIndonesianArticles(@Query() params: { query: string }) {
-    const { query } = params;
 
-    return this.articlesService.getIndonesianArticles(query);
-  }
-  
-  @Get('/published')
-  async getPublishedArticles() {
-    return await this.articlesService.getPublishedArticles();
+  @Get('')
+  async getPublishedArticles(
+    @Query() query: { mode: string; category_id: string },
+  ) {
+    const { mode, category_id } = query;
+    if (mode) {
+      switch (mode) {
+        case 'published':
+          return await this.articlesService.getPublishedArticles();
+      }
+    }
+
+    if (category_id) return this.articlesService.getArticleByCategoryId(category_id);
   }
 
   @Get(':slug')
@@ -23,7 +27,6 @@ export class ArticlesController {
 
     return await this.articlesService.getArticleBySlug(slug);
   }
-
 
   @Post()
   async createNewArticle(@Body() payload: ArticleDB) {

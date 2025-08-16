@@ -55,6 +55,20 @@ export class ArticlesService {
     return data;
   }
 
+  async getArticleByCategoryId(categoryId: string) {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*, author_id(name, id), category_id(id, name, slug)')
+      .eq('category_id', categoryId);
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  }
+
   async createNewArticle(payload: ArticleDB) {
     const { data, error } = await this.supabase
       .from(this.tableName)
