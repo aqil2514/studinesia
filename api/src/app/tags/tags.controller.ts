@@ -3,7 +3,7 @@ import { Tag } from './tags.interface';
 import { TagsService } from './tags.service';
 import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
-import { Role } from 'src/decorators/Role.decorator';
+import { Role } from 'src/decorators/role.decorator';
 
 @Controller('tags')
 export class TagsController {
