@@ -1,4 +1,5 @@
 import { ArticleTags } from "@/@types/article";
+import { auth } from "@/auth";
 import { mapArticleFormToDB } from "@/lib/mappers/article.mapper";
 import {
   createNewArticle,
@@ -12,11 +13,18 @@ export async function POST(req: NextRequest) {
   const body: FormData = await req.formData();
   const image: File = body.get("image") as File;
   const tags: string[] = JSON.parse(String(body.get("tags")));
+  const session = await auth();
+  const token = session?.supabaseAccessToken;
 
-  const tagsId = (await createBulksNewTags(tags)).map((tag) => String(tag.id));
-  const imageUrl = await uploadImage(image, "studinesia/articles");
+  if (!token)
+    return NextResponse.json({ message: "Token tidak ada" }, { status: 400 });
+
+  const tagsId = (await createBulksNewTags(tags, token)).map((tag) =>
+    String(tag.id)
+  );
+  const imageUrl = await uploadImage(image, "studinesia/articles", token);
   const payload = mapArticleFormToDB(body, imageUrl);
-  const article = await createNewArticle(payload);
+  const article = await createNewArticle(payload, token);
 
   const articleTags: ArticleTags[] = tagsId.map((tag) => {
     return {
@@ -25,7 +33,7 @@ export async function POST(req: NextRequest) {
     };
   });
 
-  await createNewArticleTags(articleTags);
+  await createNewArticleTags(articleTags, token);
 
   return NextResponse.json({ message: "OK" });
 }

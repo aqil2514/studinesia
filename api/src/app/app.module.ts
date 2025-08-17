@@ -9,6 +9,7 @@ import { AuthorModule } from './author/author.module';
 import { CategoryModule } from './category/category.module';
 import { TagsModule } from './tags/tags.module';
 import { UploadModule } from './upload/upload.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UploadModule } from './upload/upload.module';
     CategoryModule,
     TagsModule,
     UploadModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService, GeminiService],

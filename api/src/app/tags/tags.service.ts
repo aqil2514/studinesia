@@ -7,6 +7,7 @@ export class TagsService {
   constructor(private readonly supabaseService: SupabaseService) {}
 
   private supabase = this.supabaseService.getClient();
+  private supabaseAdmin = this.supabaseService.getAdmin();
   private tableName = 'tags';
 
   async getTags() {
@@ -39,10 +40,10 @@ export class TagsService {
   }
 
   async createNewTags(data: Tag) {
-    const { error } = await this.supabase.from(this.tableName).insert(data);
+    const { error } = await this.supabaseAdmin.from(this.tableName).insert(data);
 
     if (error) {
-      console.error();
+      console.error(error);
       throw error;
     }
 
@@ -60,13 +61,13 @@ export class TagsService {
       return { message: 'OK', tags: slugs };
     }
 
-    const { data, error } = await this.supabase
+    const { data, error } = await this.supabaseAdmin
       .from(this.tableName)
       .insert(newTags)
       .select();
 
     if (error) {
-      console.error();
+      console.error(error);
       throw error;
     }
 

@@ -7,12 +7,16 @@ export class AuthorService {
   constructor(private readonly supabaseService: SupabaseService) {}
   private tableName: string = 'author';
   private supabase = this.supabaseService.getClient();
+  private supabaseAdmin = this.supabaseService.getAdmin();
 
   async createNewAuthor(data: Author) {
-    const { error } = await this.supabase.from(this.tableName).insert(data);
+    const { error } = await this.supabaseAdmin
+      .from(this.tableName)
+      .insert(data);
 
     if (error) {
       console.error(error);
+
       throw error;
     }
 

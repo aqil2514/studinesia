@@ -1,6 +1,9 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category, GetCategoryQuery } from './category.interface';
+import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { Role } from 'src/decorators/Role.decorator';
 
 @Controller('category')
 export class CategoryController {
@@ -15,6 +18,8 @@ export class CategoryController {
     return await this.categoryService.getCategories();
   }
 
+  @UseGuards(JWTAuthGuard, RolesGuard)
+  @Role('admin')
   @Post('')
   async createNewCategory(@Body() body: Category) {
     return await this.categoryService.createNewCategory(body);

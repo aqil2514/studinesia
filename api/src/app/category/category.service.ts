@@ -7,6 +7,7 @@ export class CategoryService {
   constructor(private readonly supabaseService: SupabaseService) {}
 
   private supabase = this.supabaseService.getClient();
+  private supabaseAdmin = this.supabaseService.getAdmin();
   private tableName = 'category';
 
   async getCategories() {
@@ -57,7 +58,7 @@ export class CategoryService {
   }
 
   async createNewCategory(data: Category) {
-    const { error } = await this.supabase.from(this.tableName).insert(data);
+    const { error } = await this.supabaseAdmin.from(this.tableName).insert(data);
 
     if (error) {
       console.error(error);

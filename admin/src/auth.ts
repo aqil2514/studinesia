@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import jwt from "jsonwebtoken";
+import { getUserByUserId } from "./lib/server-api/user.api";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
@@ -11,6 +12,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   }),
   callbacks: {
     async session({ session, user }) {
+      const dbUser = await getUserByUserId(user.id);
+
       const signingSecret = process.env.SUPABASE_JWT_SECRET;
       if (signingSecret) {
         const payload = {
@@ -18,10 +21,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           exp: Math.floor(new Date(session.expires).getTime() / 1000),
           sub: user.id,
           email: user.email,
-          role: "authenticated",
+          db_role: dbUser.role,
         };
         session.supabaseAccessToken = jwt.sign(payload, signingSecret);
-
       }
       return session;
     },

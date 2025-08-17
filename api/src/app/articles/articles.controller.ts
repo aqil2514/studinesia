@@ -1,6 +1,17 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { ArticleDB, ArticleTags } from './articles.interface';
+import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { Role } from 'src/decorators/Role.decorator';
 
 @Controller('articles')
 export class ArticlesController {
@@ -18,7 +29,8 @@ export class ArticlesController {
       }
     }
 
-    if (category_id) return this.articlesService.getArticleByCategoryId(category_id);
+    if (category_id)
+      return this.articlesService.getArticleByCategoryId(category_id);
   }
 
   @Get(':slug')
@@ -28,11 +40,15 @@ export class ArticlesController {
     return await this.articlesService.getArticleBySlug(slug);
   }
 
+  @UseGuards(JWTAuthGuard, RolesGuard)
+  @Role('admin')
   @Post()
   async createNewArticle(@Body() payload: ArticleDB) {
     return await this.articlesService.createNewArticle(payload);
   }
 
+  @UseGuards(JWTAuthGuard, RolesGuard)
+  @Role('admin')
   @Post('/article-tags')
   async createNewArticleTag(@Body() payload: ArticleTags[]) {
     return await this.articlesService.createNewArticleTag(payload);

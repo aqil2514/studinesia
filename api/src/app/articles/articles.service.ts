@@ -12,6 +12,7 @@ export class ArticlesService {
   ) {}
 
   private supabase = this.supabaseService.getClient();
+  private supabaseAdmin = this.supabaseService.getAdmin();
   private tableName = 'articles';
 
   async getIndonesianArticles(query: string) {
@@ -70,7 +71,7 @@ export class ArticlesService {
   }
 
   async createNewArticle(payload: ArticleDB) {
-    const { data, error } = await this.supabase
+    const { data, error } = await this.supabaseAdmin
       .from(this.tableName)
       .insert(payload)
       .select();
@@ -83,7 +84,7 @@ export class ArticlesService {
   }
 
   async createNewArticleTag(payload: ArticleTags[]) {
-    const { error } = await this.supabase.from('article_tags').insert(payload);
+    const { error } = await this.supabaseAdmin.from('article_tags').insert(payload);
 
     if (error) {
       console.error(error);
