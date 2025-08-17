@@ -1,4 +1,5 @@
 import { type DefaultSession } from "next-auth";
+import { DBUser } from "./user";
 
 declare module "next-auth" {
   // Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -10,4 +11,7 @@ declare module "next-auth" {
       address: string;
     } & DefaultSession["user"];
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  interface User extends DBUser {}
 }
