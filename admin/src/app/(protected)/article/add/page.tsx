@@ -1,4 +1,4 @@
-import ArticleAddTemplate from "@/components/templates/ArticleAddTemplate";
+import ArticleAddTemplate from "@/components/templates/article/ArticleAddTemplate";
 import { getAllAuthor } from "@/lib/server-api/author.api";
 import { getAllCategory } from "@/lib/server-api/category.api";
 import { Metadata } from "next";

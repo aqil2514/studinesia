@@ -1,11 +1,11 @@
 "use client";
 
 import ArticleFormProvider from "@/providers/ArticleFormProvider";
-import MainContainer from "../layouts/Container/MainContainer";
-import ArticleForm from "../organisms/forms/articleForms";
 import { Author } from "@/@types/author";
 import { Category } from "@/@types/category";
 import { postArticle } from "@/lib/client-api/article.api";
+import MainContainer from "@/components/layouts/Container/MainContainer";
+import ArticleForm from "@/components/organisms/forms/articleForms";
 
 interface Props {
   authors: Author[];

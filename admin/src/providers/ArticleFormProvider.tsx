@@ -1,11 +1,13 @@
 "use client";
+import { ArticleWithAuthorAndCategory } from "@/@types/article";
 import { Author } from "@/@types/author";
 import { Category } from "@/@types/category";
 import React, { createContext, useContext } from "react";
 
 interface ArticleFormContextState {
   authors: Author[];
-  categories: Category[]
+  categories: Category[];
+  article?: ArticleWithAuthorAndCategory;
 }
 
 const ArticleFormContext = createContext<ArticleFormContextState>(
@@ -14,14 +16,21 @@ const ArticleFormContext = createContext<ArticleFormContextState>(
 
 interface Props {
   authors: Author[];
-  categories: Category[]
+  categories: Category[];
+  article?: ArticleWithAuthorAndCategory;
   children: React.ReactNode;
 }
 
-export default function ArticleFormProvider({ authors, children, categories }: Props) {
+export default function ArticleFormProvider({
+  authors,
+  children,
+  categories,
+  article,
+}: Props) {
   const value: ArticleFormContextState = {
     authors,
-    categories
+    categories,
+    article,
   };
 
   return (

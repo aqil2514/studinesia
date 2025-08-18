@@ -4,6 +4,7 @@ import { mapArticleFormToDB } from "@/lib/mappers/article.mapper";
 import {
   createNewArticle,
   createNewArticleTags,
+  softDeleteArticle,
 } from "@/lib/server-api/article.api";
 import { createBulksNewTags } from "@/lib/server-api/tags.api";
 import { uploadImage } from "@/lib/upload/image.upload";
@@ -36,4 +37,27 @@ export async function POST(req: NextRequest) {
   await createNewArticleTags(articleTags, token);
 
   return NextResponse.json({ message: "OK" });
+}
+
+export async function DELETE(req: NextRequest) {
+  const { searchParams } = req.nextUrl;
+  const slug = searchParams.get("slug");
+  const session = await auth();
+  const token = session?.supabaseAccessToken;
+
+  if (!slug)
+    return NextResponse.json(
+      { message: "Parameter tidak lengkap" },
+      { status: 400 }
+    );
+
+  if (!token)
+    return NextResponse.json(
+      { message: "Token tidak tersedia" },
+      { status: 401 }
+    );
+
+  await softDeleteArticle(slug, token);
+
+  return NextResponse.json({ message: "Artikel berhasil dihapus" });
 }

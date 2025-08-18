@@ -1,6 +1,35 @@
-import { ArticleDB, ArticleTags } from "@/@types/article";
+import { ArticleDB, ArticleTags, ArticleWithAuthorAndCategory } from "@/@types/article";
 import { serverEndpoint } from "@/config/server-endpoint";
 import axios from "axios";
+
+interface GetArticlesParams {
+  mode?: string;
+  category_id?: string;
+}
+
+export async function getArticles(params?: GetArticlesParams) {
+  try {
+    const { data } = await axios.get(`${serverEndpoint}/articles`, {
+      params,
+    });
+
+    return data as ArticleDB[];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function getArticleBySlug(slug: string) {
+  try {
+    const { data } = await axios.get(`${serverEndpoint}/articles/${slug}`);
+
+    return data as ArticleWithAuthorAndCategory;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export async function createNewArticle(payload: ArticleDB, token: string) {
   try {
@@ -17,13 +46,33 @@ export async function createNewArticle(payload: ArticleDB, token: string) {
   }
 }
 
-export async function createNewArticleTags(payload: ArticleTags[], token:string) {
+export async function createNewArticleTags(
+  payload: ArticleTags[],
+  token: string
+) {
   try {
     await axios.post(`${serverEndpoint}/articles/article-tags`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function softDeleteArticle(slug: string, token: string) {
+  try {
+    await axios.patch(
+      `${serverEndpoint}/articles/${slug}/soft-delete`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
   } catch (error) {
     console.error(error);
     throw error;

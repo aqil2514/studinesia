@@ -7,14 +7,19 @@ import { FcAddImage } from "react-icons/fc";
 interface Props {
   file: File | undefined;
   setFile: Dispatch<SetStateAction<File | undefined>>;
+  defaultPreview?: string;
 }
 
-export default function ImagePicker({ file, setFile }: Props) {
+export default function ImagePicker({ file, setFile, defaultPreview }: Props) {
   const [preview, setPreview] = useState<string>("");
 
   useEffect(() => {
     if (!file) {
-      setPreview("");
+      if (defaultPreview) {
+        setPreview(defaultPreview);
+      } else {
+        setPreview("");
+      }
       return;
     }
 
@@ -22,7 +27,7 @@ export default function ImagePicker({ file, setFile }: Props) {
     setPreview(objectUrl);
 
     return () => URL.revokeObjectURL(objectUrl);
-  }, [file]);
+  }, [file, defaultPreview]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {

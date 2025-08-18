@@ -1,14 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { ArticleDB, ArticleTags } from './articles.interface';
+import {
+  ArticleDB,
+  ArticleTags,
+  ArticleWithAuthorAndCategory,
+} from './articles.interface';
 import { SupabaseService } from 'src/config/supabase/supabase.service';
+import { TagsService } from '../tags/tags.service';
 
 @Injectable()
 export class ArticlesService {
   constructor(
     private readonly httpService: HttpService,
     private readonly supabaseService: SupabaseService,
+    private readonly tagsService: TagsService,
   ) {}
 
   private supabase = this.supabaseService.getClient();
@@ -27,12 +33,28 @@ export class ArticlesService {
     }
   }
 
+  async getAllArticles() {
+    const { error, data } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .order('published_at', { ascending: false })
+      .is('deleted_at', null);
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  }
+
   async getPublishedArticles() {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*')
       .lte('published_at', new Date().toISOString())
-      .order('published_at', { ascending: false });
+      .order('published_at', { ascending: false })
+      .is('deleted_at', null);
 
     if (error) {
       console.error(error);
@@ -53,7 +75,23 @@ export class ArticlesService {
       throw error;
     }
 
-    return data;
+    if (!data) {
+      return [];
+    }
+    const article: ArticleWithAuthorAndCategory = data[0];
+
+    const articleId = article?.id ?? '';
+
+    const tags = await this.tagsService.getTagsByArticleId(String(articleId));
+
+    const tagsName = tags.map((tag) => tag.tag_id.name);
+
+    const articleWithTags: ArticleWithAuthorAndCategory = {
+      ...article,
+      tags: tagsName,
+    };
+
+    return articleWithTags;
   }
 
   async getArticleByCategoryId(categoryId: string) {
@@ -84,11 +122,28 @@ export class ArticlesService {
   }
 
   async createNewArticleTag(payload: ArticleTags[]) {
-    const { error } = await this.supabaseAdmin.from('article_tags').insert(payload);
+    const { error } = await this.supabaseAdmin
+      .from('article_tags')
+      .insert(payload);
 
     if (error) {
       console.error(error);
       throw error;
     }
+  }
+
+  async softDeleteArticleBySlug(slug: string) {
+    const now = new Date().toISOString();
+    const { error } = await this.supabaseAdmin
+      .from(this.tableName)
+      .update({ deleted_at: now })
+      .eq('slug', slug);
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return { message: 'OK' };
   }
 }

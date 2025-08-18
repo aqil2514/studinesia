@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SupabaseService } from 'src/config/supabase/supabase.service';
-import { Tag } from './tags.interface';
+import { ArticleTagsWithTagsData, Tag } from './tags.interface';
 
 @Injectable()
 export class TagsService {
@@ -25,6 +25,24 @@ export class TagsService {
     return data;
   }
 
+  async getTagsByArticleId(articleId: string) {
+    const { data, error } = await this.supabase
+      .from('article_tags')
+      .select('*, tag_id(id, name, slug)')
+      .eq('article_id', articleId);
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    if (!data) return [];
+
+    const tags: ArticleTagsWithTagsData[] = data;
+
+    return tags;
+  }
+
   async getBulksTagsBySlug(slug: string[]) {
     const { data, error } = await this.supabase
       .from(this.tableName)
@@ -40,7 +58,9 @@ export class TagsService {
   }
 
   async createNewTags(data: Tag) {
-    const { error } = await this.supabaseAdmin.from(this.tableName).insert(data);
+    const { error } = await this.supabaseAdmin
+      .from(this.tableName)
+      .insert(data);
 
     if (error) {
       console.error(error);

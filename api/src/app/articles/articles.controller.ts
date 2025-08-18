@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -18,9 +19,7 @@ export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Get('')
-  async getPublishedArticles(
-    @Query() query: { mode: string; category_id: string },
-  ) {
+  async getArticles(@Query() query: { mode: string; category_id: string }) {
     const { mode, category_id } = query;
     if (mode) {
       switch (mode) {
@@ -31,6 +30,8 @@ export class ArticlesController {
 
     if (category_id)
       return this.articlesService.getArticleByCategoryId(category_id);
+
+    return this.articlesService.getAllArticles();
   }
 
   @Get(':slug')
@@ -38,6 +39,14 @@ export class ArticlesController {
     const { slug } = param;
 
     return await this.articlesService.getArticleBySlug(slug);
+  }
+
+  @UseGuards(JWTAuthGuard, RolesGuard)
+  @Role('admin')
+  @Patch(':slug/soft-delete')
+  async softDeleteArticleBySlug(@Param('slug') slug: string) {
+    console.log(slug);
+    return await this.articlesService.softDeleteArticleBySlug(slug);
   }
 
   @UseGuards(JWTAuthGuard, RolesGuard)

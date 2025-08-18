@@ -28,7 +28,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async signIn({ user }) {
-      console.log(user);
       if (!user.is_admin) {
         return false;
       }

@@ -13,3 +13,19 @@ export function calculateReadingTime(content: string, wpm = 225): number {
   const words = content.trim().split(/\s+/).length;
   return Math.ceil(words / wpm);
 }
+
+export function isoToIndoTime(isoString: string): string {
+  if (!isoString) return "";
+
+  const date = new Date(isoString);
+
+  return new Intl.DateTimeFormat("id-ID", {
+    timeZone: "Asia/Jakarta",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(date);
+}

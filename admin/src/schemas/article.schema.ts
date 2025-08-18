@@ -27,6 +27,9 @@ export const articleSchema = z.object({
 });
 
 export type ArticleSchemaType = z.infer<typeof articleSchema>;
+export type ArticleSchemaTypeWithImageUrl = Omit<ArticleSchemaType, "image"> & {
+  imageUrl: string;
+};
 
 export const articleDefaultValues: ArticleSchemaType = {
   author: "",

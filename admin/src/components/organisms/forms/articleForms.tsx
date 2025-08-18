@@ -81,7 +81,9 @@ export default function ArticleForm({
 }
 
 const MetadataTabs: React.FC<SubComponentProps> = ({ form }) => {
-  const { authors, categories } = useArticleFormData();
+  const { authors, categories, article } = useArticleFormData();
+
+  const defaultPreview = article?.url_to_image ?? ""
 
   const authorOptions: BasicOption[] = authors.map((author) => ({
     label: author.name,
@@ -233,7 +235,7 @@ const MetadataTabs: React.FC<SubComponentProps> = ({ form }) => {
           <FormItem>
             <FormLabel>Gambar Utama</FormLabel>
             <FormControl>
-              <ImagePicker file={field.value} setFile={field.onChange} />
+              <ImagePicker file={field.value} setFile={field.onChange} defaultPreview={defaultPreview} />
             </FormControl>
             <FormDescription>
               Ini akan dijadikan sebagai gambar utama

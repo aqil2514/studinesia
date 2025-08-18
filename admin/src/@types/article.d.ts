@@ -29,6 +29,21 @@ export interface ArticleDB {
   content: string;
   category_id: number;
   reading_time?: number | null;
+  deleted_at?: string;
+}
+
+export interface ArticleWithAuthorAndCategory
+  extends Omit<ArticleDB, "author_id" | "category_id"> {
+  author_id: {
+    id: number;
+    name: string;
+  };
+  category_id: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+  tags: string[];
 }
 
 export interface ArticleTags {
@@ -37,3 +52,8 @@ export interface ArticleTags {
   article_id: number;
   tag_id: number;
 }
+
+export type ArticleSummary = Pick<
+  ArticleDB,
+  "title" | "description" | "slug" | "published_at" | "url_to_image"
+>;
