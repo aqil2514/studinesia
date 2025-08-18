@@ -14,15 +14,15 @@ export default function CategoryArticleCard({
 }: HighlightArticleCardProps) {
   const { description, published_at, title, url_to_image } = articleSummary;
   return (
-    <div className="bg-white h-[500px] w-[350px] shadow-2xl rounded-2xl group">
+    <div className="bg-white shadow-2xl rounded-2xl group">
       {/* Gambar */}
-      <div className="overflow-hidden rounded-tl-2xl rounded-tr-2xl">
+      <div className="overflow-hidden rounded-tl-2xl rounded-tr-2xl relative w-full h-[180px]">
         {url_to_image ? (
           <Image
             src={url_to_image}
-            width={350}
-            height={180}
-            className="rounded-tl-2xl rounded-tr-2xl group-hover:scale-105 duration-200"
+            fill
+            sizes="auto"
+            className="rounded-tl-2xl rounded-tr-2xl group-hover:scale-105 duration-200 object-cover"
             alt={`${title} ilustartion image`}
           />
         ) : (

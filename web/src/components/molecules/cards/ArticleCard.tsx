@@ -14,14 +14,15 @@ export default function ArticleCard({ articleSummary }: ArticleCardProps) {
     articleSummary;
   return (
     <Link href={`/articles/${slug}`}>
-    <div className="bg-white h-[450px] w-[350px] shadow-2xl rounded-2xl group">
-      <div className="overflow-hidden rounded-tl-2xl rounded-tr-2xl">
+    <div className="bg-white shadow-2xl rounded-2xl group">
+      <div className="overflow-hidden rounded-tl-2xl rounded-tr-2xl relative w-full h-[180px]">
         {url_to_image ? (
           <Image
             src={url_to_image}
-            width={350}
-            height={180}
+            fill
+            sizes="auto"
             alt={`image ${title}`}
+            className="object-cover"
           />
         ) : (
           <Placeholder
@@ -39,7 +40,7 @@ export default function ArticleCard({ articleSummary }: ArticleCardProps) {
         </p>
         <p className="text-center">{formatDateWithDay(published_at)}</p>
 
-        <p className={`${rubik.className} text-justify line-clamp-4`}>
+        <p className={`${rubik.className} text-justify line-clamp-3`}>
           {description}
         </p>
         <br />

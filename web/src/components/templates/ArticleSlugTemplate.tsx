@@ -21,7 +21,7 @@ export default function ArticleSlugTemplate({ article }: Props) {
   const sanitizedContent = DOMPurify.sanitize(article.content);
   return (
     <MainContainer className="grid grid-cols-1 md:grid-cols-[75%_auto] gap-4 pt-4 px-4">
-      <div className="px-20">
+      <div className="px-2 md:px-20">
         <header className="space-y-8">
           <TwoStepBreadcrumb
             currentStepName={article.title}
