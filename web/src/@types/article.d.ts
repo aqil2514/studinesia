@@ -25,6 +25,7 @@ export interface ArticleWithAuthorAndCategory
     name: string;
     slug: string;
   };
+  tags:string[]
 }
 
 export type ArticleSummary = Pick<

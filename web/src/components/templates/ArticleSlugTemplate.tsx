@@ -10,6 +10,8 @@ import { Pen } from "lucide-react";
 import { BiSolidCategory } from "react-icons/bi";
 import Link from "next/link";
 import TwoStepBreadcrumb from "../molecules/breadcrumbs/TwoStepBreadcrumb";
+import { IoPricetagsOutline } from "react-icons/io5";
+import { Badge } from "../ui/badge";
 
 interface Props {
   article: ArticleWithAuthorAndCategory;
@@ -39,6 +41,13 @@ export default function ArticleSlugTemplate({ article }: Props) {
                 <BiSolidCategory /> {article.category_id.name}
               </span>
             </Link>
+          </div>
+          <Divider />
+          <div className="flex justify-center items-center gap-4">
+            <IoPricetagsOutline />{" "}
+            {article.tags.map((tag) => (
+              <Badge key={tag} variant={"outline"}>{tag}</Badge>
+            ))}
           </div>
           <Image
             src={article.url_to_image}

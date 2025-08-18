@@ -9,16 +9,16 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const articles = await getArticleBySlug(slug);
-  const article = articles[0];
-  const baseUrl = "https://trixnews.com";
-  // const tags = article?.categories.map((cat) => cat.title) ?? [];
+  const article = await getArticleBySlug(slug);
+  const baseUrl = "https://studinesia.vercel.app";
   const imageUrl = article.url_to_image;
 
   return {
     metadataBase: new URL(baseUrl),
     title: article?.title ?? "Article",
-    description: article?.meta_description ?? "Article of web3news",
+    description: article?.meta_description ?? "Artikel Studinesia",
+    creator: "Admin Studinesia",
+    robots: { follow: true, index: true },
     alternates: {
       canonical: `${baseUrl}/articles/${article?.slug}`,
     },
@@ -29,8 +29,8 @@ export async function generateMetadata({
       url: `${baseUrl}/articles/${article?.slug}`,
       images: [imageUrl],
       authors: article?.author_id?.name ?? "Admin Studinesia",
-      // tags,
-      siteName: "Trixnews",
+      tags:article.tags ?? [],
+      siteName: "Studinesia",
       publishedTime: article?.published_at,
       modifiedTime: article?.updated_at,
     },
@@ -40,8 +40,7 @@ export async function generateMetadata({
       description: article?.description,
       images: [imageUrl],
     },
-    creator: "Admin Trixnews",
-    robots: { follow: true, index: true },
+    
   };
 }
 
@@ -57,5 +56,5 @@ export default async function ArticleSlugPage({
     return <Loading />;
   }
 
-  return <ArticleSlugTemplate article={article[0]} />;
+  return <ArticleSlugTemplate article={article} />;
 }

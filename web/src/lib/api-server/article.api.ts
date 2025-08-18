@@ -16,7 +16,7 @@ export async function getPublishedArticles() {
 export async function getArticleBySlug(slug: string) {
   try {
     const { data } = await axios.get(`${serverEndpoint}/articles/${slug}`);
-    return data as ArticleWithAuthorAndCategory[];
+    return data as ArticleWithAuthorAndCategory;
   } catch (error) {
     console.error(error);
     throw error;
