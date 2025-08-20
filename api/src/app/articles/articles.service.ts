@@ -177,7 +177,6 @@ export class ArticlesService {
       ...article,
       tags: tagsName,
     };
-    console.log(articleWithTags);
 
     return articleWithTags;
   }
