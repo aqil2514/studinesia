@@ -25,6 +25,8 @@ export function mapArticleFormToDB(
       stripHtml(String(formData.get("content")))
     ),
     url_to_image: imageUrl,
+    image_alt: String(formData.get("imageAlt")),
+    image_caption: String(formData.get("imageCaption")),
   };
 
   return result;
@@ -43,6 +45,8 @@ export function mapArticleDBToForm(
     tags: raw.tags,
     title: raw.title,
     imageUrl: String(raw.url_to_image),
+    imageAlt: raw.image_alt,
+    imageCaption: raw.image_caption,
   };
 }
 
@@ -57,6 +61,8 @@ export function mapArticleDataToFormData(raw: ArticleSchemaType): FormData {
   formData.append("slug", raw.slug);
   formData.append("tags", JSON.stringify(raw.tags));
   formData.append("image", raw.image as File);
+  formData.append("imageAlt", raw.imageAlt);
+  formData.append("imageCaption", raw.imageCaption);
 
   return formData;
 }

@@ -18,6 +18,8 @@ export const articleSchema = z.object({
     )
     .max(2 * 1024 * 1024, "Ukuran file maksimal 2MB")
     .optional(),
+  imageAlt: z.string().min(1, "Image alternatif wajib diisi"),
+  imageCaption: z.string().min(1, "Caption image wajib diisi"),
   content: z.string().min(1, "Konten artikel wajib diisi"),
   category: z.string().min(1, "Kategori wajib diisi"),
   tags: z
@@ -39,5 +41,7 @@ export const articleDefaultValues: ArticleSchemaType = {
   title: "",
   metaDescription: "",
   slug: "",
+  imageAlt: "",
+  imageCaption: "",
   tags: [],
 };

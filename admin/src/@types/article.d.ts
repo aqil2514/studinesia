@@ -5,7 +5,6 @@ export interface Article {
   slug: string;
   description: string;
   metaDescription: string;
-  url: string;
   urlToImage: string;
   publishedAt: string;
   updatedAt?: string;
@@ -22,7 +21,6 @@ export interface ArticleDB {
   slug: string;
   description?: string | null;
   meta_description?: string | null;
-  url?: string | null;
   url_to_image?: string | null;
   published_at?: string | null;
   updated_at?: string | null;
@@ -30,6 +28,8 @@ export interface ArticleDB {
   category_id: number;
   reading_time?: number | null;
   deleted_at?: string;
+  image_alt: string;
+  image_caption: string;
 }
 
 export interface ArticleWithAuthorAndCategory
