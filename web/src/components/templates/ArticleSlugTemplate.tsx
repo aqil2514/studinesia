@@ -46,16 +46,22 @@ export default function ArticleSlugTemplate({ article }: Props) {
           <div className="flex justify-center items-center gap-4">
             <IoPricetagsOutline />{" "}
             {article.tags.map((tag) => (
-              <Badge key={tag} variant={"outline"}>{tag}</Badge>
+              <Badge key={tag} variant={"outline"}>
+                {tag}
+              </Badge>
             ))}
           </div>
-          <Image
-            src={article.url_to_image}
-            height={523}
-            width={720}
-            alt={`${article.title} Ilustartions`}
-            className="rounded-2xl block mx-auto w-auto h-auto"
-          />
+          <figure className="text-center space-y-4">
+            <Image
+              src={article.url_to_image}
+              height={523}
+              width={720}
+              alt={article.image_alt}
+              priority
+              className="rounded-2xl block mx-auto"
+            />
+            <figcaption>{article.image_caption}</figcaption>
+          </figure>
           <Divider />
         </header>
         <main

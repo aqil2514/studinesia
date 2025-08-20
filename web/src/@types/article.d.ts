@@ -1,3 +1,5 @@
+type ArticleStatus = "draft" | "published" | "archived" | "scheduled";
+
 export interface Article {
   id: number;
   author_id: number;
@@ -12,6 +14,9 @@ export interface Article {
   content: string; // HTML string
   category_id: number;
   reading_time: number;
+  status: ArticleStatus;
+  image_alt: string;
+  image_caption: string;
 }
 
 export interface ArticleWithAuthorAndCategory
@@ -25,7 +30,7 @@ export interface ArticleWithAuthorAndCategory
     name: string;
     slug: string;
   };
-  tags:string[]
+  tags: string[];
 }
 
 export type ArticleSummary = Pick<
@@ -39,5 +44,5 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
-  description:string;
+  description: string;
 }
