@@ -3,6 +3,7 @@ import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
 import { mapArticleDataToFormData } from "../mappers/article.mapper";
 import { articleChannel } from "@/components/templates/article/ArticleTemplate";
+import { ArticleStatus } from "@/@types/article";
 
 const endpoint = "/api/articles";
 
@@ -41,6 +42,42 @@ export async function putArticle(data: ArticleSchemaType) {
 
       toast.error(data.message ?? "Terjadi kesalahan");
     }
+  }
+}
+
+export async function patchArticleStatus(
+  status: ArticleStatus,
+  slug: string
+): Promise<BasicResponse> {
+  try {
+    await axios.patch(
+      endpoint,
+      { status, slug },
+      {
+        params: {
+          patch: "status",
+        },
+      }
+    );
+
+    return {
+      success: true,
+      message: "Status artikel berhasil diganti",
+    };
+  } catch (error) {
+    console.error(error);
+    if (isAxiosError(error)) {
+      const data = error.response?.data;
+
+      return {
+        message: data.message ?? "Terjadi kesalahan",
+        success: false,
+      };
+    }
+    return {
+      message: "Terjadi kesalahan",
+      success: false,
+    };
   }
 }
 

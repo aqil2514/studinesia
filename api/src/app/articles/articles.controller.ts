@@ -10,7 +10,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
-import { ArticleDB, ArticleTags, GetQueryArticle } from './articles.interface';
+import {
+  ArticleDB,
+  ArticleStatus,
+  ArticleTags,
+  GetQueryArticle,
+} from './articles.interface';
 import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Role } from 'src/decorators/role.decorator';
@@ -19,6 +24,7 @@ import { Role } from 'src/decorators/role.decorator';
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
+  /** GET ENDPOINT */
   @Get('')
   async getArticles(@Query() query: GetQueryArticle) {
     const { mode, category_id } = query;
@@ -42,13 +48,7 @@ export class ArticlesController {
     return await this.articlesService.getArticleBySlug(slug);
   }
 
-  @UseGuards(JWTAuthGuard, RolesGuard)
-  @Role('admin')
-  @Patch(':slug/soft-delete')
-  async softDeleteArticleBySlug(@Param('slug') slug: string) {
-    return await this.articlesService.softDeleteArticleBySlug(slug);
-  }
-
+  /** POST ENDPOINT */
   @UseGuards(JWTAuthGuard, RolesGuard)
   @Role('admin')
   @Post()
@@ -63,6 +63,8 @@ export class ArticlesController {
     return await this.articlesService.createNewArticleTag(payload);
   }
 
+  /** PUT ENDPOINT */
+
   @UseGuards(JWTAuthGuard, RolesGuard)
   @Role('admin')
   @Put()
@@ -75,5 +77,24 @@ export class ArticlesController {
   @Put('/article-tags')
   async putArticleTag(@Body() payload: ArticleTags[]) {
     return await this.articlesService.putArticleTags(payload);
+  }
+
+  /** PATCH ENDPOINT */
+
+  @UseGuards(JWTAuthGuard, RolesGuard)
+  @Role('admin')
+  @Patch(':slug/soft-delete')
+  async softDeleteArticleBySlug(@Param('slug') slug: string) {
+    return await this.articlesService.softDeleteArticleBySlug(slug);
+  }
+
+  @UseGuards(JWTAuthGuard, RolesGuard)
+  @Role('admin')
+  @Patch(':slug/status')
+  async updateStatusArticleBySlug(
+    @Param('slug') slug: string,
+    @Body('status') status: ArticleStatus,
+  ) {
+    return await this.articlesService.updateStatusArticleBySlug(slug, status);
   }
 }

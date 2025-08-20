@@ -76,6 +76,7 @@ export function mapArticleDbToSummarizedArticle(
     description: raw.description,
     published_at: raw.published_at,
     url_to_image: raw.url_to_image,
+    status: raw.status,
   };
 
   return result;

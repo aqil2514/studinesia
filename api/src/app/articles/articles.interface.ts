@@ -1,3 +1,5 @@
+export type ArticleStatus = 'draft' | 'published' | 'archived' | 'scheduled';
+
 export interface Article {
   id?: number;
   author: string | null;
@@ -30,6 +32,7 @@ export interface ArticleDB {
   category_id: number;
   reading_time?: number | null;
   deleted_at?: string;
+  status: ArticleStatus;
 }
 
 export interface ArticleWithAuthorAndCategory

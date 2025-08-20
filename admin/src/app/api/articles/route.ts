@@ -5,6 +5,7 @@ import {
   createNewArticle,
   createNewArticleTags,
   getArticleBySlug,
+  patchArticleStatus,
   putArticleTags,
   softDeleteArticle,
   updateArticle,
@@ -106,4 +107,27 @@ export async function PUT(req: NextRequest) {
   await putArticleTags(articleTags, token);
 
   return NextResponse.json({ message: "OK" });
+}
+
+export async function PATCH(req: NextRequest) {
+  const body = await req.json();
+  const { searchParams } = req.nextUrl;
+  const session = await auth();
+  const token = session?.supabaseAccessToken;
+  const patch = searchParams.get("patch");
+
+  if (!token)
+    return NextResponse.json({ message: "Token tidak ada" }, { status: 400 });
+
+  if (!patch)
+    return NextResponse.json(
+      { message: "Permintaan tidak valid" },
+      { status: 400 }
+    );
+
+  if (patch === "status") {
+    await patchArticleStatus(body.slug, body.status, token);
+  }
+
+  return NextResponse.json({ message: "PK" });
 }

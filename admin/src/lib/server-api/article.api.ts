@@ -1,5 +1,6 @@
 import {
   ArticleDB,
+  ArticleStatus,
   ArticleTags,
   ArticleWithAuthorAndCategory,
 } from "@/@types/article";
@@ -90,16 +91,34 @@ export async function createNewArticleTags(
   }
 }
 
-export async function putArticleTags(
-  payload: ArticleTags[],
-  token: string
-) {
+export async function putArticleTags(payload: ArticleTags[], token: string) {
   try {
     await axios.put(`${serverEndpoint}/articles/article-tags`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function patchArticleStatus(
+  slug: string,
+  status: ArticleStatus,
+  token: string
+) {
+  try {
+    await axios.patch(
+      `${serverEndpoint}/articles/${slug}/status`,
+      { status },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
   } catch (error) {
     console.error(error);
     throw error;

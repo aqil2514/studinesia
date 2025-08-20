@@ -1,3 +1,5 @@
+type ArticleStatus = "draft" | "published" | "archived" | "scheduled";
+
 export interface Article {
   id?: number;
   author: string | null;
@@ -12,6 +14,7 @@ export interface Article {
   category: string;
   tags: string[];
   readingTime?: number;
+  status?: ArticleStatus
 }
 
 export interface ArticleDB {
@@ -30,6 +33,7 @@ export interface ArticleDB {
   deleted_at?: string;
   image_alt: string;
   image_caption: string;
+  status?: ArticleStatus
 }
 
 export interface ArticleWithAuthorAndCategory
@@ -55,5 +59,5 @@ export interface ArticleTags {
 
 export type ArticleSummary = Pick<
   ArticleDB,
-  "title" | "description" | "slug" | "published_at" | "url_to_image"
+  "title" | "description" | "slug" | "published_at" | "url_to_image" | "status"
 >;

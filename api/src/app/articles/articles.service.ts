@@ -3,6 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import {
   ArticleDB,
+  ArticleStatus,
   ArticleTags,
   ArticleWithAuthorAndCategory,
 } from './articles.interface';
@@ -21,6 +22,8 @@ export class ArticlesService {
   private supabase = this.supabaseService.getClient();
   private supabaseAdmin = this.supabaseService.getAdmin();
   private tableName = 'articles';
+
+  /** GET FUNCTIONS */
 
   async getIndonesianArticles(query: string) {
     const apiKey = process.env.NEWS_API_KEY;
@@ -54,9 +57,7 @@ export class ArticlesService {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*')
-      .lte('published_at', new Date().toISOString())
-      .order('published_at', { ascending: false })
-      .is('deleted_at', null);
+      .eq('status', 'published');
 
     if (error) {
       this.logger.error(
@@ -114,6 +115,8 @@ export class ArticlesService {
     return data;
   }
 
+  /** CREATE OR POST FUNCTIONS */
+
   async createNewArticle(payload: ArticleDB) {
     const { data, error } = await this.supabaseAdmin
       .from(this.tableName)
@@ -138,6 +141,8 @@ export class ArticlesService {
     }
   }
 
+  //** PUT OR UPDATE FUNCTIONS */
+
   async putArticle(payload: ArticleDB) {
     const { data, error } = await this.supabaseAdmin
       .from(this.tableName)
@@ -155,11 +160,13 @@ export class ArticlesService {
   }
 
   async putArticleTags(payload: ArticleTags[]) {
-    if (!payload || payload.length === 0) return; 
-    
+    if (!payload || payload.length === 0) return;
+
     await this.deleteArticleTags(payload[0].article_id);
     await this.createNewArticleTag(payload);
   }
+
+  /** DELETE FUNCTIONS */
 
   async deleteArticleTags(articleId: number) {
     const { error } = await this.supabaseAdmin
@@ -174,6 +181,8 @@ export class ArticlesService {
     }
   }
 
+  /** PATCH FUNCTIONS */
+
   async softDeleteArticleBySlug(slug: string) {
     const now = new Date().toISOString();
     const { error } = await this.supabaseAdmin
@@ -187,5 +196,18 @@ export class ArticlesService {
     }
 
     return { message: 'OK' };
+  }
+
+  async updateStatusArticleBySlug(slug: string, status: ArticleStatus) {
+    const { error } = await this.supabaseAdmin
+      .from(this.tableName)
+      .update({ status })
+      .eq('slug', slug);
+
+    if (error) {
+      this.logger.error('Terjadi kesalahan saat update status artikel');
+      console.error(error);
+      throw error;
+    }
   }
 }
