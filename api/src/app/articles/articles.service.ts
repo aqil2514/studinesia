@@ -151,7 +151,8 @@ export class ArticlesService {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*, author_id(name, id), category_id(id, name, slug)')
-      .eq('slug', slug);
+      .eq('slug', slug)
+      .eq("status", "published");
 
     if (error) {
       this.logger.error('Terjadi kesalahan saat ambil artikel sesuai slug');
