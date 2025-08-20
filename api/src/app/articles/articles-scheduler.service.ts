@@ -9,7 +9,7 @@ export class ArticlesSchedulerService {
 
   constructor(private readonly articlesService: ArticlesService) {}
 
-  @Cron('*/10 * * * * *')
+  @Cron('0 */5 * * * *')
   async handleCron() {
     this.logger.debug('Mengecek artikel yang dijadwalkan...');
 
