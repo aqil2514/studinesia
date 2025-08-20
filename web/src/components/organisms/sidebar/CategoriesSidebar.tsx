@@ -19,7 +19,7 @@ export default function SidebarCategories() {
         {data.map((cat) => (
           <Link
             key={cat.id}
-            href={`/kategori/${cat.slug}`}
+            href={`/category/${cat.slug}`}
             className="flex items-center gap-2 px-3 py-2 rounded-md bg-gray-50 hover:bg-gray-100 transition"
           >
             <span>{cat.name}</span>

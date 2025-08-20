@@ -1,13 +1,13 @@
-import { ArticleWithAuthorAndCategory } from "@/@types/article";
+import { Article } from "@/@types/article";
 import { ArticleListCardSkeleton } from "@/components/molecules/skeletons/ArticleListSkeleton";
 import ArticleListCard from "@/components/molecules/cards/ArticleListCard";
-import { getPublishedArticles } from "@/lib/api-client/article.api";
+import { getNewestArticles } from "@/lib/api-client/article.api";
 import { mapArticleToSummarized } from "@/lib/mapper/article.map";
 import useSWR from "swr";
 import React from "react";
 
-export default function PopularArticlesSidebar() {
-  const { data, isLoading } = useSWR("articles", getPublishedArticles);
+export default function NewestArticlesSidebar() {
+  const { data, isLoading } = useSWR("newest-articles", getNewestArticles);
 
   if (!data || isLoading) return <SkeletonSection />;
 
@@ -25,7 +25,7 @@ const SkeletonSection: React.FC = () => {
   );
 };
 
-const DataSection: React.FC<{ data: ArticleWithAuthorAndCategory[] }> = ({
+const DataSection: React.FC<{ data: Article[] }> = ({
   data,
 }) => {
   const summarizedArticles = data.map(mapArticleToSummarized);

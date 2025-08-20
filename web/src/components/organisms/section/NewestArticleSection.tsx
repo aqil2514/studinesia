@@ -6,7 +6,7 @@ import ArticleCard from "@/components/molecules/cards/ArticleCard";
 import ArticleCardSkeleton from "@/components/molecules/skeletons/ArticleCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { rubik } from "@/config/fonts";
-import { getPublishedArticles } from "@/lib/api-client/article.api";
+import { getNewestArticles } from "@/lib/api-client/article.api";
 import { mapArticleToSummarized } from "@/lib/mapper/article.map";
 import Link from "next/link";
 import React from "react";
@@ -14,7 +14,7 @@ import { BsFillSkipForwardFill } from "react-icons/bs";
 import useSWR from "swr";
 
 export default function NewestArticleSection() {
-  const { data, isLoading } = useSWR("newest-articles", getPublishedArticles);
+  const { data, isLoading } = useSWR("newest-articles", getNewestArticles);
 
   if (!data || isLoading) return <SkeletonSection />;
 

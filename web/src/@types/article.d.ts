@@ -46,3 +46,11 @@ export interface Category {
   slug: string;
   description: string;
 }
+
+export interface ArticleHttpResponse {
+  articles: Article[];
+  total: number;
+  page: number;
+  limit: number;
+  hasMore: boolean;
+}

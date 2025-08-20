@@ -11,13 +11,28 @@ import { mapArticleToSummarized } from "@/lib/mapper/article.map";
 import Loading from "@/app/loading";
 import GridContainer from "../layouts/containers/GridContainer";
 import OneStepBreadcrumb from "../molecules/breadcrumbs/OneStepBreadcrumb";
+import { useEffect, useState } from "react";
+import { ArticleSummary } from "@/@types/article";
 
 export default function ArticleTemplate() {
-  const { data, isLoading } = useSWR("articles", getPublishedArticles);
+  const [page, setPage] = useState<number>(1);
+  const [articles, setArticles] = useState<ArticleSummary[]>([]);
+  const { data, isLoading } = useSWR(["articles", page], () =>
+    getPublishedArticles(page, 6)
+  );
 
-  if (isLoading || !data) return <Loading />;
+  useEffect(() => {
+    if (data?.articles) {
+      const newArticles = data.articles.map(mapArticleToSummarized);
+      setArticles((prev) => [...prev, ...newArticles]);
+    }
+  }, [data]);
 
-  const summarizedArticles = data.map(mapArticleToSummarized);
+  const isFirstPage = page === 1;
+
+  if (isLoading && isFirstPage) return <Loading />;
+
+  const loadHandler = () => setPage(page + 1);
 
   return (
     <MainContainer className="flex flex-col items-center justify-center md:block px-4 space-y-4 pt-4">
@@ -29,14 +44,16 @@ export default function ArticleTemplate() {
       </header>
       <GridContainer>
         <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center justify-center">
-          {summarizedArticles.map((article, index) => (
+          {articles.map((article, index) => (
             <ArticleCard articleSummary={article} key={index} />
           ))}
           <Button
             variant={"outline"}
             className="w-full col-span-1 md:col-span-2 lg:col-span-3"
+            onClick={loadHandler}
+            disabled={!data?.hasMore || isLoading}
           >
-            Muat Lagi
+            {isLoading && !isFirstPage ? "Memuat..." : "Muat Lagi"}
           </Button>
         </main>
 

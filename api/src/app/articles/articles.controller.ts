@@ -27,12 +27,14 @@ export class ArticlesController {
   /** GET ENDPOINT */
   @Get('')
   async getArticles(@Query() query: GetQueryArticle) {
-    const { mode, category_id } = query;
-    if (mode) {
-      switch (mode) {
-        case 'published':
-          return await this.articlesService.getPublishedArticles();
-      }
+    const { mode, category_id, limit, page } = query;
+
+    if (mode === 'published') {
+      if (limit && page)
+        return this.articlesService.getPublishedArticleAndLimit(page, limit);
+      return this.articlesService.getPublishedArticles();
+    } else if (mode === 'newest') {
+      return await this.articlesService.getNewestArticles();
     }
 
     if (category_id)

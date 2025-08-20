@@ -59,4 +59,6 @@ export interface ArticleTags {
 export interface GetQueryArticle {
   mode: string;
   category_id: string;
+  limit: number;
+  page: number;
 }

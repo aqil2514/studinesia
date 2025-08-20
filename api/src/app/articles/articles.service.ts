@@ -72,6 +72,56 @@ export class ArticlesService {
     return data;
   }
 
+  async getNewestArticles() {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .order('published_at', { ascending: false })
+      .eq('status', 'published')
+      .limit(6);
+
+    if (error) {
+      this.logger.error(
+        'Terjadi kesalahan saat ambil artikel yang telah dipublish',
+      );
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  }
+
+  async getPublishedArticleAndLimit(page: number, limit: number) {
+    const from = Number((page - 1) * limit);
+    const to = Number(page * limit - 1);
+    const {
+      data: articles,
+      count,
+      error,
+    } = await this.supabase
+      .from(this.tableName)
+      .select('*', { count: 'exact' })
+      .range(from, to)
+      .order('published_at', { ascending: false })
+      .eq('status', 'published');
+
+    if (error) {
+      this.logger.error(
+        'Terjadi kesalahan saat ambil artikel yang telah dipublish',
+      );
+      console.error(error);
+      throw error;
+    }
+
+    return {
+      articles,
+      total: count ?? 0,
+      page,
+      limit,
+      hasMore: page * limit < (count ?? 0),
+    };
+  }
+
   async getScheduledArticles() {
     const now = new Date().toISOString();
 
