@@ -12,11 +12,14 @@ export const articleChannel = new BroadcastChannel("article_channel");
 interface Props {
   articles: ArticleSummary[];
 }
+
 export default function ArticleTemplate({ articles }: Props) {
   useEffect(() => {
     articleChannel.onmessage = (event) => {
       if (event.data?.type === "New_Article_Add") {
         toast.success("Tambah artikel berhasil");
+      } else if (event.data?.type === "Article_Edited") {
+        toast.success("Edit artikel berhasil");
       }
     };
 

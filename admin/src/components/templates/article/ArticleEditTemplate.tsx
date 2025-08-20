@@ -7,6 +7,7 @@ import MainContainer from "@/components/layouts/Container/MainContainer";
 import ArticleForm from "@/components/organisms/forms/articleForms";
 import { ArticleSchemaType } from "@/schemas/article.schema";
 import { ArticleWithAuthorAndCategory } from "@/@types/article";
+import { putArticle } from "@/lib/client-api/article.api";
 
 interface Props {
   authors: Author[];
@@ -19,7 +20,7 @@ export default function ArticleEditTemplate({ authors, categories, article, dbAr
   return (
     <ArticleFormProvider authors={authors} categories={categories} article={dbArticle}>
       <MainContainer>
-        <ArticleForm defaultValues={article} handler={(values) => console.log(values)} />
+        <ArticleForm defaultValues={article} handler={(values) => putArticle(values)} />
       </MainContainer>
     </ArticleFormProvider>
   );

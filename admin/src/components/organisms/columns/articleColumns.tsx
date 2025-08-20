@@ -44,13 +44,15 @@ export const articleColumns: ColumnDef<ArticleSummary>[] = [
     accessorKey: "url_to_image",
     header: "Gambar Utama",
     cell: ({ row }) => (
-      <Image
-        width={64}
-        height={64}
-        alt={`${row.original.title} Image`}
-        src={row.original.url_to_image as string}
-        className="rounded-lg block mx-auto"
-      />
+      <div className="relative w-16 h-16 mx-auto rounded-lg">
+        <Image
+          fill
+          alt={`${row.original.title} Image`}
+          src={row.original.url_to_image as string}
+          sizes="64px"
+          className="rounded-lg object-contain"
+        />
+      </div>
     ),
   },
   {
@@ -115,8 +117,8 @@ const MenuCell: React.FC<{ row: Row<ArticleSummary> }> = ({ row }) => {
 
   const copyArticleLink = () => {
     navigator.clipboard.writeText(articleUrl);
-    toast.success("Link artikel berhasil disalin")
-  }
+    toast.success("Link artikel berhasil disalin");
+  };
 
   return (
     <>

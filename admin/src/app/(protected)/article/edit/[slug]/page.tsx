@@ -13,7 +13,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
   const articles = await getArticleBySlug(slug);
-  const article = articles;
+  if (!articles.success || !articles.data)
+    return {
+      title: "Edit Artikel",
+    };
+  const article = articles.data;
 
   return { title: `Edit ${article.title ?? "Artikel"}` };
 }
@@ -26,13 +30,13 @@ export default async function EditArticlePage({ params }: Props) {
     getArticleBySlug(slug),
   ]);
 
-  const article = mapArticleDBToForm(raw);
+  const article = mapArticleDBToForm(raw.data!);
   return (
     <ArticleEditTemplate
       article={article}
       authors={authors}
       categories={categories}
-      dbArticle={raw}
+      dbArticle={raw.data}
     />
   );
 }

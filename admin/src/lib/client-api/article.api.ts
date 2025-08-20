@@ -25,6 +25,25 @@ export async function postArticle(data: ArticleSchemaType) {
   }
 }
 
+export async function putArticle(data: ArticleSchemaType) {
+  const formData = mapArticleDataToFormData(data);
+
+  try {
+    await axios.putForm(endpoint, formData);
+
+    articleChannel.postMessage({ type: "Article_Edited" });
+    articleChannel.close();
+    window.close();
+  } catch (error) {
+    console.error(error);
+    if (isAxiosError(error)) {
+      const data = error.response?.data;
+
+      toast.error(data.message ?? "Terjadi kesalahan");
+    }
+  }
+}
+
 export async function softDeleteArticle(
   slug: string,
   setIsLoading: (state: boolean) => void

@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -45,7 +46,6 @@ export class ArticlesController {
   @Role('admin')
   @Patch(':slug/soft-delete')
   async softDeleteArticleBySlug(@Param('slug') slug: string) {
-    console.log(slug);
     return await this.articlesService.softDeleteArticleBySlug(slug);
   }
 
@@ -61,5 +61,19 @@ export class ArticlesController {
   @Post('/article-tags')
   async createNewArticleTag(@Body() payload: ArticleTags[]) {
     return await this.articlesService.createNewArticleTag(payload);
+  }
+
+  @UseGuards(JWTAuthGuard, RolesGuard)
+  @Role('admin')
+  @Put()
+  async putArticle(@Body() payload: ArticleDB) {
+    return await this.articlesService.putArticle(payload);
+  }
+
+  @UseGuards(JWTAuthGuard, RolesGuard)
+  @Role('admin')
+  @Put('/article-tags')
+  async putArticleTag(@Body() payload: ArticleTags[]) {
+    return await this.articlesService.putArticleTags(payload);
   }
 }

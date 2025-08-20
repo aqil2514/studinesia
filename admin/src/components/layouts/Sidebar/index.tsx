@@ -31,6 +31,7 @@ export function AppSidebar() {
           <Image
             width={160}
             height={50}
+            priority
             alt="Admin logo"
             src="/images/main-logo.png"
             className="hover:scale-105 transition-transform duration-200"

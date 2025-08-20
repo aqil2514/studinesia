@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import {
@@ -11,6 +11,7 @@ import { TagsService } from '../tags/tags.service';
 
 @Injectable()
 export class ArticlesService {
+  private readonly logger = new Logger(ArticlesService.name);
   constructor(
     private readonly httpService: HttpService,
     private readonly supabaseService: SupabaseService,
@@ -41,6 +42,7 @@ export class ArticlesService {
       .is('deleted_at', null);
 
     if (error) {
+      this.logger.error('Terjadi kesalahan saat ambil semua artikel');
       console.error(error);
       throw error;
     }
@@ -57,6 +59,9 @@ export class ArticlesService {
       .is('deleted_at', null);
 
     if (error) {
+      this.logger.error(
+        'Terjadi kesalahan saat ambil artikel yang telah dipublish',
+      );
       console.error(error);
       throw error;
     }
@@ -71,6 +76,7 @@ export class ArticlesService {
       .eq('slug', slug);
 
     if (error) {
+      this.logger.error('Terjadi kesalahan saat ambil artikel sesuai slug');
       console.error(error);
       throw error;
     }
@@ -127,6 +133,42 @@ export class ArticlesService {
       .insert(payload);
 
     if (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async putArticle(payload: ArticleDB) {
+    const { data, error } = await this.supabaseAdmin
+      .from(this.tableName)
+      .update(payload)
+      .eq('slug', payload.slug)
+      .select('*');
+
+    if (error) {
+      this.logger.error('Terjadi kesalahan saat edit artikel');
+      console.error(error);
+      throw error;
+    }
+
+    return { message: 'OK', data };
+  }
+
+  async putArticleTags(payload: ArticleTags[]) {
+    if (!payload || payload.length === 0) return; 
+    
+    await this.deleteArticleTags(payload[0].article_id);
+    await this.createNewArticleTag(payload);
+  }
+
+  async deleteArticleTags(articleId: number) {
+    const { error } = await this.supabaseAdmin
+      .from('article_tags')
+      .delete()
+      .eq('article_id', articleId);
+
+    if (error) {
+      this.logger.error('Terjadi kesalahan saat hapus tag artikel');
       console.error(error);
       throw error;
     }
