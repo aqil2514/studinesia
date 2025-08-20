@@ -62,3 +62,11 @@ export interface GetQueryArticle {
   limit: number;
   page: number;
 }
+
+export interface ArticleHttpResponse {
+  articles: Article[];
+  total: number;
+  page: number;
+  limit: number;
+  hasMore: boolean;
+}

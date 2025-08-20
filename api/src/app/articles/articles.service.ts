@@ -3,6 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import {
   ArticleDB,
+  ArticleHttpResponse,
   ArticleStatus,
   ArticleTags,
   ArticleWithAuthorAndCategory,
@@ -91,7 +92,10 @@ export class ArticlesService {
     return data;
   }
 
-  async getPublishedArticleAndLimit(page: number, limit: number) {
+  async getPublishedArticleAndLimit(
+    page: number,
+    limit: number,
+  ): Promise<ArticleHttpResponse> {
     const from = Number((page - 1) * limit);
     const to = Number(page * limit - 1);
     const {
@@ -181,7 +185,8 @@ export class ArticlesService {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*, author_id(name, id), category_id(id, name, slug)')
-      .eq('category_id', categoryId);
+      .eq('category_id', categoryId)
+      .eq('status', 'published');
 
     if (error) {
       console.error(error);
