@@ -13,6 +13,7 @@ import { TagsService } from '../tags/tags.service';
 @Injectable()
 export class ArticlesService {
   private readonly logger = new Logger(ArticlesService.name);
+
   constructor(
     private readonly httpService: HttpService,
     private readonly supabaseService: SupabaseService,
@@ -57,11 +58,33 @@ export class ArticlesService {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*')
+      .order('published_at', { ascending: false })
       .eq('status', 'published');
 
     if (error) {
       this.logger.error(
         'Terjadi kesalahan saat ambil artikel yang telah dipublish',
+      );
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  }
+
+  async getScheduledArticles() {
+    const now = new Date().toISOString();
+
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .order('published_at', { ascending: true })
+      .eq('status', 'scheduled')
+      .lte('published_at', now);
+
+    if (error) {
+      this.logger.error(
+        'Terjadi kesalahan saat ambil artikel yang telah dijadwalkan',
       );
       console.error(error);
       throw error;
@@ -85,7 +108,9 @@ export class ArticlesService {
     if (!data) {
       return [];
     }
-    const article: ArticleWithAuthorAndCategory = data[0];
+    const article: ArticleWithAuthorAndCategory = data.map((ar) => ({
+      ...ar,
+    }))[0];
 
     const articleId = article?.id ?? '';
 
@@ -97,6 +122,7 @@ export class ArticlesService {
       ...article,
       tags: tagsName,
     };
+    console.log(articleWithTags);
 
     return articleWithTags;
   }

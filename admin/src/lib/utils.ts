@@ -29,3 +29,10 @@ export function isoToIndoTime(isoString: string): string {
     second: "2-digit",
   }).format(date);
 }
+
+export function combineDateTime(date: Date, time: string): Date {
+  const [hours, minutes, seconds] = time.split(":").map(Number);
+  const combined = new Date(date);
+  combined.setHours(hours, minutes, seconds || 0);
+  return combined;
+}

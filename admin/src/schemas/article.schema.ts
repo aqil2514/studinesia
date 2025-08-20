@@ -26,6 +26,7 @@ export const articleSchema = z.object({
     .array(z.string())
     .min(3, "Minimal memiliki 3 tags")
     .max(10, "Maksimal 10 tags"),
+  publishedAt: z.date().optional(),
 });
 
 export type ArticleSchemaType = z.infer<typeof articleSchema>;
@@ -44,4 +45,5 @@ export const articleDefaultValues: ArticleSchemaType = {
   imageAlt: "",
   imageCaption: "",
   tags: [],
+  publishedAt: new Date(),
 };

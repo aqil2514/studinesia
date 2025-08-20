@@ -1,15 +1,12 @@
-import { Inject, Injectable, Scope } from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
+import { Injectable } from '@nestjs/common';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { Request } from 'express';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class SupabaseService {
   private supabase: SupabaseClient;
   private supabaseAdmin: SupabaseClient;
-  private role: string;
 
-  constructor(@Inject(REQUEST) req: Request) {
+  constructor() {
     this.supabase = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_API_KEY,

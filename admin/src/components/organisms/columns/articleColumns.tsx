@@ -7,7 +7,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { isoToIndoTime } from "@/lib/utils";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { Info } from "lucide-react";
 import Image from "next/image";
@@ -69,6 +71,14 @@ export const articleColumns: ColumnDef<ArticleSummary>[] = [
   {
     accessorKey: "published_at",
     header: "Tanggal Terbit",
-    cell: ({ row }) => isoToIndoTime(row.original.published_at as string),
+    cell: ({ row }) => {
+      const date = format(
+        new Date(row.original.published_at!),
+        "EEEE, d MMMM yyyy HH:mm:ss",
+        { locale: id }
+      );
+
+      return date;
+    },
   },
 ];

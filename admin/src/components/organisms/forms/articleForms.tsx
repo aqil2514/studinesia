@@ -38,6 +38,7 @@ import { useArticleFormData } from "@/providers/ArticleFormProvider";
 import { BasicOption } from "@/@types/items";
 import SubmitButton from "@/components/atoms/button/submitButton";
 import { toast } from "sonner";
+import { Calendar24 } from "@/components/molecules/date-picker/DateAndTime";
 
 interface SubComponentProps {
   form: UseFormReturn<ArticleSchemaType>;
@@ -104,24 +105,39 @@ const MetadataTabs: React.FC<SubComponentProps> = ({ form }) => {
 
   return (
     <TabsContent value="metadata" className="space-y-8">
-      <FormField
-        control={form.control}
-        name="author"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Penulis</FormLabel>
-            <FormControl>
-              <BasicCombobox
-                comboboxFor="penulis"
-                options={authorOptions}
-                value={field.value}
-                onChange={field.onChange}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="author"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Penulis</FormLabel>
+              <FormControl>
+                <BasicCombobox
+                  comboboxFor="penulis"
+                  options={authorOptions}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="publishedAt"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Publikasi pada</FormLabel>
+              <FormControl>
+                <Calendar24 date={field.value} setDate={field.onChange} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
 
       <FormField
         control={form.control}

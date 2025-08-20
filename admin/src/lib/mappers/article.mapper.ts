@@ -1,5 +1,6 @@
 import {
   ArticleDB,
+  ArticleStatus,
   ArticleSummary,
   ArticleWithAuthorAndCategory,
 } from "@/@types/article";
@@ -8,6 +9,8 @@ import {
   ArticleSchemaTypeWithImageUrl,
 } from "@/schemas/article.schema";
 import { calculateReadingTime, stripHtml } from "../utils";
+
+import { toZonedTime } from "date-fns-tz";
 
 export function mapArticleFormToDB(
   formData: FormData,
@@ -27,6 +30,8 @@ export function mapArticleFormToDB(
     url_to_image: imageUrl,
     image_alt: String(formData.get("imageAlt")),
     image_caption: String(formData.get("imageCaption")),
+    published_at: String(formData.get("publishedAt")),
+    status: String(formData.get("status")) as ArticleStatus,
   };
 
   return result;
@@ -47,6 +52,7 @@ export function mapArticleDBToForm(
     imageUrl: String(raw.url_to_image),
     imageAlt: raw.image_alt,
     imageCaption: raw.image_caption,
+    publishedAt: toZonedTime(raw.published_at!, "Asia/Jakarta"),
   };
 }
 
@@ -60,9 +66,22 @@ export function mapArticleDataToFormData(raw: ArticleSchemaType): FormData {
   formData.append("metaDescription", raw.metaDescription);
   formData.append("slug", raw.slug);
   formData.append("tags", JSON.stringify(raw.tags));
-  formData.append("image", raw.image as File);
+
+  if (raw.image) {
+    formData.append("image", raw.image as File);
+  }
+
   formData.append("imageAlt", raw.imageAlt);
   formData.append("imageCaption", raw.imageCaption);
+
+  if (raw.publishedAt) {
+    const now = new Date();
+    const status =
+      now.getTime() < raw.publishedAt.getTime() ? "scheduled" : "published";
+
+    formData.append("publishedAt", raw.publishedAt.toISOString());
+    formData.append("status", status);
+  }
 
   return formData;
 }

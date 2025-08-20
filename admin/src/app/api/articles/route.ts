@@ -94,6 +94,7 @@ export async function PUT(req: NextRequest) {
     String(tag.id)
   );
 
+  
   const payload = mapArticleFormToDB(body, imageUrl);
   const article = await updateArticle(payload, token);
 
