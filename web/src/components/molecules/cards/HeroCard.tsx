@@ -13,7 +13,7 @@ export default function HeroCard() {
         >
           Studinesia
         </Link>
-        <p className="mt-4">
+        <p className="mt-4 text-center">
           Segala sesuatu pasti ada ilmunya, untuk itulah Studinesia hadir!
         </p>
       </div>

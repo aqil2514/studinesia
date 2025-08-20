@@ -14,7 +14,7 @@ export default function CategoryArticleCard({
 }: HighlightArticleCardProps) {
   const { description, published_at, title, url_to_image } = articleSummary;
   return (
-    <div className="bg-white shadow-2xl rounded-2xl group">
+    <div className="bg-white shadow-2xl rounded-2xl h-[420px] group relative">
       {/* Gambar */}
       <div className="overflow-hidden rounded-tl-2xl rounded-tr-2xl relative w-full h-[180px]">
         {url_to_image ? (
@@ -50,8 +50,10 @@ export default function CategoryArticleCard({
           {description}
         </p>
         <br />
-        <p className="text-right absolute bottom-0 right-5">{formatDateWithDay(published_at)}</p>
       </div>
+      <p className="text-right absolute bottom-3 right-5">
+        {formatDateWithDay(published_at)}
+      </p>
     </div>
   );
 }

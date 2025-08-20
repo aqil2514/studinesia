@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
-import { ArticleDB, ArticleTags } from './articles.interface';
+import { ArticleDB, ArticleTags, GetQueryArticle } from './articles.interface';
 import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Role } from 'src/decorators/role.decorator';
@@ -19,7 +19,7 @@ export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Get('')
-  async getArticles(@Query() query: { mode: string; category_id: string }) {
+  async getArticles(@Query() query: GetQueryArticle) {
     const { mode, category_id } = query;
     if (mode) {
       switch (mode) {

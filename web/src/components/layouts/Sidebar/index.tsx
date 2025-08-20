@@ -4,10 +4,13 @@ import PopularArticlesSidebar from "@/components/organisms/sidebar/PopularArticl
 
 export default function Sidebar() {
   return (
-    <aside className="bg-white sticky top-0 self-start">
+    <aside className="bg-white relative">
       <PopularArticlesSidebar />
       <SidebarCategories />
+      <div className="sticky top-0 self-start">
+
       <NewsletterForm />
+      </div>
     </aside>
   );
 }

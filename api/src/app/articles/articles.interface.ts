@@ -52,3 +52,8 @@ export interface ArticleTags {
   article_id: number;
   tag_id: number;
 }
+
+export interface GetQueryArticle {
+  mode: string;
+  category_id: string;
+}
