@@ -1,4 +1,4 @@
-import CategoryAddTemplate from "@/components/templates/CategoryAddtemplate";
+import CategoryAddTemplate from "@/components/templates/category/CategoryAddtemplate";
 import { Metadata } from "next";
 
 export const metadata:Metadata = {

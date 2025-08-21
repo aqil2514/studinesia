@@ -1,10 +1,12 @@
-import WriterTemplate from "@/components/templates/WriterTemplate";
+import WriterTemplate from "@/components/templates/writer/WriterTemplate";
+import { getAllAuthor } from "@/lib/server-api/author.api";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Penulis",
 };
 
-export default function WriterPage() {
-  return <WriterTemplate />;
+export default async function WriterPage() {
+  const author = await getAllAuthor();
+  return <WriterTemplate authors={author} />;
 }

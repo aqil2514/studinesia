@@ -1,4 +1,4 @@
-import WriterAddTemplate from "@/components/templates/WriterAddTemplate";
+import WriterAddTemplate from "@/components/templates/writer/WriterAddTemplate";
 import { Metadata } from "next";
 
 export const metadata:Metadata = {

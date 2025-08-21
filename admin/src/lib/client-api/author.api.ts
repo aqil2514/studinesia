@@ -1,5 +1,5 @@
 import { Author } from "@/@types/author";
-import { writerChannel } from "@/components/templates/WriterTemplate";
+import { writerChannel } from "@/components/templates/writer/WriterTemplate";
 import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
 

@@ -7,13 +7,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Info } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { formatToLocalTime } from "@/lib/utils";
 
 export const articleColumns: ColumnDef<ArticleSummary>[] = [
   {
@@ -72,13 +71,7 @@ export const articleColumns: ColumnDef<ArticleSummary>[] = [
     accessorKey: "published_at",
     header: "Tanggal Terbit",
     cell: ({ row }) => {
-      const date = format(
-        new Date(row.original.published_at!),
-        "EEEE, d MMMM yyyy HH:mm:ss",
-        { locale: id }
-      );
-
-      return date;
+      return formatToLocalTime(row.original.published_at!);
     },
   },
 ];

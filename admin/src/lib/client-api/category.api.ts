@@ -1,4 +1,4 @@
-import { categoryChannel } from "@/components/templates/CategoryTemplate";
+import { categoryChannel } from "@/components/templates/category/CategoryTemplate";
 import { CategorySchemaType } from "@/schemas/category.schema";
 import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";

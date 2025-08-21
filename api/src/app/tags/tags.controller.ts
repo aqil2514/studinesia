@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { Tag } from './tags.interface';
 import { TagsService } from './tags.service';
 import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
@@ -9,6 +9,20 @@ import { Role } from 'src/decorators/role.decorator';
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
+  /** GET ENDPOINT */
+  @Get()
+  async getTags() {
+    const tags = await this.tagsService.getTags();
+
+    const response: ResponseWithData<Tag[]> = {
+      message: 'Data tag berhasil diambil',
+      success: true,
+      data: tags,
+    };
+    return response;
+  }
+
+  /** POST ENDPOINT */
   @UseGuards(JWTAuthGuard, RolesGuard)
   @Role('admin')
   @Post('')

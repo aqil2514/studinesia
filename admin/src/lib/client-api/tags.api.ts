@@ -1,5 +1,5 @@
 import { Tag } from "@/@types/tags";
-import { tagsChannel } from "@/components/templates/TagsTemplate";
+import { tagsChannel } from "@/components/templates/tags/TagsTemplate";
 import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
 

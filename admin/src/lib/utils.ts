@@ -1,4 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -14,20 +16,12 @@ export function calculateReadingTime(content: string, wpm = 225): number {
   return Math.ceil(words / wpm);
 }
 
-export function isoToIndoTime(isoString: string): string {
-  if (!isoString) return "";
+export function formatToLocalTime(isoString: string): string {
+  const date = format(new Date(isoString), "EEEE, d MMMM yyyy HH:mm:ss", {
+    locale: id,
+  });
 
-  const date = new Date(isoString);
-
-  return new Intl.DateTimeFormat("id-ID", {
-    timeZone: "Asia/Jakarta",
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  }).format(date);
+  return date;
 }
 
 export function combineDateTime(date: Date, time: string): Date {

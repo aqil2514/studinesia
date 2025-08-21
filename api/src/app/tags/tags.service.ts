@@ -10,7 +10,7 @@ export class TagsService {
   private supabaseAdmin = this.supabaseService.getAdmin();
   private tableName = 'tags';
 
-  async getTags() {
+  async getTags(): Promise<Tag[]> {
     const { data, error } = await this.supabase
       .from(this.tableName)
       .select('*');

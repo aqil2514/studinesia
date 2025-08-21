@@ -1,8 +1,8 @@
 "use client";
 
+import MainContainer from "@/components/layouts/Container/MainContainer";
+import TagsForm from "@/components/organisms/forms/tagsForms";
 import { postTags } from "@/lib/client-api/tags.api";
-import MainContainer from "../layouts/Container/MainContainer";
-import TagsForm from "../organisms/forms/tagsForms";
 
 export default function TagsAddTemplate() {
   return (

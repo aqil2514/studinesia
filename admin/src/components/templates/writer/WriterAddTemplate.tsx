@@ -1,7 +1,7 @@
 "use client";
+import MainContainer from "@/components/layouts/Container/MainContainer";
+import WriterForm from "@/components/organisms/forms/writerForms";
 import { postAuthor } from "@/lib/client-api/author.api";
-import MainContainer from "../layouts/Container/MainContainer";
-import WriterForm from "../organisms/forms/writerForms";
 
 export default function WriterAddTemplate() {
   return (

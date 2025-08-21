@@ -1,10 +1,13 @@
-import TagsTemplate from "@/components/templates/TagsTemplate";
+import TagsTemplate from "@/components/templates/tags/TagsTemplate";
+import { getTags } from "@/lib/server-api/tags.api";
 import { Metadata } from "next";
 
-export const metadata:Metadata = {
-    title:"Tag Artikel"
-}
+export const metadata: Metadata = {
+  title: "Tag Artikel",
+};
 
-export default function TagsPage(){
-    return <TagsTemplate />
+export default async function TagsPage() {
+  const { data: tags } = await getTags();
+
+  return <TagsTemplate tags={tags!} />;
 }

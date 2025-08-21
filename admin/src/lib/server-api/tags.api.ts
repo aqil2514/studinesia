@@ -3,7 +3,7 @@ import { serverEndpoint } from "@/config/server-endpoint";
 import { generateSlug } from "@/utils/generateSlug";
 import axios from "axios";
 
-export async function createBulksNewTags(raw: string[], token:string) {
+export async function createBulksNewTags(raw: string[], token: string) {
   const tagsData: Tag[] = raw.map((r) => ({
     name: r,
     slug: generateSlug(r),
@@ -20,6 +20,19 @@ export async function createBulksNewTags(raw: string[], token:string) {
     );
 
     return data.tags as Tag[];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function getTags() {
+  try {
+    const { data } = await axios.get<ResponseWithData<Tag[]>>(
+      `${serverEndpoint}/tags`
+    );
+
+    return data;
   } catch (error) {
     console.error(error);
     throw error;
