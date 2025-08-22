@@ -152,7 +152,7 @@ export class ArticlesService {
       .from(this.tableName)
       .select('*, author_id(name, id), category_id(id, name, slug)')
       .eq('slug', slug)
-      .eq("status", "published");
+      .eq('status', 'published');
 
     if (error) {
       this.logger.error('Terjadi kesalahan saat ambil artikel sesuai slug');
@@ -179,6 +179,27 @@ export class ArticlesService {
     };
 
     return articleWithTags;
+  }
+
+  async getArticleByQuery(
+    query: string,
+  ): Promise<ArticleWithAuthorAndCategory[]> {
+    if (!query) return [];
+
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*, author_id(name, id), category_id(id, name, slug)')
+      .textSearch('title', query, {
+        type: 'websearch',
+      })
+      .order('published_at', { ascending: false });
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data;
   }
 
   async getArticleByCategoryId(categoryId: string) {

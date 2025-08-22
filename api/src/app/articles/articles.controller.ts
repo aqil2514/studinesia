@@ -14,6 +14,7 @@ import {
   ArticleDB,
   ArticleStatus,
   ArticleTags,
+  ArticleWithAuthorAndCategory,
   GetQueryArticle,
 } from './articles.interface';
 import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
@@ -41,6 +42,19 @@ export class ArticlesController {
       return this.articlesService.getArticleByCategoryId(category_id);
 
     return this.articlesService.getAllArticles();
+  }
+
+  @Get('/query')
+  async getArticleByQuery(
+    @Query('query') query: string,
+  ): Promise<ResponseWithData<ArticleWithAuthorAndCategory[]>> {
+    const articles = await this.articlesService.getArticleByQuery(query);
+
+    return {
+      message: 'Pencarian Berhasil',
+      success: true,
+      data: articles,
+    };
   }
 
   @Get(':slug')

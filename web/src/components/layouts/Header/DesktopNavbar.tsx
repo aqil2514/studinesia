@@ -5,14 +5,18 @@ import { Separator } from "@/components/ui/separator";
 
 import {
   NavigationMenu,
+  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import ContactLinks from "@/components/molecules/navigations/ContactNavigations";
 import SocialMediaLinks from "@/components/molecules/navigations/SocialMediaNavigations";
 import Link from "next/link";
+import { FaSearch } from "react-icons/fa";
+import { Input } from "@/components/ui/input";
 
 export default function DesktopNavbar() {
   return (
@@ -34,6 +38,16 @@ const Navigation = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>
+            <FaSearch />
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <form action="search">
+              <Input className="w-[320px]" placeholder="Cari Artikel..." name="q" />
+            </form>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
             <Link href={"/"}>Beranda</Link>
