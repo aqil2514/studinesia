@@ -1,13 +1,16 @@
 import { ArticleWithAuthorAndCategory } from "@/@types/article";
 import { baseSiteUrl } from "@/config/baseUrl";
 import Head from "next/head";
-import { Article } from "schema-dts";
+import { Article, WithContext } from "schema-dts";
 
 interface Props {
   article: ArticleWithAuthorAndCategory;
 }
 
-const getArticleJsonLd = (article: ArticleWithAuthorAndCategory): Article => ({
+const getArticleJsonLd = (
+  article: ArticleWithAuthorAndCategory
+): WithContext<Article> => ({
+  "@context": "https://schema.org",
   "@type": "Article",
   headline: article.title,
   datePublished: article.published_at,
