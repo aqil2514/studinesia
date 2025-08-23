@@ -25,7 +25,7 @@ Tombol share ke media sosial.
 
 Kolom pencarian untuk menemukan artikel berdasarkan judul/isi.
 
-4. SEO & Metadata 
+4. SEO & Metadata ✅
 
 Title & meta description unik tiap artikel.
 
