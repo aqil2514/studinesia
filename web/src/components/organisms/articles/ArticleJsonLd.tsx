@@ -21,6 +21,7 @@ const getArticleJsonLd = (article: ArticleWithAuthorAndCategory): Article => ({
   publisher: {
     "@type": "Organization",
     name: "Studinesia",
+    image: "https://www.studinesia.online/images/main-logo.png",
   },
 });
 
