@@ -14,8 +14,8 @@ const getArticleJsonLd = (
   "@type": "Article",
   headline: article.title,
   description: article.description,
-  datePublished: article.published_at,
-  dateModified: article.updated_at,
+  datePublished: new Date(article.published_at).toISOString(),
+  dateModified: new Date(article.updated_at).toISOString(),
   url: `${baseSiteUrl}/articles/${article.slug}`,
   mainEntityOfPage: {
     "@type": "WebPage",
