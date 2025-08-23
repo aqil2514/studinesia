@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
-import { GoogleAnalytics } from "nextjs-google-analytics";
+import Analytics from "@/config/googleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +36,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
-        <GoogleAnalytics trackPageViews gaMeasurementId="G-0BL83YPNVY" />
+        <Analytics />
       </body>
     </html>
   );
