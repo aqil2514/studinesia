@@ -20,15 +20,18 @@ export async function generateMetadata({
     description: article?.meta_description ?? "Artikel Studinesia",
     creator: "Admin Studinesia",
     robots: { follow: true, index: true },
+    keywords: article.tags,
     alternates: {
       canonical: `${baseSiteUrl}/articles/${article?.slug}`,
     },
     openGraph: {
       type: "article",
+      locale: "id_ID",
       title: article?.title,
       description: article?.description,
       url: `${baseSiteUrl}/articles/${article?.slug}`,
       images: [imageUrl],
+      section: article.category_id.name,
       authors: article?.author_id?.name ?? "Admin Studinesia",
       tags: article.tags ?? [],
       siteName: "Studinesia",
@@ -40,6 +43,9 @@ export async function generateMetadata({
       title: article?.title,
       description: article?.description,
       images: [imageUrl],
+    },
+    icons: {
+      icon: "/favicon.ico",
     },
   };
 }
