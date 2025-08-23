@@ -14,6 +14,9 @@ const getArticleJsonLd = (
   "@type": "Article",
   headline: article.title,
   description: article.description,
+  alternativeHeadline: article.meta_description,
+  articleSection: article.category_id.name,
+  keywords: article.tags.join(", "),
   datePublished: new Date(article.published_at).toISOString(),
   dateModified: new Date(article.updated_at).toISOString(),
   url: `${baseSiteUrl}/articles/${article.slug}`,
@@ -25,7 +28,11 @@ const getArticleJsonLd = (
     "@type": "Person",
     name: article.author_id.name,
   },
-  image: article.url_to_image,
+  image: {
+    "@type": "ImageObject",
+    url: article.url_to_image,
+    caption: article.image_caption,
+  },
   publisher: {
     "@type": "Organization",
     name: "Studinesia",
@@ -34,6 +41,8 @@ const getArticleJsonLd = (
       url: `${baseSiteUrl}/images/logo.png`,
     },
   },
+  timeRequired: `PT${article.reading_time}M`,
+  articleBody: article.content.replace(/<[^>]+>/g, ""),
 });
 
 export default function ArticleJsonLd({ article }: Props) {
