@@ -1,39 +1,47 @@
-import { NavigationWithImage } from "@/@types/navigation";
+import Loading from "@/app/loading";
 import Divider from "@/components/atoms/divider/Divider";
 import { rubik } from "@/config/fonts";
+import { getCategory } from "@/lib/api-client/category.api";
+import { mapCategoryToNavigationWithImage } from "@/lib/mapper/category.map";
 import Image from "next/image";
 import Link from "next/link";
+import useSWR from "swr";
 
-interface Props {
-  imageNavigations: NavigationWithImage[];
-}
+export default function ImageNavigations() {
+  const { data, isLoading } = useSWR("category", () =>
+    getCategory({ limit: 6 })
+  );
 
-export default function ImageNavigations({ imageNavigations }: Props) {
+  if (!data || isLoading) return <Loading />;
+
+  const images = data.map(mapCategoryToNavigationWithImage);
+
   return (
     <div className="w-full space-y-6 px-4">
       {/* Header Section */}
       <div className="text-center">
-        <h3 className={`${rubik.className} text-3xl font-semibold text-gray-700`}>
-          Finansial
+        <h3
+          className={`${rubik.className} text-3xl font-semibold text-gray-700`}
+        >
+          Kategori
         </h3>
         <Divider className="border-2 border-orange-400 w-1/6 mx-auto" />
       </div>
 
       {/* Image Navigation Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {imageNavigations.map((image, index) => (
+        {images.slice(0, 4).map((image, index) => (
           <Link
             key={index}
-            href={image.link}
+            href={`/category/${image.link}`}
             className="group block rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500"
           >
-            <figure className="relative">
+            <figure className="relative aspect-[16/10] w-full">
               <Image
-                width={380}
-                height={250}
+                fill
                 alt={`${image.subTitleLabel} image`}
                 src={image.imageUrl}
-                className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
 
               {/* Overlay */}

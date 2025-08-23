@@ -6,7 +6,6 @@ import { Separator } from "../ui/separator";
 import SearchCard from "../molecules/cards/SearchCard";
 import NewestArticleSection from "../organisms/section/NewestArticleSection";
 import ImageNavigations from "../molecules/navigations/ImageNavigations";
-import { dummyNavigationsWithImage } from "@/mocks/labelWithImage";
 import CategoryNavigation from "../molecules/navigations/CategoryNavigation";
 import CategoryArticleSection from "../organisms/section/CategoryArticleSection";
 
@@ -22,7 +21,7 @@ export default function HomeTemplate() {
       <SearchCard />
       <NewestArticleSection />
       
-      <ImageNavigations imageNavigations={dummyNavigationsWithImage} />
+      <ImageNavigations />
     </MainContainer>
   );
 }

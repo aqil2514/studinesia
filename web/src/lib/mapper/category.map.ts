@@ -1,5 +1,8 @@
 import { Category } from "@/@types/article";
-import { NavigationWithBackground } from "@/@types/navigation";
+import {
+  NavigationWithBackground,
+  NavigationWithImage,
+} from "@/@types/navigation";
 
 export function mapCategoryToNavigationWithBackground(
   raw: Category,
@@ -21,4 +24,15 @@ export function mapCategoryToNavigationWithBackground(
   };
 
   return result;
+}
+
+export function mapCategoryToNavigationWithImage(
+  raw: Category
+): NavigationWithImage {
+  return {
+    imageUrl: raw.image_url,
+    label: raw.name,
+    link: raw.slug,
+    subTitleLabel: raw.description,
+  };
 }

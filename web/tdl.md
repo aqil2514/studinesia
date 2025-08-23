@@ -1,5 +1,5 @@
 🔑 Fitur Dasar Halaman Web Artikel
-1. Navigasi & Struktur
+1. Navigasi & Struktur ✅
 
 Home → menampilkan daftar artikel terbaru.
 
@@ -7,7 +7,7 @@ Kategori/Tag → agar pembaca bisa filter sesuai minat.
 
 Menu utama (Home, Kategori, Tentang, Kontak).
 
-2. Halaman Artikel
+2. Halaman Artikel ✅
 
 Judul artikel.
 
@@ -21,11 +21,11 @@ Related post / artikel rekomendasi.
 
 Tombol share ke media sosial.
 
-3. Pencarian
+3. Pencarian ✅
 
 Kolom pencarian untuk menemukan artikel berdasarkan judul/isi.
 
-4. SEO & Metadata
+4. SEO & Metadata 
 
 Title & meta description unik tiap artikel.
 
@@ -33,7 +33,7 @@ URL ramah SEO (misal: /artikel/belajar-excel-dasar).
 
 Sitemap.xml & robots.txt.
 
-5. Responsif & Aksesibilitas
+5. Responsif & Aksesibilitas ✅
 
 Tampilan bagus di mobile, tablet, dan desktop.
 
@@ -57,12 +57,12 @@ Privacy Policy & Terms (kalau mau serius ke SEO/adsense).
 
 ⚡ Prioritas awal:
 
-Home + daftar artikel
+✅ Home + daftar artikel
 
-Halaman artikel detail
+✅ Halaman artikel detail
 
-Navigasi kategori/tag
+✅ Navigasi kategori/tag
 
-Pencarian
+✅ Pencarian
 
 Sisanya bisa menyusul setelah versi pertama web siap.

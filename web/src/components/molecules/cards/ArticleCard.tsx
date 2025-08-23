@@ -34,7 +34,7 @@ export default function ArticleCard({ articleSummary }: ArticleCardProps) {
       </div>
       <div className="space-y-4 mt-4 px-4 relative">
         <p
-          className={`${rubik.className} text-sky-500 group-hover:underline text-center`}
+          className={`${rubik.className} text-sky-500 group-hover:underline text-center line-clamp-2`}
         >
           {title}
         </p>

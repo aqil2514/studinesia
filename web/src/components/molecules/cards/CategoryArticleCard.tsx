@@ -41,7 +41,7 @@ export default function CategoryArticleCard({
           S
         </p>
         <p
-          className={`${rubik.className} text-sky-500 group-hover:underline text-center`}
+          className={`${rubik.className} text-sky-500 group-hover:underline text-center line-clamp-2`}
         >
           {title}
         </p>

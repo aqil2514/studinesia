@@ -9,7 +9,7 @@ export default function NewsletterForm() {
     <section className="max-w-sm p-6 bg-white rounded-lg">
       <h3 className="text-lg font-semibold mb-2">Berlangganan Studinesia</h3>
       <p className="text-sm mb-4 text-gray-600">
-        Dapatkan update artikel dan tips finansial langsung di email Anda.
+        Dapatkan update artikel dan tips langsung di email Anda.
       </p>
       <form
         onSubmit={(e) => {
