@@ -1,4 +1,5 @@
 import Loading from "@/app/loading";
+import ArticleJsonLd from "@/components/organisms/articles/ArticleJsonLd";
 import ArticleSlugTemplate from "@/components/templates/ArticleSlugTemplate";
 import { baseSiteUrl } from "@/config/baseUrl";
 import { getArticleBySlug } from "@/lib/api-server/article.api";
@@ -29,7 +30,7 @@ export async function generateMetadata({
       url: `${baseSiteUrl}/articles/${article?.slug}`,
       images: [imageUrl],
       authors: article?.author_id?.name ?? "Admin Studinesia",
-      tags:article.tags ?? [],
+      tags: article.tags ?? [],
       siteName: "Studinesia",
       publishedTime: article?.published_at,
       modifiedTime: article?.updated_at,
@@ -40,7 +41,6 @@ export async function generateMetadata({
       description: article?.description,
       images: [imageUrl],
     },
-    
   };
 }
 
@@ -52,9 +52,14 @@ export default async function ArticleSlugPage({
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
 
-   if (!article) {
+  if (!article) {
     return <Loading />;
   }
 
-  return <ArticleSlugTemplate article={article} />;
+  return (
+    <>
+      <ArticleJsonLd article={article} />
+      <ArticleSlugTemplate article={article} />
+    </>
+  );
 }
