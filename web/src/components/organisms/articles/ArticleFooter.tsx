@@ -1,6 +1,6 @@
 import { ArticleWithAuthorAndCategory } from "@/@types/article";
 import ShareButtons from "@/components/molecules/share/ShareButtons";
-import { baseUrl } from "@/config/baseUrl";
+import { baseSiteUrl } from "@/config/baseUrl";
 import { rubik } from "@/config/fonts";
 import { Separator } from "@radix-ui/react-separator";
 import NewestArticlesSidebar from "../sidebar/NewestArticleSidebar";
@@ -17,7 +17,7 @@ export default function ArticleFooter({ article }: Props) {
         <div className="space-y-2">
           <p className={`${rubik.className}`}>Bagikan Artikel :</p>
           <ShareButtons
-            url={`${baseUrl}/articles/${article.slug}`}
+            url={`${baseSiteUrl}/articles/${article.slug}`}
             title={article.title}
           />
         </div>

@@ -1,13 +1,28 @@
-import { ArticleWithAuthorAndCategory } from "@/@types/article";
+import { Article, ArticleWithAuthorAndCategory } from "@/@types/article";
 import { ResponseWithData } from "@/@types/http-response";
 import { serverEndpoint } from "@/config/serverEndpoint";
 import axios from "axios";
 
+export async function getAllArticles() {
+  try {
+    const { data } = await axios.get(`${serverEndpoint}/articles`);
+
+    return data as Article[];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function getPublishedArticles() {
   try {
-    const { data } = await axios.get(`${serverEndpoint}/articles/published`);
+    const { data } = await axios.get(`${serverEndpoint}/articles`, {
+      params: {
+        mode: "published",
+      },
+    });
 
-    return data;
+    return data as Article[];
   } catch (error) {
     console.error(error);
     throw error;

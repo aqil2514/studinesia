@@ -16,3 +16,14 @@ export async function getCategoryBySlug(slug: string) {
     throw error;
   }
 }
+
+export async function getAllCategory() {
+  try {
+    const { data } = await axios.get(`${serverEndpoint}/category`);
+
+    return data as Category[];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

@@ -32,7 +32,7 @@ export async function generateMetadata({
       follow: true,
     },
     alternates: {
-      canonical: "/search", // self-canonical atau bisa custom
+      canonical: "/search",
     },
     openGraph: {
       title,

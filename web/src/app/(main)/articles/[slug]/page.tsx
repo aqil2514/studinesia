@@ -1,5 +1,6 @@
 import Loading from "@/app/loading";
 import ArticleSlugTemplate from "@/components/templates/ArticleSlugTemplate";
+import { baseSiteUrl } from "@/config/baseUrl";
 import { getArticleBySlug } from "@/lib/api-server/article.api";
 import { Metadata } from "next";
 
@@ -10,23 +11,22 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
-  const baseUrl = "https://studinesia.vercel.app";
   const imageUrl = article.url_to_image;
 
   return {
-    metadataBase: new URL(baseUrl),
+    metadataBase: new URL(baseSiteUrl),
     title: article?.title ?? "Article",
     description: article?.meta_description ?? "Artikel Studinesia",
     creator: "Admin Studinesia",
     robots: { follow: true, index: true },
     alternates: {
-      canonical: `${baseUrl}/articles/${article?.slug}`,
+      canonical: `${baseSiteUrl}/articles/${article?.slug}`,
     },
     openGraph: {
       type: "article",
       title: article?.title,
       description: article?.description,
-      url: `${baseUrl}/articles/${article?.slug}`,
+      url: `${baseSiteUrl}/articles/${article?.slug}`,
       images: [imageUrl],
       authors: article?.author_id?.name ?? "Admin Studinesia",
       tags:article.tags ?? [],
