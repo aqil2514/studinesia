@@ -28,13 +28,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily",
       lastModified: new Date(),
     },
-    // Di bawah ini nyusul ketika halaman sudah siap
-    // {
-    //   url: `${baseSiteUrl}/tentang`,
-    //   priority: 0.5,
-    //   changeFrequency: "monthly",
-    //   lastModified: new Date(),
-    // },
+    {
+      url: `${baseSiteUrl}/about`,
+      priority: 0.5,
+      changeFrequency: "monthly",
+      lastModified: new Date(),
+    },
     // {
     //   url: `${baseSiteUrl}/kontak`,
     //   priority: 0.5,

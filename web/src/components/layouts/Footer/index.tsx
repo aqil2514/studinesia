@@ -22,16 +22,18 @@ export default function Footer() {
             About
           </Link>
           <Link
-            href="/contact"
+            href="/sitemap.xml"
+            target="_blank"
             className="hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
           >
-            Contact
+            Sitemap
           </Link>
           <Link
-            href="/privacy"
+            href="/rss.xml"
+            target="_blank"
             className="hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
           >
-            Privacy Policy
+            RSS
           </Link>
         </nav>
 
