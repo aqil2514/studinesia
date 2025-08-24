@@ -1,27 +1,17 @@
 import { BasicIcons } from "@/@types/icons";
-import { CiInstagram } from "react-icons/ci";
-import { FaFacebook, FaTiktok, FaYoutube } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa";
 
 export const SocialMediaIcons: BasicIcons[] = [
   {
-    Icon: CiInstagram,
-    link: "#",
-  },
-  {
-    Icon: FaYoutube,
-    link: "#",
-  },
-  {
     Icon: FaFacebook,
-    link: "#",
+    link: "https://facebook.com/studinesia",
   },
-  {
-    Icon: FaXTwitter,
-    link: "#",
-  },
-  {
-    Icon: FaTiktok,
-    link: "#",
-  },
+  // {
+  //   Icon: FaXTwitter,
+  //   link: "#",
+  // },
+  // {
+  //   Icon: FaTiktok,
+  //   link: "#",
+  // },
 ];
