@@ -3,6 +3,8 @@ import { getPublishedArticles } from "@/lib/api-server/article.api";
 import { getAllCategory } from "@/lib/api-server/category.api";
 import { MetadataRoute } from "next";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articles = await getPublishedArticles();
   const categories = await getAllCategory();
