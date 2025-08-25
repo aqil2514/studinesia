@@ -74,7 +74,7 @@ export class NewsletterService {
   ): Promise<ResponseWithData<NewsletterDB>> {
     const { error, data } = await this.supabaseClient
       .from(this.tableName)
-      .update({ is_confirmed: true })
+      .update({ is_confirmed: true, updated_at: new Date().toISOString() })
       .eq('confirmation_token', token)
       .select('*')
       .maybeSingle();
