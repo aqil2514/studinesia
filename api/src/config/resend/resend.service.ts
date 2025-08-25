@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Resend } from 'resend';
 import {
+  newArticleEmailHtml,
   newsletterEmailHtml,
   subscriptionConfirmationEmail,
 } from './resend.email-html';
@@ -22,6 +23,28 @@ export class ResendService {
         subject: 'Konfirmasi Langganan',
         html: subscriptionConfirmationEmail(name, confirmUrl),
         text: `Halo ${name},\n\nTerima kasih sudah mendaftar Studinesia.\nSilakan konfirmasi langganan Anda dengan klik link berikut: ${confirmUrl}`,
+      });
+    } catch (error) {
+      this.logger.error(
+        `❌ Gagal mengirim email ke ${email}: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
+  }
+
+  async sendNewArticleEmail(
+    email: string,
+    name: string,
+    title: string,
+    url: string,
+  ) {
+    try {
+      await this.resend.emails.send({
+        from: 'Studinesia <noreply@studinesia.io>',
+        to: email,
+        subject: 'Artikel Baru',
+        html: newArticleEmailHtml(name, title, url),
       });
     } catch (error) {
       this.logger.error(

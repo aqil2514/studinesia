@@ -80,3 +80,25 @@ export function subscriptionConfirmationEmail(
   </html>
   `;
 }
+
+export function newArticleEmailHtml(name: string, title: string, url: string): string {
+  return `
+    <div style="font-family: Arial, sans-serif; padding: 20px; line-height:1.6;">
+      <h2>Hai ${name}, artikel baru sudah terbit! 🚀</h2>
+      <p>Kami baru saja merilis artikel terbaru di Studinesia:</p>
+      <h3>${title}</h3>
+      <p>
+        <a href="${url}" 
+           style="display:inline-block; padding:10px 16px; background:#f59e0b; color:white; text-decoration:none; border-radius:6px;">
+          Baca Sekarang
+        </a>
+      </p>
+      <p>Atau salin link berikut ke browser kamu:<br/>
+        <a href="${url}">${url}</a>
+      </p>
+      <hr style="margin:20px 0;"/>
+      <p style="font-size:12px; color:#666;">Anda menerima email ini karena berlangganan Studinesia. 
+      Jika tidak ingin lagi, silakan <a href="https://studinesia.online/unsubscribe">berhenti berlangganan</a>.</p>
+    </div>
+  `;
+}

@@ -8,5 +8,6 @@ import { SupabaseModule } from 'src/config/supabase/supabase.module';
   imports: [ResendModule, SupabaseModule],
   providers: [NewsletterService],
   controllers: [NewsletterController],
+  exports: [NewsletterService],
 })
 export class NewsletterModule {}

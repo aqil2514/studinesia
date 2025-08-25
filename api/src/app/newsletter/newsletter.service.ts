@@ -18,6 +18,22 @@ export class NewsletterService {
     this.supabaseClient = this.supabaseService.getClient();
   }
 
+  async getSubscriber(): Promise<NewsletterDB[]> {
+  const { data, error } = await this.supabaseClient
+    .from(this.tableName)
+    .select('*')
+    .eq('is_confirmed', true);
+
+  if (error) {
+    this.logger.error('Terjadi kesalahan saat ambil data subscriber');
+    console.error(error);
+    throw error;
+  }
+
+  return data ?? [];
+}
+
+
   async getNewsletterSubscribeInfoByEmail(
     email: string,
   ): Promise<NewsletterDB | null> {

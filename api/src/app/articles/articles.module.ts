@@ -5,9 +5,11 @@ import { ArticlesController } from './articles.controller';
 import { SupabaseModule } from 'src/config/supabase/supabase.module';
 import { TagsService } from '../tags/tags.service';
 import { ArticlesSchedulerService } from './articles-scheduler.service';
+import { ResendModule } from 'src/config/resend/resend.module';
+import { NewsletterModule } from '../newsletter/newsletter.module';
 
 @Module({
-  imports:[HttpModule, SupabaseModule],
+  imports:[HttpModule, SupabaseModule, ResendModule, NewsletterModule],
   providers: [ArticlesService, TagsService, ArticlesSchedulerService],
   controllers: [ArticlesController],
 })
