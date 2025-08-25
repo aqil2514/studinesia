@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import Analytics from "@/config/googleAnalytics";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Toaster richColors position="top-center" />
         <Analytics />
       </body>
     </html>

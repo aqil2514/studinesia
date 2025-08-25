@@ -11,6 +11,7 @@ import { TagsModule } from './tags/tags.module';
 import { UploadModule } from './upload/upload.module';
 import { UserModule } from './user/user.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { NewsletterModule } from './newsletter/newsletter.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     TagsModule,
     UploadModule,
     UserModule,
+    NewsletterModule,
   ],
   controllers: [AppController],
   providers: [AppService, GeminiService],
