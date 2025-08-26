@@ -1,4 +1,6 @@
 import { ArticleWithAuthorAndCategory } from "@/@types/article";
+import Loading from "@/app/loading";
+import { useHasHydrated } from "@/hooks/useHasHydrated";
 import DOMPurify from "dompurify";
 
 interface Props {
@@ -6,6 +8,9 @@ interface Props {
 }
 
 export default function ArticleMain({ article }: Props) {
+  const hasHydrated = useHasHydrated();
+
+  if(!hasHydrated) return <Loading />
   const sanitizedContent = DOMPurify.sanitize(article.content);
 
   return (

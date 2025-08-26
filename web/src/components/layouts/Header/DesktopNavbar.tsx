@@ -1,3 +1,4 @@
+"use client";
 import { ContactIcons } from "@/components/atoms/icons/ContactIcons";
 import { SocialMediaIcons } from "@/components/atoms/icons/SocialMediaIcons";
 import MainLogo from "@/components/atoms/images/MainLogo";
@@ -17,10 +18,45 @@ import SocialMediaLinks from "@/components/molecules/navigations/SocialMediaNavi
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
+import { useEffect, useRef, useState } from "react";
+import { useHasHydrated } from "@/hooks/useHasHydrated";
+import { cn } from "@/lib/utils";
 
 export default function DesktopNavbar() {
+  const headerRef = useRef<HTMLElement | null>(null);
+  const [isFloating, setIsFloating] = useState<boolean>(false);
+
+  const hasHydrated = useHasHydrated();
+
+  useEffect(() => {
+    if (!hasHydrated) return;
+
+    const header = headerRef.current;
+
+    const scrollHandler = () => {
+      const yPos = window.scrollY;
+
+      if (header) {
+        const headerHeight = header.clientHeight;
+        setIsFloating(yPos > headerHeight);
+      }
+    };
+
+    window.addEventListener("scroll", scrollHandler);
+
+    return () => {
+      window.removeEventListener("scroll", scrollHandler);
+    };
+  }, [hasHydrated]);
+
   return (
-    <header className="hidden md:block">
+    <header
+      ref={headerRef}
+      className={cn(
+        "hidden md:block",
+        isFloating && `fixed top-0 left-0 z-50 w-full bg-white duration-200`
+      )}
+    >
       <section className="flex justify-between bg-gray-200 px-8">
         <ContactLinks ContactIcons={ContactIcons} />
         <SocialMediaLinks icons={SocialMediaIcons} />
@@ -44,7 +80,11 @@ const Navigation = () => {
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <form action="search">
-              <Input className="w-[320px]" placeholder="Cari Artikel..." name="q" />
+              <Input
+                className="w-[320px]"
+                placeholder="Cari Artikel..."
+                name="q"
+              />
             </form>
           </NavigationMenuContent>
         </NavigationMenuItem>
