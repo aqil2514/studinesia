@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | Studinesia",
     default: "Beranda | Studinesia",
   },
-  description: "Tidak ada kata telat untuk belajar",
+  description: "Segala sesuatu pasti ada ilmunya, untuk itulah Studinesia hadir!",
 };
 
 export default function RootLayout({

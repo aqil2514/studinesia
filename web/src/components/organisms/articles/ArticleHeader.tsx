@@ -23,12 +23,12 @@ export default function ArticleHeader({ article }: Props) {
         secondStepName={article.category_id.name}
         secondStepLink={`/category/${article.category_id.slug}`}
       />
-      <h1 className={`text-center ${rubik.className} text-4xl`}>
+      <h1 className={`text-center ${rubik.className} text-2xl md:text-4xl`}>
         {article.title}
       </h1>
       <Divider />
       <div className="space-y-8">
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4">
           <span className="flex gap-2 items-center">
             <Pen /> {article.author_id.name}
           </span>
