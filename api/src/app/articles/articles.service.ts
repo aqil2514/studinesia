@@ -152,7 +152,8 @@ export class ArticlesService {
       .from(this.tableName)
       .select('*, author_id(name, id), category_id(id, name, slug)')
       .eq('slug', slug)
-      .eq('status', 'published');
+      .eq('status', 'published')
+      .maybeSingle();
 
     if (error) {
       this.logger.error('Terjadi kesalahan saat ambil artikel sesuai slug');
@@ -161,11 +162,10 @@ export class ArticlesService {
     }
 
     if (!data) {
-      return [];
+      return null;
     }
-    const article: ArticleWithAuthorAndCategory = data.map((ar) => ({
-      ...ar,
-    }))[0];
+
+    const article: ArticleWithAuthorAndCategory = data;
 
     const articleId = article?.id ?? '';
 
