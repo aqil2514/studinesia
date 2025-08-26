@@ -4,6 +4,7 @@ import {
   ArticleTags,
   ArticleWithAuthorAndCategory,
 } from "@/@types/article";
+import { auth } from "@/auth";
 import { serverEndpoint } from "@/config/server-endpoint";
 import axios from "axios";
 
@@ -28,8 +29,16 @@ export async function getArticles(params?: GetArticlesParams) {
 export async function getArticleBySlug(
   slug: string
 ): Promise<ResponseWithData<ArticleWithAuthorAndCategory>> {
+  const session = await auth();
   try {
-    const { data } = await axios.get(`${serverEndpoint}/articles/${slug}`);
+    const { data } = await axios.get(
+      `${serverEndpoint}/articles/${slug}/admin`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.supabaseAccessToken}`,
+        },
+      }
+    );
 
     return {
       message: "Ambil artikel berhasil",

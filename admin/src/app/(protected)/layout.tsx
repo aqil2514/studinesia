@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import Navbar from "@/components/layouts/Navbar";
-import { AppSidebar } from "@/components/layouts/Sidebar";
+import Sidebar from "@/components/layouts/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -19,7 +19,7 @@ export default async function ProtectedLayout({
 
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar />
+      <Sidebar />
       <div className="w-full">
         <Navbar />
         {children}

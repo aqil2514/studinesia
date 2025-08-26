@@ -47,7 +47,7 @@ Bisa pakai sistem komentar internal atau integrasi seperti Disqus.
 
 Kalau mau lebih ringan, bisa skip dulu.
 
-7. Halaman Pendukung
+7. Halaman Pendukung ✅
 
 Tentang (informasi website).
 

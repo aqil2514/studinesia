@@ -1,4 +1,4 @@
-import { ArticleSummary } from "@/@types/article";
+import { ArticleStatus, ArticleSummary } from "@/@types/article";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,17 +12,18 @@ import { Eye, Link, Menu, Pen, Trash } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import DeleteArticleDialog from "./DeleteArticleDialog";
-
-const baseArticleUrl = "https://studinesia.vercel.app/articles";
+import { blogSiteUrl } from "@/config/site";
 
 interface Props {
   row: Row<ArticleSummary>;
 }
 
-export default function MenuCell({ row }:Props) {
+export default function MenuCell({ row }: Props) {
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
-  const articleUrl = `${baseArticleUrl}/${row.original.slug}`;
+  const status: ArticleStatus = row.original.status!;
+  const articleUrl = `${blogSiteUrl}/${row.original.slug}`;
 
+  // TODO : PREVIEW
   const openArticle = () => {
     window.open(articleUrl, "_blank");
   };
@@ -45,7 +46,7 @@ export default function MenuCell({ row }:Props) {
         <DropdownMenuContent>
           <DropdownMenuLabel>{row.original.title}</DropdownMenuLabel>
           <DropdownMenuItem onClick={openArticle}>
-            <Eye /> Lihat Artikel
+            <Eye /> {status === "published" ? "Lihat Artikel" : "Preview Artikel"}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={copyArticleLink}>
             <Link /> Salin Link
@@ -70,4 +71,4 @@ export default function MenuCell({ row }:Props) {
       />
     </>
   );
-};
+}

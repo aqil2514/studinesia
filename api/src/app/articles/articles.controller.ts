@@ -64,6 +64,16 @@ export class ArticlesController {
     return await this.articlesService.getArticleBySlug(slug);
   }
 
+  @UseGuards(JWTAuthGuard, RolesGuard)
+  @Role('admin')
+  @Get(':slug/admin')
+  async getArticleBySlugAdmin(@Param() param: { slug: string }) {
+    const { slug } = param;
+    console.log(slug)
+
+    return await this.articlesService.getArticleBySlugAdmin(slug);
+  }
+
   /** POST ENDPOINT */
   @UseGuards(JWTAuthGuard, RolesGuard)
   @Role('admin')

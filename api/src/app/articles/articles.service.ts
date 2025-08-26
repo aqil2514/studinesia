@@ -181,6 +181,39 @@ export class ArticlesService {
     return articleWithTags;
   }
 
+  async getArticleBySlugAdmin(slug: string) {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*, author_id(name, id), category_id(id, name, slug)')
+      .eq('slug', slug);
+
+    if (error) {
+      this.logger.error('Terjadi kesalahan saat ambil artikel sesuai slug');
+      console.error(error);
+      throw error;
+    }
+
+    if (!data) {
+      return [];
+    }
+    const article: ArticleWithAuthorAndCategory = data.map((ar) => ({
+      ...ar,
+    }))[0];
+
+    const articleId = article?.id ?? '';
+
+    const tags = await this.tagsService.getTagsByArticleId(String(articleId));
+
+    const tagsName = tags.map((tag) => tag.tag_id.name);
+
+    const articleWithTags: ArticleWithAuthorAndCategory = {
+      ...article,
+      tags: tagsName,
+    };
+
+    return articleWithTags;
+  }
+
   async getArticleByQuery(
     query: string,
   ): Promise<ArticleWithAuthorAndCategory[]> {
