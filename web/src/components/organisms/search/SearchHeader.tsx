@@ -12,7 +12,7 @@ export default function SearchHeader({ query }: Props) {
     <header className="space-y-4">
       <form action="search">
         <Input
-          className="w-[520px] mx-auto bg-white"
+          className="w-full lg:w-[520px] mx-auto bg-white"
           name="q"
           value={q}
           placeholder="Cari Artikel..."
