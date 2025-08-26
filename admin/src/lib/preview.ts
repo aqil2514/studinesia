@@ -1,10 +1,10 @@
 import crypto from "crypto";
 import { blogSiteUrl } from "@/config/site";
 
-const SECRET_KEY = process.env.PREVIEW_SECRET || "mysecret"; 
+const SECRET_KEY = process.env.PREVIEW_SECRET || "mysecret";
 const PREVIEW_EXPIRE = 10 * 60 * 1000;
 
-export function generatePreviewUrl(slug: string) {
+export function generatePreviewUrl(slug: string, SECRET_KEY: string) {
   const ts = Date.now();
   const data = `${slug}:${ts}`;
   const sig = crypto

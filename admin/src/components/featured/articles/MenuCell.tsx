@@ -13,7 +13,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import DeleteArticleDialog from "./DeleteArticleDialog";
 import { blogSiteUrl } from "@/config/site";
-import { generatePreviewUrl } from "@/lib/preview";
+import axios from "axios";
 
 interface Props {
   row: Row<ArticleSummary>;
@@ -23,12 +23,22 @@ export default function MenuCell({ row }: Props) {
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
   const status: ArticleStatus = row.original.status!;
   const articleUrl = `${blogSiteUrl}/${row.original.slug}`;
-  const previewUrl = generatePreviewUrl(row.original.slug);
 
-  // TODO : PREVIEW
-  const openArticle = () => {
+  const openArticle = async () => {
     if (status === "published") return window.open(articleUrl, "_blank");
-    return window.open(previewUrl, "_blank");
+    try {
+      const { data } = await axios.get<{ previewUrl: string }>("/api/preview", {
+        params: {
+          slug: row.original.slug,
+        },
+      });
+
+      const previewUrl = data.previewUrl;
+      return window.open(previewUrl, "_blank");
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   const editArticle = () => {
