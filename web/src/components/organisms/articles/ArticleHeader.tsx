@@ -17,7 +17,7 @@ interface Props {
 
 export default function ArticleHeader({ article }: Props) {
   return (
-    <header className="space-x-0e-y-8">
+    <header className="space-y-8">
       <TwoStepBreadcrumb
         currentStepName={article.title}
         secondStepName={article.category_id.name}
@@ -47,7 +47,7 @@ export default function ArticleHeader({ article }: Props) {
         </span>
       </div>
       <Divider />
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex justify-center items-center gap-4 flex-wrap">
         <IoPricetagsOutline />{" "}
         {article.tags.map((tag) => (
           <Badge key={tag} variant={"outline"}>
