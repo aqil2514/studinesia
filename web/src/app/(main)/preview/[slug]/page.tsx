@@ -1,8 +1,9 @@
 import ArticleJsonLd from "@/components/organisms/pages/articles/ArticleJsonLd";
 import ArticleSlugTemplate from "@/components/templates/ArticleSlugTemplate";
 import { baseSiteUrl } from "@/config/baseUrl";
-import {  getPreviewArticleBySlug } from "@/lib/api-server/article.api";
+import { getPreviewArticleBySlug } from "@/lib/api-server/article.api";
 import { Metadata } from "next";
+import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({
@@ -56,6 +57,10 @@ export default async function ArticlePreviewPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const { isEnabled } = await draftMode();
+
+  if (!isEnabled) return notFound();
+  
   const article = await getPreviewArticleBySlug(slug);
 
   if (!article) return notFound();

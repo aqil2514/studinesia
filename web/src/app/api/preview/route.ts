@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { draftMode } from "next/headers";
 
 const SECRET_KEY = process.env.PREVIEW_SECRET || "mysecret";
 const MAX_AGE = 10 * 60 * 1000;
@@ -27,6 +28,9 @@ export async function GET(req: NextRequest) {
 
   if (expectedSig !== sig)
     return NextResponse.json({ error: "Invalid signature" }, { status: 403 });
+
+  const draft = await draftMode();
+  draft.enable();
 
   // Signature valid, redirect ke Halaman Preview
   return NextResponse.redirect(new URL(`/preview/${slug}`, req.nextUrl.origin));
