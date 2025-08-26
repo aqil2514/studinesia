@@ -56,16 +56,19 @@ export default function ArticleHeader({ article }: Props) {
         ))}
       </div>
       <figure className="text-center space-y-4">
-        <Image
-          src={article.url_to_image}
-          height={523}
-          width={720}
-          alt={article.image_alt}
-          priority
-          className="rounded-2xl block mx-auto"
-        />
+        <div className="relative lg:w-[720px] h-[523px] mx-auto">
+          <Image
+            src={article.url_to_image}
+            alt={article.image_alt}
+            fill
+            sizes="(max-width: 768px) 100vw, 720px"
+            priority
+            className="rounded-2xl object-contain"
+          />
+        </div>
         <figcaption>{article.image_caption}</figcaption>
       </figure>
+
       <Divider />
     </header>
   );

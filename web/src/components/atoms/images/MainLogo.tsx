@@ -12,6 +12,7 @@ export default function MainLogo({ withLinks }: MainLogoProps) {
     <Image
       src={"/images/main-logo.png"}
       alt="Main logo icons"
+      priority
       width={180}
       height={60}
     />
@@ -25,6 +26,7 @@ const LogoWithLinks: React.FC<{ links: string }> = ({ links }) => {
         src={"/images/main-logo.png"}
         alt="Main logo icons"
         width={180}
+        priority
         height={60}
       />
     </Link>
