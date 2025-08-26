@@ -13,6 +13,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import DeleteArticleDialog from "./DeleteArticleDialog";
 import { blogSiteUrl } from "@/config/site";
+import { generatePreviewUrl } from "@/lib/preview";
 
 interface Props {
   row: Row<ArticleSummary>;
@@ -22,10 +23,12 @@ export default function MenuCell({ row }: Props) {
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
   const status: ArticleStatus = row.original.status!;
   const articleUrl = `${blogSiteUrl}/${row.original.slug}`;
+  const previewUrl = generatePreviewUrl(row.original.slug);
 
   // TODO : PREVIEW
   const openArticle = () => {
-    window.open(articleUrl, "_blank");
+    if (status === "published") return window.open(articleUrl, "_blank");
+    return window.open(previewUrl, "_blank");
   };
 
   const editArticle = () => {
@@ -46,7 +49,8 @@ export default function MenuCell({ row }: Props) {
         <DropdownMenuContent>
           <DropdownMenuLabel>{row.original.title}</DropdownMenuLabel>
           <DropdownMenuItem onClick={openArticle}>
-            <Eye /> {status === "published" ? "Lihat Artikel" : "Preview Artikel"}
+            <Eye />{" "}
+            {status === "published" ? "Lihat Artikel" : "Preview Artikel"}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={copyArticleLink}>
             <Link /> Salin Link

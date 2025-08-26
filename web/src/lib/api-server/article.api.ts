@@ -38,6 +38,15 @@ export async function getArticleBySlug(slug: string) {
     throw error;
   }
 }
+export async function getPreviewArticleBySlug(slug: string) {
+  try {
+    const { data } = await axios.get(`${serverEndpoint}/articles/${slug}/preview`);
+    return data as ArticleWithAuthorAndCategory;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export async function getArticleByQuery(
   query: string

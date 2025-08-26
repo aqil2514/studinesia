@@ -69,7 +69,13 @@ export class ArticlesController {
   @Get(':slug/admin')
   async getArticleBySlugAdmin(@Param() param: { slug: string }) {
     const { slug } = param;
-    console.log(slug)
+
+    return await this.articlesService.getArticleBySlugAdmin(slug);
+  }
+
+  @Get(':slug/preview')
+  async getArticleBySlugPreview(@Param() param: { slug: string }) {
+    const { slug } = param;
 
     return await this.articlesService.getArticleBySlugAdmin(slug);
   }
