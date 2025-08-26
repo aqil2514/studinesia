@@ -1,9 +1,9 @@
-import Loading from "@/app/loading";
-import ArticleJsonLd from "@/components/organisms/articles/ArticleJsonLd";
+import ArticleJsonLd from "@/components/organisms/pages/articles/ArticleJsonLd";
 import ArticleSlugTemplate from "@/components/templates/ArticleSlugTemplate";
 import { baseSiteUrl } from "@/config/baseUrl";
 import { getArticleBySlug } from "@/lib/api-server/article.api";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -58,9 +58,7 @@ export default async function ArticleSlugPage({
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
 
-  if (!article) {
-    return <Loading />;
-  }
+  if (!article) return notFound();
 
   return (
     <>

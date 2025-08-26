@@ -3,7 +3,7 @@ import ShareButtons from "@/components/molecules/share/ShareButtons";
 import { baseSiteUrl } from "@/config/baseUrl";
 import { rubik } from "@/config/fonts";
 import { Separator } from "@radix-ui/react-separator";
-import NewestArticlesSidebar from "../sidebar/NewestArticleSidebar";
+import NewestArticlesSidebar from "../../sidebar/NewestArticleSidebar";
 
 interface Props {
   article: ArticleWithAuthorAndCategory;

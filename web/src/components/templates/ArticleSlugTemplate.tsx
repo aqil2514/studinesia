@@ -2,9 +2,9 @@
 import { ArticleWithAuthorAndCategory } from "@/@types/article";
 import MainContainer from "../layouts/containers/MainContainer";
 import Sidebar from "../layouts/Sidebar";
-import ArticleHeader from "../organisms/articles/ArticleHeader";
-import ArticleMain from "../organisms/articles/ArticleMain";
-import ArticleFooter from "../organisms/articles/ArticleFooter";
+import ArticleHeader from "../organisms/pages/articles/ArticleHeader";
+import ArticleMain from "../organisms/pages/articles/ArticleMain";
+import ArticleFooter from "../organisms/pages/articles/ArticleFooter";
 
 interface Props {
   article: ArticleWithAuthorAndCategory;

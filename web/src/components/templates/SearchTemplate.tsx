@@ -2,8 +2,8 @@
 import { ArticleSummary } from "@/@types/article";
 import MainContainer from "../layouts/containers/MainContainer";
 import { rubik } from "@/config/fonts";
-import SearchHeader from "../organisms/search/SearchHeader";
-import SearchBody from "../organisms/search/SearchBody";
+import SearchHeader from "../organisms/pages/search/SearchHeader";
+import SearchBody from "../organisms/pages/search/SearchBody";
 import GridContainer from "../layouts/containers/GridContainer";
 import Sidebar from "../layouts/Sidebar";
 
