@@ -42,6 +42,7 @@
     "reflect-metadata": "^0.2.0",
     "resend": "^6.0.1",
     "rxjs": "^7.8.1",
+    "twitter-api-v2": "^1.25.0",
     "typeorm": "^0.3.25"
   },
   "devDependencies": {

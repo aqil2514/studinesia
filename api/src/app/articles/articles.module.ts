@@ -7,9 +7,10 @@ import { TagsService } from '../tags/tags.service';
 import { ArticlesSchedulerService } from './articles-scheduler.service';
 import { ResendModule } from 'src/config/resend/resend.module';
 import { NewsletterModule } from '../newsletter/newsletter.module';
+import { TwitterModule } from 'src/config/twitter/twitter.module';
 
 @Module({
-  imports:[HttpModule, SupabaseModule, ResendModule, NewsletterModule],
+  imports:[HttpModule, SupabaseModule, ResendModule, NewsletterModule, TwitterModule],
   providers: [ArticlesService, TagsService, ArticlesSchedulerService],
   controllers: [ArticlesController],
 })
