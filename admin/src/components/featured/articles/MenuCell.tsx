@@ -22,7 +22,7 @@ interface Props {
 export default function MenuCell({ row }: Props) {
   const [deleteDialog, setDeleteDialog] = useState<boolean>(false);
   const status: ArticleStatus = row.original.status!;
-  const articleUrl = `${blogSiteUrl}/${row.original.slug}`;
+  const articleUrl = `${blogSiteUrl}/articles/${row.original.slug}`;
 
   const openArticle = async () => {
     if (status === "published") return window.open(articleUrl, "_blank");
