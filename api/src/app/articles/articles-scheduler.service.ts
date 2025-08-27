@@ -7,6 +7,8 @@ import { NewsletterService } from '../newsletter/newsletter.service';
 import { baseSiteUrl } from 'src/config/sites';
 import { TwitterService } from 'src/config/twitter/twitter.service';
 import { generateTweet } from 'src/config/twitter/twitter.tweet';
+import { FacebookService } from 'src/config/facebook/facebook.service';
+import { createSocialPostMessage } from 'src/config/facebook/facebook.post';
 
 @Injectable()
 export class ArticlesSchedulerService {
@@ -17,19 +19,26 @@ export class ArticlesSchedulerService {
     private readonly resendService: ResendService,
     private readonly newsletterService: NewsletterService,
     private readonly twitterService: TwitterService,
+    private readonly facebookService: FacebookService,
   ) {}
 
-  @Cron('0 */5 * * * *')
   // Buat Debug
-  // DEBUG AREA
+  // @Cron('*/10 * * * * *')
+  // // DEBUG AREA
+
   // const testArticle = await this.articlesService.getArticleBySlug(
-  // 'apa-itu-frugal-living-panduan-lengkap-untuk-pemula',
+    // 'apa-itu-frugal-living-panduan-lengkap-untuk-pemula',
   // );
   // await this.twitterService.postTweet(generateTweet(testArticle));
+  // await this.facebookService.postToPage(
+    // createSocialPostMessage(testArticle),
+    // `${baseSiteUrl}/articles/${testArticle.slug}`,
+  // );
 
-  // DEBUG AREA
-  // @Cron('*/10 * * * * *')
+  // // DEBUG AREA
+  @Cron('0 */5 * * * *')
   async handleCron() {
+
     this.logger.debug('Mengecek artikel yang dijadwalkan...');
 
     const scheduledArticles: ArticleDB[] =
@@ -58,6 +67,10 @@ export class ArticlesSchedulerService {
       );
 
       await this.twitterService.postTweet(generateTweet(fullArticle));
+      await this.facebookService.postToPage(
+        createSocialPostMessage(fullArticle),
+        `${baseSiteUrl}/articles/${fullArticle.slug}`,
+      );
 
       for (const subscriber of subscribers) {
         await this.resendService.sendNewArticleEmail(

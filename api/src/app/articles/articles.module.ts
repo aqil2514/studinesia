@@ -8,9 +8,10 @@ import { ArticlesSchedulerService } from './articles-scheduler.service';
 import { ResendModule } from 'src/config/resend/resend.module';
 import { NewsletterModule } from '../newsletter/newsletter.module';
 import { TwitterModule } from 'src/config/twitter/twitter.module';
+import { FacebookModule } from 'src/config/facebook/facebook.module';
 
 @Module({
-  imports:[HttpModule, SupabaseModule, ResendModule, NewsletterModule, TwitterModule],
+  imports:[HttpModule, SupabaseModule, ResendModule, NewsletterModule, TwitterModule, FacebookModule],
   providers: [ArticlesService, TagsService, ArticlesSchedulerService],
   controllers: [ArticlesController],
 })
