@@ -44,7 +44,9 @@ export interface ArticleMapperFc {
     raw: ArticleWithAuthorAndCategory
   ) => ArticleSchemaTypeWithImageUrl;
   mapArticleDataToFormData: (raw: ArticleSchemaType) => FormData;
-  mapArticleDbToSummarizedArticle: (raw: ArticleWithAuthorAndCategory) => ArticleSummary;
+  mapArticleDbToSummarizedArticle: (
+    raw: ArticleWithAuthorAndCategory
+  ) => ArticleSummary;
 }
 
 export interface ArticleServerApi {
@@ -81,9 +83,9 @@ export type ArticleSummary = Pick<
 };
 
 export interface GetArticlesParams {
-  mode?: string;
-  type?: "full" | "summarized";
-  category_id?: string;
-  limit?: number;
-  page?: number;
+  mode?: string | null;
+  type?: "full" | "summarized" | string | null;
+  category_id?: string | null;
+  limit?: number | null;
+  page?: number | null;
 }

@@ -2,12 +2,32 @@ import { ArticleSchemaType } from "@/schemas/article.schema";
 import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
 import { articleChannel } from "@/components/templates/article/ArticleTemplate";
-import { ArticleStatus } from "@/@types/article";
+import {
+  ArticleStatus,
+  ArticleWithAuthorAndCategory,
+  GetArticlesParams,
+} from "@/@types/article";
 import { articleMapper } from "../mappers/article.mapper";
 
 const endpoint = "/api/articles";
 
 const { mapArticleDataToFormData } = articleMapper;
+
+export async function getArticles(params?: GetArticlesParams) {
+  try {
+    const { data } = await axios.get(
+      `/api/articles`,
+      {
+        params,
+      }
+    );
+
+    return data.data as ArticleWithAuthorAndCategory[];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export async function postArticle(data: ArticleSchemaType) {
   const formData = mapArticleDataToFormData(data);

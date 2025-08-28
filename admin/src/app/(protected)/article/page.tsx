@@ -12,7 +12,5 @@ export default async function ArticlePage() {
   const { mapArticleDbToSummarizedArticle } = articleMapper;
   const articles = raw.map(mapArticleDbToSummarizedArticle);
 
-  console.log(raw);
-
   return <ArticleTemplate articles={articles} />;
 }

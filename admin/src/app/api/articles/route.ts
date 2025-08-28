@@ -1,10 +1,11 @@
-import { ArticleTags } from "@/@types/article";
+import { ArticleTags, GetArticlesParams } from "@/@types/article";
 import { auth } from "@/auth";
 import { articleMapper } from "@/lib/mappers/article.mapper";
 import {
   createNewArticle,
   createNewArticleTags,
   getArticleBySlug,
+  getArticles,
   patchArticleStatus,
   putArticleTags,
   softDeleteArticle,
@@ -15,6 +16,27 @@ import { uploadImage } from "@/lib/upload/image.upload";
 import { NextRequest, NextResponse } from "next/server";
 
 const { mapArticleFormToDB } = articleMapper;
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = req.nextUrl;
+  const category_id = searchParams.get("category_id");
+  const limit = searchParams.get("limit") as number | null;
+  const mode = searchParams.get("mode");
+  const page = searchParams.get("page") as number | null;
+  const type = searchParams.get("type");
+
+  const params: GetArticlesParams = {
+    category_id,
+    limit,
+    mode,
+    page,
+    type,
+  };
+
+  const data = await getArticles(params);
+
+  return NextResponse.json({ data });
+}
 
 export async function POST(req: NextRequest) {
   const body: FormData = await req.formData();

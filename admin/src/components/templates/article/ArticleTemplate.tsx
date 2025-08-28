@@ -7,6 +7,8 @@ import PageHeaderWithActions from "../../organisms/header/PageHeaderWithActions"
 import { ArticleSummary } from "@/@types/article";
 import { BasicTable } from "../../organisms/data-tables/BasicTable";
 import { articleColumns } from "../../organisms/columns/articleColumns";
+import TableFooter from "@/components/organisms/footer/TableFooter";
+import ArticleProvider, { useArticleData } from "@/providers/ArticleProvider";
 
 export const articleChannel = new BroadcastChannel("article_channel");
 interface Props {
@@ -27,7 +29,16 @@ export default function ArticleTemplate({ articles }: Props) {
   }, []);
 
   return (
-    <MainContainer>
+    <ArticleProvider initArticles={articles}>
+      <InnerTemplate />
+    </ArticleProvider>
+  );
+}
+
+const InnerTemplate = () => {
+  const { articles, isRefreshing, refreshHandler } = useArticleData();
+  return (
+    <MainContainer className="space-y-4">
       <PageHeaderWithActions
         title="Artikel"
         subtitle="Atur dan kelola artikel"
@@ -37,6 +48,11 @@ export default function ArticleTemplate({ articles }: Props) {
       />
 
       <BasicTable columns={articleColumns} data={articles} />
+      <TableFooter
+        dataCount={articles.length}
+        isRefreshing={isRefreshing}
+        refreshHandler={refreshHandler}
+      />
     </MainContainer>
   );
-}
+};
