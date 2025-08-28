@@ -61,6 +61,7 @@ export interface GetQueryArticle {
   category_id: string;
   limit: number;
   page: number;
+  type: "full" | "summarized";
 }
 
 export interface ArticleHttpResponse {

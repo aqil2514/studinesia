@@ -1,6 +1,6 @@
 import { ArticleTags } from "@/@types/article";
 import { auth } from "@/auth";
-import { mapArticleFormToDB } from "@/lib/mappers/article.mapper";
+import { articleMapper } from "@/lib/mappers/article.mapper";
 import {
   createNewArticle,
   createNewArticleTags,
@@ -13,6 +13,8 @@ import {
 import { createBulksNewTags } from "@/lib/server-api/tags.api";
 import { uploadImage } from "@/lib/upload/image.upload";
 import { NextRequest, NextResponse } from "next/server";
+
+const { mapArticleFormToDB } = articleMapper;
 
 export async function POST(req: NextRequest) {
   const body: FormData = await req.formData();
@@ -94,7 +96,6 @@ export async function PUT(req: NextRequest) {
     String(tag.id)
   );
 
-  
   const payload = mapArticleFormToDB(body, imageUrl);
   const article = await updateArticle(payload, token);
 

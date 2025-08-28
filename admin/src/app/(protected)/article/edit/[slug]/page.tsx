@@ -1,5 +1,5 @@
 import ArticleEditTemplate from "@/components/templates/article/ArticleEditTemplate";
-import { mapArticleDBToForm } from "@/lib/mappers/article.mapper";
+import { articleMapper } from "@/lib/mappers/article.mapper";
 import { getArticleBySlug } from "@/lib/server-api/article.api";
 import { getAllAuthor } from "@/lib/server-api/author.api";
 import { getAllCategory } from "@/lib/server-api/category.api";
@@ -29,6 +29,7 @@ export default async function EditArticlePage({ params }: Props) {
     getAllCategory(),
     getArticleBySlug(slug),
   ]);
+  const { mapArticleDBToForm } = articleMapper;
 
   const article = mapArticleDBToForm(raw.data!);
   return (

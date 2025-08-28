@@ -28,8 +28,9 @@ export class ArticlesController {
   /** GET ENDPOINT */
   @Get('')
   async getArticles(@Query() query: GetQueryArticle) {
-    const { mode, category_id, limit, page } = query;
+    const { mode, category_id, limit, page, type } = query;
 
+    // MODE QUERY
     if (mode === 'published') {
       if (limit && page)
         return this.articlesService.getPublishedArticleAndLimit(page, limit);
@@ -38,8 +39,12 @@ export class ArticlesController {
       return await this.articlesService.getNewestArticles();
     }
 
+    // CATEGORY QUERY
     if (category_id)
       return this.articlesService.getArticleByCategoryId(category_id);
+
+    // TYPE QUERY
+    if (type === 'full') return this.articlesService.getAllArticlesFull();
 
     return this.articlesService.getAllArticles();
   }

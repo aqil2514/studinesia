@@ -22,6 +22,7 @@ export const articleColumns: ColumnDef<ArticleSummary>[] = [
   },
   {
     accessorKey: "url_to_image",
+    id: "url_to_image",
     header: "Gambar Utama",
     cell: ({ row }) => (
       <div className="relative w-16 h-16 mx-auto rounded-lg">
@@ -36,7 +37,13 @@ export const articleColumns: ColumnDef<ArticleSummary>[] = [
     ),
   },
   {
+    accessorKey: "category",
+    id: "category",
+    header: "Kategori",
+  },
+  {
     accessorKey: "title",
+    id: "title",
     header: "Judul Artikel",
     cell: ({ row }) => {
       const title = row.original.title;
@@ -59,16 +66,24 @@ export const articleColumns: ColumnDef<ArticleSummary>[] = [
     },
   },
   {
+    accessorKey: "author",
+    id: "author",
+    header: "Penulis",
+  },
+  {
     accessorKey: "slug",
+    id: "slug",
     header: "Slug",
   },
   {
     accessorKey: "status",
+    id: "status",
     header: "Status",
     cell: ({ row }) => <StatusArticleDropdown row={row} />,
   },
   {
     accessorKey: "published_at",
+    id: "published_at",
     header: "Tanggal Terbit",
     cell: ({ row }) => {
       return formatToLocalTime(row.original.published_at!);

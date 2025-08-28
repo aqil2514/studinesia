@@ -1,5 +1,6 @@
 import {
   ArticleDB,
+  ArticleMapperFc,
   ArticleStatus,
   ArticleSummary,
   ArticleWithAuthorAndCategory,
@@ -12,10 +13,14 @@ import { calculateReadingTime, stripHtml } from "../utils";
 
 import { toZonedTime } from "date-fns-tz";
 
-export function mapArticleFormToDB(
-  formData: FormData,
-  imageUrl: string
-): ArticleDB {
+export const articleMapper: ArticleMapperFc = {
+  mapArticleFormToDB,
+  mapArticleDBToForm,
+  mapArticleDataToFormData,
+  mapArticleDbToSummarizedArticle,
+};
+
+function mapArticleFormToDB(formData: FormData, imageUrl: string): ArticleDB {
   const result: ArticleDB = {
     category_id: Number(formData.get("category")),
     slug: String(formData.get("slug")),
@@ -37,7 +42,7 @@ export function mapArticleFormToDB(
   return result;
 }
 
-export function mapArticleDBToForm(
+function mapArticleDBToForm(
   raw: ArticleWithAuthorAndCategory
 ): ArticleSchemaTypeWithImageUrl {
   return {
@@ -56,7 +61,7 @@ export function mapArticleDBToForm(
   };
 }
 
-export function mapArticleDataToFormData(raw: ArticleSchemaType): FormData {
+function mapArticleDataToFormData(raw: ArticleSchemaType): FormData {
   const formData = new FormData();
   formData.append("author", raw.author);
   formData.append("category", raw.category);
@@ -86,8 +91,8 @@ export function mapArticleDataToFormData(raw: ArticleSchemaType): FormData {
   return formData;
 }
 
-export function mapArticleDbToSummarizedArticle(
-  raw: ArticleDB
+function mapArticleDbToSummarizedArticle(
+  raw: ArticleWithAuthorAndCategory
 ): ArticleSummary {
   const result: ArticleSummary = {
     slug: raw.slug,
@@ -96,6 +101,8 @@ export function mapArticleDbToSummarizedArticle(
     published_at: raw.published_at,
     url_to_image: raw.url_to_image,
     status: raw.status,
+    author: raw.author_id.name,
+    category: raw.category_id.name,
   };
 
   return result;

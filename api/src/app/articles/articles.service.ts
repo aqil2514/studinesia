@@ -52,7 +52,27 @@ export class ArticlesService {
       throw error;
     }
 
-    return data;
+    return data as ArticleDB[];
+  }
+
+  async getAllArticlesFull() {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*, author_id(name, id), category_id(id, name, slug)')
+      .order('published_at', { ascending: false });
+    if (error) {
+      this.logger.error('Terjadi kesalahan saat ambil artikel sesuai slug');
+      console.error(error);
+      throw error;
+    }
+
+    if (!data) {
+      return null;
+    }
+
+    const articles: ArticleWithAuthorAndCategory[] = data;
+
+    return articles;
   }
 
   async getPublishedArticles() {

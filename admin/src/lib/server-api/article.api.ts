@@ -3,23 +3,22 @@ import {
   ArticleStatus,
   ArticleTags,
   ArticleWithAuthorAndCategory,
+  GetArticlesParams,
 } from "@/@types/article";
 import { auth } from "@/auth";
 import { serverEndpoint } from "@/config/server-endpoint";
 import axios from "axios";
 
-interface GetArticlesParams {
-  mode?: string;
-  category_id?: string;
-}
-
 export async function getArticles(params?: GetArticlesParams) {
   try {
-    const { data } = await axios.get(`${serverEndpoint}/articles`, {
-      params,
-    });
+    const { data } = await axios.get<ArticleWithAuthorAndCategory[]>(
+      `${serverEndpoint}/articles`,
+      {
+        params,
+      }
+    );
 
-    return data as ArticleDB[];
+    return data;
   } catch (error) {
     console.error(error);
     throw error;

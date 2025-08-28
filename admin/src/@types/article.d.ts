@@ -1,3 +1,5 @@
+import { ArticleSchemaType } from "@/schemas/article.schema";
+
 type ArticleStatus = "draft" | "published" | "archived" | "scheduled";
 
 export interface Article {
@@ -14,7 +16,7 @@ export interface Article {
   category: string;
   tags: string[];
   readingTime?: number;
-  status?: ArticleStatus
+  status?: ArticleStatus;
 }
 
 export interface ArticleDB {
@@ -33,7 +35,20 @@ export interface ArticleDB {
   deleted_at?: string;
   image_alt: string;
   image_caption: string;
-  status?: ArticleStatus
+  status?: ArticleStatus;
+}
+
+export interface ArticleMapperFc {
+  mapArticleFormToDB: (formData: FormData, imageUrl: string) => ArticleDB;
+  mapArticleDBToForm: (
+    raw: ArticleWithAuthorAndCategory
+  ) => ArticleSchemaTypeWithImageUrl;
+  mapArticleDataToFormData: (raw: ArticleSchemaType) => FormData;
+  mapArticleDbToSummarizedArticle: (raw: ArticleWithAuthorAndCategory) => ArticleSummary;
+}
+
+export interface ArticleServerApi {
+  getArticles: (params?: GetArticlesParams | undefined) => Promise<ArticleDB[]>;
 }
 
 export interface ArticleWithAuthorAndCategory
@@ -60,4 +75,15 @@ export interface ArticleTags {
 export type ArticleSummary = Pick<
   ArticleDB,
   "title" | "description" | "slug" | "published_at" | "url_to_image" | "status"
->;
+> & {
+  category: string;
+  author: string;
+};
+
+export interface GetArticlesParams {
+  mode?: string;
+  type?: "full" | "summarized";
+  category_id?: string;
+  limit?: number;
+  page?: number;
+}
