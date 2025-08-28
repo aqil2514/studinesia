@@ -12,6 +12,7 @@ import { UploadModule } from './upload/upload.module';
 import { UserModule } from './user/user.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { NewsletterModule } from './newsletter/newsletter.module';
+import { DebugModule } from './debug/debug.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { NewsletterModule } from './newsletter/newsletter.module';
     UploadModule,
     UserModule,
     NewsletterModule,
+    DebugModule,
   ],
   controllers: [AppController],
   providers: [AppService, GeminiService],
