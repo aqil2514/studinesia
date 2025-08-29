@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 interface Props {
   dataCount: number;
   isRefreshing: boolean;
+  label?:string;
   refreshHandler?: () => void | Promise<void>;
 }
 
@@ -13,6 +14,7 @@ export default function TableFooter({
   dataCount,
   isRefreshing,
   refreshHandler,
+  label = "data"
 }: Props) {
   const searchParams = useSearchParams();
   const limit = Number(searchParams.get("limit"));
@@ -24,7 +26,7 @@ export default function TableFooter({
       <div className="flex gap-4 items-center">
         <PaginationViaSearchParams maxPage={maxPage} />
         <BasicLimiterViaSearchParams maxData={dataCount} />
-        <span>{dataCount} Data</span>
+        <span>{dataCount} {label}</span>
       </div>
       <RefreshButton
         isRefreshing={isRefreshing}

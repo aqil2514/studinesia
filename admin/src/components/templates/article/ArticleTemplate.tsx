@@ -53,6 +53,7 @@ const InnerTemplate = () => {
         dataCount={count}
         isRefreshing={isRefreshing}
         refreshHandler={refreshHandler}
+        label="Artikel"
       />
     </MainContainer>
   );
