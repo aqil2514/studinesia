@@ -30,8 +30,6 @@ export class ArticlesController {
   async getArticles(@Query() query: GetQueryArticle) {
     const { mode, category_id, limit, page, type } = query;
 
-    console.log(query);
-
     // MODE QUERY
     if (mode === 'published') {
       if (limit && page)

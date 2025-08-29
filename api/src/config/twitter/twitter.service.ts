@@ -21,7 +21,7 @@ export class TwitterService {
       this.logger.log(`Tweet posted successfully: ${data.id}`);
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       this.logger.error('Posting ke Twitter gagal', error);
       throw error;
     }

@@ -25,13 +25,13 @@ interface ArticleProviderProps {
   count: number;
 }
 
-const { getArticlesWithRelations } = articleApiClient;
 
 export default function ArticleProvider({
   initArticles,
   children,
   count,
 }: ArticleProviderProps) {
+  const { getArticlesWithRelations } = articleApiClient;
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [articles, setArticles] = useState<ArticleSummary[]>(initArticles);
   const searchParams = useSearchParams();
