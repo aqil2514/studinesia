@@ -9,7 +9,7 @@ export const contentMenuItems: NavigationWithIcon[] = [
   {
     label: "Artikel",
     Icon: MdOutlineArticle,
-    url: "/article",
+    url: "/article?page=1&limit=10",
     ActionIcon: GoPlus,
     actionUrl: "/article/add",
   },

@@ -7,7 +7,7 @@ import MainContainer from "@/components/layouts/Container/MainContainer";
 import ArticleForm from "@/components/organisms/forms/articleForms";
 import { ArticleSchemaType } from "@/schemas/article.schema";
 import { ArticleWithAuthorAndCategory } from "@/@types/article";
-import { putArticle } from "@/lib/client-api/article.api";
+import { putArticle } from "@/lib/api-client/article.api";
 import { useHasHydrated } from "@/hooks/use-has-hydrated";
 import Loading from "@/app/loading";
 

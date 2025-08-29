@@ -1,6 +1,6 @@
 import ArticleAddTemplate from "@/components/templates/article/ArticleAddTemplate";
-import { getAllAuthor } from "@/lib/server-api/author.api";
-import { getAllCategory } from "@/lib/server-api/category.api";
+import { getAllAuthor } from "@/lib/api-server/author.api";
+import { getAllCategory } from "@/lib/api-server/category.api";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

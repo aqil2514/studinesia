@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import jwt from "jsonwebtoken";
-import { getUserByUserId } from "./lib/server-api/user.api";
+import { getUserByUserId } from "./lib/api-server/user.api";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],

@@ -13,9 +13,10 @@ import ArticleProvider, { useArticleData } from "@/providers/ArticleProvider";
 export const articleChannel = new BroadcastChannel("article_channel");
 interface Props {
   articles: ArticleSummary[];
+  count:number;
 }
 
-export default function ArticleTemplate({ articles }: Props) {
+export default function ArticleTemplate({ articles, count }: Props) {
   useEffect(() => {
     articleChannel.onmessage = (event) => {
       if (event.data?.type === "New_Article_Add") {
@@ -29,14 +30,14 @@ export default function ArticleTemplate({ articles }: Props) {
   }, []);
 
   return (
-    <ArticleProvider initArticles={articles}>
+    <ArticleProvider initArticles={articles} count={count}>
       <InnerTemplate />
     </ArticleProvider>
   );
 }
 
 const InnerTemplate = () => {
-  const { articles, isRefreshing, refreshHandler } = useArticleData();
+  const { articles, isRefreshing, refreshHandler, count } = useArticleData();
   return (
     <MainContainer className="space-y-4">
       <PageHeaderWithActions
@@ -49,7 +50,7 @@ const InnerTemplate = () => {
 
       <BasicTable columns={articleColumns} data={articles} />
       <TableFooter
-        dataCount={articles.length}
+        dataCount={count}
         isRefreshing={isRefreshing}
         refreshHandler={refreshHandler}
       />

@@ -1,5 +1,5 @@
 import WriterTemplate from "@/components/templates/writer/WriterTemplate";
-import { getAllAuthor } from "@/lib/server-api/author.api";
+import { getAllAuthor } from "@/lib/api-server/author.api";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

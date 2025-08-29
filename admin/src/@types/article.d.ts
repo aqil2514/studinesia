@@ -38,21 +38,6 @@ export interface ArticleDB {
   status?: ArticleStatus;
 }
 
-export interface ArticleMapperFc {
-  mapArticleFormToDB: (formData: FormData, imageUrl: string) => ArticleDB;
-  mapArticleDBToForm: (
-    raw: ArticleWithAuthorAndCategory
-  ) => ArticleSchemaTypeWithImageUrl;
-  mapArticleDataToFormData: (raw: ArticleSchemaType) => FormData;
-  mapArticleDbToSummarizedArticle: (
-    raw: ArticleWithAuthorAndCategory
-  ) => ArticleSummary;
-}
-
-export interface ArticleServerApi {
-  getArticles: (params?: GetArticlesParams | undefined) => Promise<ArticleDB[]>;
-}
-
 export interface ArticleWithAuthorAndCategory
   extends Omit<ArticleDB, "author_id" | "category_id"> {
   author_id: {
@@ -65,6 +50,13 @@ export interface ArticleWithAuthorAndCategory
     slug: string;
   };
   tags: string[];
+}
+
+export interface ArticleWithRelationsResponse {
+  articles: ArticleWithAuthorAndCategory[];
+  count?: number;
+  page?: number;
+  hasNext?: boolean;
 }
 
 export interface ArticleTags {
@@ -88,4 +80,27 @@ export interface GetArticlesParams {
   category_id?: string | null;
   limit?: number | null;
   page?: number | null;
+}
+
+export interface ArticleMapperFc {
+  mapArticleFormToDB: (formData: FormData, imageUrl: string) => ArticleDB;
+  mapArticleDBToForm: (
+    raw: ArticleWithAuthorAndCategory
+  ) => ArticleSchemaTypeWithImageUrl;
+  mapArticleDataToFormData: (raw: ArticleSchemaType) => FormData;
+  mapArticleDbToSummarizedArticle: (
+    raw: ArticleWithAuthorAndCategory
+  ) => ArticleSummary;
+}
+
+export interface ArticleApiServer {
+  getArticlesWithRelations: (
+    params?: GetArticlesParams | undefined
+  ) => Promise<ResponseWithData<ArticleWithRelationsResponse>>;
+}
+
+export interface ArticleApiClient {
+  getArticlesWithRelations: (
+    params?: GetArticlesParams | undefined
+  ) => Promise<ResponseWithData<ArticleWithRelationsResponse>>;
 }

@@ -64,10 +64,19 @@ export interface GetQueryArticle {
   type: "full" | "summarized";
 }
 
+// Ini masih dipakek di web
 export interface ArticleHttpResponse {
   articles: Article[];
   total: number;
   page: number;
   limit: number;
   hasMore: boolean;
+}
+
+// Ini masih dipakek di admin
+export interface ArticleWithRelationsResponse {
+  articles: ArticleWithAuthorAndCategory[];
+  count?: number;
+  page?: number;
+  hasNext?: boolean;
 }

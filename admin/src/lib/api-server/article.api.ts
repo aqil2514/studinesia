@@ -1,24 +1,36 @@
 import {
+  ArticleApiServer,
   ArticleDB,
   ArticleStatus,
   ArticleTags,
   ArticleWithAuthorAndCategory,
+  ArticleWithRelationsResponse,
   GetArticlesParams,
 } from "@/@types/article";
 import { auth } from "@/auth";
 import { serverEndpoint } from "@/config/server-endpoint";
 import axios from "axios";
 
-export async function getArticles(params?: GetArticlesParams) {
+export const articleApiServer: ArticleApiServer = {
+  getArticlesWithRelations,
+};
+
+async function getArticlesWithRelations(
+  params?: GetArticlesParams
+): Promise<ResponseWithData<ArticleWithRelationsResponse>> {
   try {
-    const { data } = await axios.get<ArticleWithAuthorAndCategory[]>(
+    const { data } = await axios.get<ArticleWithRelationsResponse>(
       `${serverEndpoint}/articles`,
       {
         params,
       }
     );
 
-    return data;
+    return {
+      message: "Data artikel berhasil diambil",
+      success: true,
+      data,
+    };
   } catch (error) {
     console.error(error);
     throw error;

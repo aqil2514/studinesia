@@ -44,6 +44,11 @@ export default function PaginationViaSearchParams({ maxPage }: Props) {
       currentParams.set("page", String(value));
       router.replace(`?${currentParams.toString()}`, { scroll: false });
     }
+    else if (!isNaN(value) && value > maxPage!) {
+      setPage(maxPage!);
+      currentParams.set("page", String(value));
+      router.replace(`?${currentParams.toString()}`, { scroll: false });
+    }
   };
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

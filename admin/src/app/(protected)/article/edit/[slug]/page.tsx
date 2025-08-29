@@ -1,8 +1,8 @@
 import ArticleEditTemplate from "@/components/templates/article/ArticleEditTemplate";
 import { articleMapper } from "@/lib/mappers/article.mapper";
-import { getArticleBySlug } from "@/lib/server-api/article.api";
-import { getAllAuthor } from "@/lib/server-api/author.api";
-import { getAllCategory } from "@/lib/server-api/category.api";
+import { getArticleBySlug } from "@/lib/api-server/article.api";
+import { getAllAuthor } from "@/lib/api-server/author.api";
+import { getAllCategory } from "@/lib/api-server/category.api";
 import { Metadata } from "next";
 
 interface Props {

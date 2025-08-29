@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { patchArticleStatus } from "@/lib/client-api/article.api";
+import { patchArticleStatus } from "@/lib/api-client/article.api";
 import { Row } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import React from "react";

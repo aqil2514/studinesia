@@ -2,18 +2,20 @@ import { ArticleTags, GetArticlesParams } from "@/@types/article";
 import { auth } from "@/auth";
 import { articleMapper } from "@/lib/mappers/article.mapper";
 import {
+  articleApiServer,
   createNewArticle,
   createNewArticleTags,
   getArticleBySlug,
-  getArticles,
   patchArticleStatus,
   putArticleTags,
   softDeleteArticle,
   updateArticle,
-} from "@/lib/server-api/article.api";
-import { createBulksNewTags } from "@/lib/server-api/tags.api";
+} from "@/lib/api-server/article.api";
+import { createBulksNewTags } from "@/lib/api-server/tags.api";
 import { uploadImage } from "@/lib/upload/image.upload";
 import { NextRequest, NextResponse } from "next/server";
+
+const { getArticlesWithRelations } = articleApiServer;
 
 const { mapArticleFormToDB } = articleMapper;
 
@@ -33,9 +35,9 @@ export async function GET(req: NextRequest) {
     type,
   };
 
-  const data = await getArticles(params);
+  const data = await getArticlesWithRelations(params);
 
-  return NextResponse.json({ data });
+  return NextResponse.json(data);
 }
 
 export async function POST(req: NextRequest) {

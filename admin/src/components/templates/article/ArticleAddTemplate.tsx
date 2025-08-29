@@ -3,7 +3,7 @@
 import ArticleFormProvider from "@/providers/ArticleFormProvider";
 import { Author } from "@/@types/author";
 import { Category } from "@/@types/category";
-import { postArticle } from "@/lib/client-api/article.api";
+import { postArticle } from "@/lib/api-client/article.api";
 import MainContainer from "@/components/layouts/Container/MainContainer";
 import ArticleForm from "@/components/organisms/forms/articleForms";
 import { useHasHydrated } from "@/hooks/use-has-hydrated";

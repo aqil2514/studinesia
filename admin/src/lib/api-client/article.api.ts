@@ -3,8 +3,10 @@ import axios, { isAxiosError } from "axios";
 import { toast } from "sonner";
 import { articleChannel } from "@/components/templates/article/ArticleTemplate";
 import {
+  ArticleApiClient,
   ArticleStatus,
   ArticleWithAuthorAndCategory,
+  ArticleWithRelationsResponse,
   GetArticlesParams,
 } from "@/@types/article";
 import { articleMapper } from "../mappers/article.mapper";
@@ -13,14 +15,34 @@ const endpoint = "/api/articles";
 
 const { mapArticleDataToFormData } = articleMapper;
 
+export const articleApiClient: ArticleApiClient = {
+  getArticlesWithRelations,
+};
+
+async function getArticlesWithRelations(
+  params?: GetArticlesParams
+): Promise<ResponseWithData<ArticleWithRelationsResponse>> {
+  try {
+    const { data } = await axios.get(`${endpoint}`, {
+      params,
+    });
+
+    return {
+      data: data.data,
+      message: data.message,
+      success: data.success,
+    };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function getArticles(params?: GetArticlesParams) {
   try {
-    const { data } = await axios.get(
-      `/api/articles`,
-      {
-        params,
-      }
-    );
+    const { data } = await axios.get(`/api/articles`, {
+      params,
+    });
 
     return data.data as ArticleWithAuthorAndCategory[];
   } catch (error) {

@@ -7,8 +7,13 @@ import {
 } from "@/components/ui/select";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
-export default function BasicLimiterViaSearchParams() {
+interface Props {
+  maxData: number;
+}
+
+export default function BasicLimiterViaSearchParams({ maxData }: Props) {
   const searchParams = useSearchParams();
   const initLimit = searchParams.get("limit");
   const currentParams = new URLSearchParams(searchParams.toString());
@@ -20,6 +25,9 @@ export default function BasicLimiterViaSearchParams() {
 
   const changeHandler = (e: string) => {
     const newLimit = Number(e);
+
+    if(newLimit > maxData) return toast.error(`Limit melebihi jumlah data (${maxData}). Aksi dibatalkan!`)
+
     setLimit(newLimit);
 
     currentParams.set("limit", newLimit.toString());

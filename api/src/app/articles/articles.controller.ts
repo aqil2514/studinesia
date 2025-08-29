@@ -30,6 +30,8 @@ export class ArticlesController {
   async getArticles(@Query() query: GetQueryArticle) {
     const { mode, category_id, limit, page, type } = query;
 
+    console.log(query);
+
     // MODE QUERY
     if (mode === 'published') {
       if (limit && page)
@@ -44,7 +46,12 @@ export class ArticlesController {
       return this.articlesService.getArticleByCategoryId(category_id);
 
     // TYPE QUERY
-    if (type === 'full') return this.articlesService.getAllArticlesFull();
+    if (type === 'full') {
+      if (page)
+        return this.articlesService.getAllArticlesWithPagination(limit, page);
+      if (limit) return this.articlesService.getAllArticlesFullAndLimit(limit);
+      return this.articlesService.getAllArticlesFull();
+    }
 
     return this.articlesService.getAllArticles();
   }

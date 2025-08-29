@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { softDeleteArticle } from "@/lib/client-api/article.api";
+import { softDeleteArticle } from "@/lib/api-client/article.api";
 import { Row } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

@@ -1,5 +1,5 @@
 import TagsTemplate from "@/components/templates/tags/TagsTemplate";
-import { getTags } from "@/lib/server-api/tags.api";
+import { getTags } from "@/lib/api-server/tags.api";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

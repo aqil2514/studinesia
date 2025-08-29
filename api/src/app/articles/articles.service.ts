@@ -7,6 +7,7 @@ import {
   ArticleStatus,
   ArticleTags,
   ArticleWithAuthorAndCategory,
+  ArticleWithRelationsResponse,
 } from './articles.interface';
 import { SupabaseService } from 'src/config/supabase/supabase.service';
 import { TagsService } from '../tags/tags.service';
@@ -55,10 +56,12 @@ export class ArticlesService {
     return data as ArticleDB[];
   }
 
-  async getAllArticlesFull() {
-    const { data, error } = await this.supabase
+  async getAllArticlesFull(): Promise<ArticleWithRelationsResponse> {
+    const { data, error, count } = await this.supabase
       .from(this.tableName)
-      .select('*, author_id(name, id), category_id(id, name, slug)')
+      .select('*, author_id(name, id), category_id(id, name, slug)', {
+        count: 'exact',
+      })
       .order('published_at', { ascending: false });
     if (error) {
       this.logger.error('Terjadi kesalahan saat ambil artikel sesuai slug');
@@ -72,7 +75,70 @@ export class ArticlesService {
 
     const articles: ArticleWithAuthorAndCategory[] = data;
 
-    return articles;
+    return { articles, count };
+  }
+
+  // Dipakek di admin
+  async getAllArticlesFullAndLimit(
+    limit: number,
+  ): Promise<ArticleWithRelationsResponse> {
+    const { data, error, count } = await this.supabase
+      .from(this.tableName)
+      .select('*, author_id(name, id), category_id(id, name, slug)', {
+        count: 'exact',
+      })
+      .limit(limit)
+      .order('published_at', { ascending: false });
+
+    if (error) {
+      this.logger.error('Terjadi kesalahan saat ambil artikel sesuai slug');
+      console.error(error);
+      throw error;
+    }
+
+    if (!data) {
+      return null;
+    }
+
+    const articles: ArticleWithAuthorAndCategory[] = data;
+
+    return { articles, count };
+  }
+
+  // Dipakek di admin
+  async getAllArticlesWithPagination(
+    limit: number = 10,
+    page: number,
+  ): Promise<ArticleWithRelationsResponse> {
+    const from = Number((page - 1) * limit);
+    const to = Number(page * limit - 1);
+
+    const { data, error, count } = await this.supabase
+      .from(this.tableName)
+      .select('*, author_id(name, id), category_id(id, name, slug)', {
+        count: 'exact',
+      })
+      .range(from, to)
+      .order('published_at', { ascending: false });
+
+    if (!data)
+      return { articles: [], count, page: Number(page), hasNext: false };
+
+    if (error) {
+      this.logger.error('Terjadi kesalahan saat ambil artikel dengan pagination');
+      console.error(error);
+      throw error;
+    }
+
+
+    const articles: ArticleWithAuthorAndCategory[] = data;
+
+    return {
+      articles,
+      count,
+      page: Number(page),
+      hasNext: page * limit < (count ?? 0),
+    };
   }
 
   async getPublishedArticles() {
@@ -81,25 +147,6 @@ export class ArticlesService {
       .select('*')
       .order('published_at', { ascending: false })
       .eq('status', 'published');
-
-    if (error) {
-      this.logger.error(
-        'Terjadi kesalahan saat ambil artikel yang telah dipublish',
-      );
-      console.error(error);
-      throw error;
-    }
-
-    return data;
-  }
-
-  async getNewestArticles() {
-    const { data, error } = await this.supabase
-      .from(this.tableName)
-      .select('*')
-      .order('published_at', { ascending: false })
-      .eq('status', 'published')
-      .limit(6);
 
     if (error) {
       this.logger.error(
@@ -144,6 +191,25 @@ export class ArticlesService {
       limit,
       hasMore: page * limit < (count ?? 0),
     };
+  }
+
+  async getNewestArticles() {
+    const { data, error } = await this.supabase
+      .from(this.tableName)
+      .select('*')
+      .order('published_at', { ascending: false })
+      .eq('status', 'published')
+      .limit(6);
+
+    if (error) {
+      this.logger.error(
+        'Terjadi kesalahan saat ambil artikel yang telah dipublish',
+      );
+      console.error(error);
+      throw error;
+    }
+
+    return data;
   }
 
   async getScheduledArticles() {
