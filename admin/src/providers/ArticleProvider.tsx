@@ -1,4 +1,5 @@
 import { ArticleSummary } from "@/@types/article";
+import { FilterState } from "@/components/molecules/filter/interface";
 import { articleApiClient } from "@/lib/api-client/article.api";
 import { articleMapper } from "@/lib/mappers/article.mapper";
 import { useSearchParams } from "next/navigation";
@@ -13,6 +14,8 @@ interface ArticleContextType {
   setIsRefreshing: React.Dispatch<React.SetStateAction<boolean>>;
   refreshHandler: () => Promise<void>;
   count: number;
+  filters: FilterState[];
+  setFilters: (filters: FilterState[]) => void;
 }
 
 const ArticleContext = createContext<ArticleContextType>(
@@ -25,7 +28,6 @@ interface ArticleProviderProps {
   count: number;
 }
 
-
 export default function ArticleProvider({
   initArticles,
   children,
@@ -34,14 +36,15 @@ export default function ArticleProvider({
   const { getArticlesWithRelations } = articleApiClient;
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [articles, setArticles] = useState<ArticleSummary[]>(initArticles);
+  const [filters, setFilters] = useState<FilterState[]>([]);
   const searchParams = useSearchParams();
 
   const limit = Number(searchParams.get("limit"));
   const page = Number(searchParams.get("page"));
 
   useEffect(() => {
-    setArticles(initArticles)
-  }, [initArticles])
+    setArticles(initArticles);
+  }, [initArticles]);
 
   const refreshHandler = async () => {
     try {
@@ -49,7 +52,7 @@ export default function ArticleProvider({
       const { data, success } = await getArticlesWithRelations({
         type: "full",
         limit,
-        page
+        page,
       });
 
       if (!data || !success)
@@ -76,6 +79,8 @@ export default function ArticleProvider({
     articles,
     setArticles,
     count,
+    filters,
+    setFilters,
   };
 
   return (
