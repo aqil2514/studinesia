@@ -11,7 +11,7 @@ import { toast } from "sonner";
 interface ArticleContextType {
   initArticles: ArticleSummary[];
   initCount: number;
-  categories:Category[];
+  categories: Category[];
   articles: ArticleSummary[];
   setArticles: React.Dispatch<React.SetStateAction<ArticleSummary[]>>;
   count: number;
@@ -30,7 +30,7 @@ const ArticleContext = createContext<ArticleContextType>(
 interface ArticleProviderProps {
   initArticles: ArticleSummary[];
   children: React.ReactNode;
-  categories:Category[];
+  categories: Category[];
   initCount: number;
 }
 
@@ -98,7 +98,7 @@ export default function ArticleProvider({
   initArticles,
   children,
   initCount,
-  categories
+  categories,
 }: ArticleProviderProps) {
   const { getArticles } = articleApiClient;
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -122,6 +122,7 @@ export default function ArticleProvider({
       limit,
       filters,
       select: "*, author_id(name, id), category_id(id, name, slug)",
+      sort: [{ key: "published_at", direction: "desc" }],
     };
     try {
       setIsRefreshing(true);
@@ -156,7 +157,7 @@ export default function ArticleProvider({
     setFilters,
     initCount,
     setCount,
-    categories
+    categories,
   };
 
   return (

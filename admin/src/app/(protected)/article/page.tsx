@@ -42,6 +42,7 @@ export default async function ArticlePage({ searchParams }: Props) {
     page: Number(page),
     filters,
     select: "*, author_id(name, id), category_id(id, name, slug)",
+    sort: [{ key: "published_at", direction: "desc" }],
   };
 
   const { articles, count } = await getArticles(query);
