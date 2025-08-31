@@ -13,6 +13,7 @@ import { Info } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { formatToLocalTime } from "@/lib/utils";
+import CategoryCell from "@/components/featured/articles/CategoryCell";
 
 export const articleColumns: ColumnDef<ArticleSummary>[] = [
   {
@@ -38,8 +39,9 @@ export const articleColumns: ColumnDef<ArticleSummary>[] = [
   },
   {
     accessorKey: "category",
-    id: "category",
+    id: "category_id",
     header: "Kategori",
+    cell: ({ row }) => <CategoryCell row={row} />,
   },
   {
     accessorKey: "title",
@@ -67,7 +69,7 @@ export const articleColumns: ColumnDef<ArticleSummary>[] = [
   },
   {
     accessorKey: "author",
-    id: "author",
+    id: "author_id",
     header: "Penulis",
   },
   {

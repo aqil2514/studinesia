@@ -1,4 +1,5 @@
 import { ArticleSchemaType } from "@/schemas/article.schema";
+import { QueryOptions } from "./query";
 
 type ArticleStatus = "draft" | "published" | "archived" | "scheduled";
 
@@ -97,10 +98,16 @@ export interface ArticleApiServer {
   getArticlesWithRelations: (
     params?: GetArticlesParams | undefined
   ) => Promise<ResponseWithData<ArticleWithRelationsResponse>>;
+  getArticles: (
+    query: QueryOptions
+  ) => Promise<ArticleWithRelationsResponse>;
 }
 
 export interface ArticleApiClient {
   getArticlesWithRelations: (
     params?: GetArticlesParams | undefined
+  ) => Promise<ResponseWithData<ArticleWithRelationsResponse>>;
+  getArticles: (
+    query: QueryOptions
   ) => Promise<ResponseWithData<ArticleWithRelationsResponse>>;
 }

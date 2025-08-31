@@ -11,6 +11,7 @@ import {
 } from './articles.interface';
 import { SupabaseService } from 'src/config/supabase/supabase.service';
 import { TagsService } from '../tags/tags.service';
+import { QueryOptions } from 'src/config/supabase/supabase.interface';
 
 @Injectable()
 export class ArticlesService {
@@ -125,11 +126,12 @@ export class ArticlesService {
       return { articles: [], count, page: Number(page), hasNext: false };
 
     if (error) {
-      this.logger.error('Terjadi kesalahan saat ambil artikel dengan pagination');
+      this.logger.error(
+        'Terjadi kesalahan saat ambil artikel dengan pagination',
+      );
       console.error(error);
       throw error;
     }
-
 
     const articles: ArticleWithAuthorAndCategory[] = data;
 
@@ -319,6 +321,43 @@ export class ArticlesService {
     }
 
     return data;
+  }
+
+  async getArticleWithQueries(
+    query: QueryOptions,
+  ): Promise<ArticleWithRelationsResponse> {
+    const q = this.supabaseService.buildQuery(
+      this.supabaseAdmin,
+      this.tableName,
+      query,
+    );
+
+    const { data, error, count } = await q;
+
+    if (!data)
+      return {
+        articles: [],
+        count,
+        page: query.page,
+      };
+
+    if (error) {
+      this.logger.error(
+        'Terjadi kesalahan saat ambil artikel berdasarkan query',
+      );
+      console.error(error);
+      throw error;
+    }
+
+    const articles = data as unknown as ArticleWithAuthorAndCategory[];
+
+    const response: ArticleWithRelationsResponse = {
+      articles,
+      count,
+      page: query.page,
+    };
+
+    return response;
   }
 
   async getArticleByCategoryId(categoryId: string) {

@@ -10,6 +10,7 @@ import {
   GetArticlesParams,
 } from "@/@types/article";
 import { articleMapper } from "../mappers/article.mapper";
+import { QueryOptions } from "@/@types/query";
 
 const endpoint = "/api/articles";
 
@@ -17,7 +18,24 @@ const { mapArticleDataToFormData } = articleMapper;
 
 export const articleApiClient: ArticleApiClient = {
   getArticlesWithRelations,
+  // TODO : Next buat ini
+  getArticles: getArticlesNew,
 };
+
+async function getArticlesNew(
+  query: QueryOptions
+): Promise<ResponseWithData<ArticleWithRelationsResponse>> {
+  try {
+    const { data } = await axios.post<
+      ResponseWithData<ArticleWithRelationsResponse>
+    >(`${endpoint}/query`, query);
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 async function getArticlesWithRelations(
   params?: GetArticlesParams

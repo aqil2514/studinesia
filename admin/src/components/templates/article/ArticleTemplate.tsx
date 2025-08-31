@@ -11,6 +11,7 @@ import TableFooter from "@/components/organisms/footer/TableFooter";
 import ArticleProvider, { useArticleData } from "@/providers/ArticleProvider";
 import BasicFilter from "@/components/molecules/filter/BasicFilter";
 import { SelectItemState } from "@/components/molecules/select/interface";
+import { Category } from "@/@types/category";
 
 const columns: SelectItemState[] = articleColumns
   .map((col) => ({
@@ -23,9 +24,14 @@ export const articleChannel = new BroadcastChannel("article_channel");
 interface Props {
   articles: ArticleSummary[];
   count: number;
+  categories: Category[];
 }
 
-export default function ArticleTemplate({ articles, count }: Props) {
+export default function ArticleTemplate({
+  articles,
+  count,
+  categories,
+}: Props) {
   useEffect(() => {
     articleChannel.onmessage = (event) => {
       if (event.data?.type === "New_Article_Add") {
@@ -39,7 +45,11 @@ export default function ArticleTemplate({ articles, count }: Props) {
   }, []);
 
   return (
-    <ArticleProvider initArticles={articles} count={count}>
+    <ArticleProvider
+      initArticles={articles}
+      initCount={count}
+      categories={categories}
+    >
       <InnerTemplate />
     </ArticleProvider>
   );

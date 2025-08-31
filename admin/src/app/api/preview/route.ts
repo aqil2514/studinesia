@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generatePreviewUrl } from "@/lib/preview";
+import { generatePreviewUrl } from "@/lib/preview-article";
 
 const SECRET_KEY = process.env.PREVIEW_SECRET || "mysecret";
 

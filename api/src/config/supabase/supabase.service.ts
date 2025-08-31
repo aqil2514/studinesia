@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { QueryOptions } from './supabase.interface';
 
 @Injectable()
 export class SupabaseService {
@@ -16,6 +17,37 @@ export class SupabaseService {
       process.env.SUPABASE_URL,
       process.env.SUPABASE_ADMIN_SECRET,
     );
+  }
+
+  buildQuery(client: SupabaseClient, table: string, options: QueryOptions) {
+    let q = client
+      .from(table)
+      .select(options.select || '*', { count: 'exact' });
+
+    // Filters
+    if (options.filters) {
+      for (const f of options.filters) {
+        q = (q as any)[f.operator](f.key, f.value);
+      }
+    }
+
+    // Sort
+    if (options.sort) {
+      for (const s of options.sort) {
+        q = q.order(s.key, { ascending: s.direction !== 'desc' });
+      }
+    }
+
+    // Pagination
+    if (options.page !== undefined && options.limit !== undefined) {
+      const from = (options.page - 1) * options.limit;
+      const to = options.page * options.limit - 1;
+      q = q.range(from, to);
+    } else if (options.limit !== undefined) {
+      q = q.limit(options.limit);
+    }
+
+    return q;
   }
 
   getClient(): SupabaseClient {

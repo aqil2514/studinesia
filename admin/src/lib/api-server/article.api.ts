@@ -7,13 +7,31 @@ import {
   ArticleWithRelationsResponse,
   GetArticlesParams,
 } from "@/@types/article";
+import { QueryOptions } from "@/@types/query";
 import { auth } from "@/auth";
 import { serverEndpoint } from "@/config/server-endpoint";
 import axios from "axios";
 
 export const articleApiServer: ArticleApiServer = {
   getArticlesWithRelations,
+  getArticles: getArticlesNew,
 };
+
+async function getArticlesNew(
+  query: QueryOptions
+): Promise<ArticleWithRelationsResponse> {
+  try {
+    const { data } = await axios.post<ArticleWithRelationsResponse>(
+      `${serverEndpoint}/articles/query`,
+      query
+    );
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 async function getArticlesWithRelations(
   params?: GetArticlesParams

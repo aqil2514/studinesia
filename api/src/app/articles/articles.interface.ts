@@ -61,7 +61,8 @@ export interface GetQueryArticle {
   category_id: string;
   limit: number;
   page: number;
-  type: "full" | "summarized";
+  type: 'full' | 'summarized';
+  filters: string[];
 }
 
 // Ini masih dipakek di web

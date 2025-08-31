@@ -20,6 +20,7 @@ import {
 import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Role } from 'src/decorators/role.decorator';
+import { QueryOptions } from 'src/config/supabase/supabase.interface';
 
 @Controller('articles')
 export class ArticlesController {
@@ -28,7 +29,7 @@ export class ArticlesController {
   /** GET ENDPOINT */
   @Get('')
   async getArticles(@Query() query: GetQueryArticle) {
-    const { mode, category_id, limit, page, type } = query;
+    const { mode, category_id, limit, page, type, filters } = query;
 
     // MODE QUERY
     if (mode === 'published') {
@@ -91,6 +92,13 @@ export class ArticlesController {
   }
 
   /** POST ENDPOINT */
+
+  @Post('/query')
+  async getArticleWithQueries(@Body() query: QueryOptions) {
+    console.log(query);
+    return await this.articlesService.getArticleWithQueries(query);
+  }
+
   @UseGuards(JWTAuthGuard, RolesGuard)
   @Role('admin')
   @Post()
