@@ -1,13 +1,15 @@
 "use client";
 
-import { ArticleSummary, ArticleWithAuthorAndCategory } from "@/@types/article";
+import { ArticleSummary, ArticleWithRelationsResponse } from "@/@types/article";
+import { QueryOptions } from "@/@types/supabase";
 import Divider from "@/components/atoms/divider/Divider";
 import CategoryArticleCard from "@/components/molecules/cards/CategoryArticleCard";
 import CategoryArticleSkeleton from "@/components/molecules/skeletons/CategoryArticleSkeleton";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { rubik } from "@/config/fonts";
-import { getArticlesByCategory } from "@/lib/api-client/article.api";
+import { ArticleDBSelect } from "@/enums/article.enum";
+import { articleClientApi } from "@/lib/api-client/article.api";
 import { mapArticleToSummarized } from "@/lib/mapper/article.map";
 import Link from "next/link";
 import React from "react";
@@ -19,8 +21,20 @@ export default function CategoryArticleSection({
 }: {
   category_id: string;
 }) {
+  const { getArticles } = articleClientApi;
+
+  const query: QueryOptions = {
+    select: ArticleDBSelect.ARTICILE_WITH_RELATIONS,
+    filters: [
+      { key: "status", operator: "eq", value: "published" },
+      { key: "category_id", operator: "eq", value: category_id },
+    ],
+    sort: [{ key: "published_at", direction: "desc" }],
+    limit: 6,
+  };
+
   const { data, isLoading } = useSWR(`${category_id}-category`, () =>
-    getArticlesByCategory(category_id)
+    getArticles(query)
   );
 
   if (isLoading || !data) return <SkeletonSection />;
@@ -50,14 +64,16 @@ const SkeletonSection = () => {
 };
 
 const DataSection: React.FC<{
-  data: ArticleWithAuthorAndCategory[];
+  data: ArticleWithRelationsResponse;
   asMainPage?: boolean;
 }> = ({ data, asMainPage = false }) => {
-  const categoryArticle: ArticleSummary[] = data.map(mapArticleToSummarized);
-  if (!data || data.length === 0) return null;
+  const categoryArticle: ArticleSummary[] = data.articles.map(
+    mapArticleToSummarized
+  );
+  if (!data || data.articles.length === 0) return null;
 
-  const categoryName = data[0].category_id.name;
-  const categorySlug = data[0].category_id.slug;
+  const categoryName = data.articles[0].category_id.name;
+  const categorySlug = data.articles[0].category_id.slug;
 
   return (
     <section className="space-y-4 mt-4 flex flex-col justify-center items-center">

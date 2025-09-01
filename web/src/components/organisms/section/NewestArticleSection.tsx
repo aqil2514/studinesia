@@ -1,12 +1,14 @@
 "use client";
 
-import { ArticleWithAuthorAndCategory } from "@/@types/article";
+import { ArticleWithRelationsResponse } from "@/@types/article";
+import { QueryOptions } from "@/@types/supabase";
 import Divider from "@/components/atoms/divider/Divider";
 import ArticleCard from "@/components/molecules/cards/ArticleCard";
 import ArticleCardSkeleton from "@/components/molecules/skeletons/ArticleCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { rubik } from "@/config/fonts";
-import { getNewestArticles } from "@/lib/api-client/article.api";
+import { ArticleDBSelect } from "@/enums/article.enum";
+import { articleClientApi } from "@/lib/api-client/article.api";
 import { mapArticleToSummarized } from "@/lib/mapper/article.map";
 import Link from "next/link";
 import React from "react";
@@ -14,7 +16,16 @@ import { BsFillSkipForwardFill } from "react-icons/bs";
 import useSWR from "swr";
 
 export default function NewestArticleSection() {
-  const { data, isLoading } = useSWR("newest-articles", getNewestArticles);
+  const { getArticles } = articleClientApi;
+  const query: QueryOptions = {
+    filters: [{ key: "status", operator: "eq", value: "published" }],
+    select: ArticleDBSelect.ARTICILE_WITH_RELATIONS,
+    limit: 6,
+    sort: [{ key: "published_at", direction: "desc" }],
+  };
+  const { data, isLoading } = useSWR("newest-articles", () =>
+    getArticles(query)
+  );
 
   if (!data || isLoading) return <SkeletonSection />;
 
@@ -44,11 +55,9 @@ const SkeletonSection: React.FC = () => {
   );
 };
 
-const DataSection: React.FC<{ data: ArticleWithAuthorAndCategory[] }> = ({
-  data,
-}) => {
-  const summarizedArticles = data.map(mapArticleToSummarized);
-  
+const DataSection: React.FC<{ data: ArticleWithRelationsResponse }> = ({ data }) => {
+  const summarizedArticles = data.articles.map(mapArticleToSummarized);
+
   return (
     <section className="space-y-4 mt-4 flex flex-col justify-center items-center">
       <h2 className={`${rubik.className} text-center text-3xl text-gray-500`}>

@@ -1,7 +1,7 @@
 import ArticleJsonLd from "@/components/organisms/pages/articles/ArticleJsonLd";
 import ArticleSlugTemplate from "@/components/templates/ArticleSlugTemplate";
 import { baseSiteUrl } from "@/config/baseUrl";
-import { getPreviewArticleBySlug } from "@/lib/api-server/article.api";
+import { articleServerApi } from "@/lib/api-server/article.api";
 import { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
@@ -11,6 +11,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const {getPreviewArticleBySlug} = articleServerApi;
   const { slug } = await params;
   const article = await getPreviewArticleBySlug(slug);
 
@@ -56,6 +57,7 @@ export default async function ArticlePreviewPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const {getPreviewArticleBySlug} = articleServerApi;
   const { slug } = await params;
   const { isEnabled } = await draftMode();
 

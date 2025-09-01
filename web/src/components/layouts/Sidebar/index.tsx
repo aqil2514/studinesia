@@ -4,13 +4,10 @@ import NewestArticlesSidebar from "@/components/organisms/sidebar/NewestArticleS
 
 export default function Sidebar() {
   return (
-    <aside className="bg-white relative">
+    <aside className="bg-white sticky top-24 h-[calc(100vh-2rem)] overflow-y-auto flex flex-col gap-4 pt-8 pb-16 rounded-lg shadow">
       <NewestArticlesSidebar />
       <SidebarCategories />
-      <div className="sticky top-24 self-start">
-
       <NewsletterForm />
-      </div>
     </aside>
   );
 }

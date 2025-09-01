@@ -95,7 +95,6 @@ export class ArticlesController {
 
   @Post('/query')
   async getArticleWithQueries(@Body() query: QueryOptions) {
-    console.log(query);
     return await this.articlesService.getArticleWithQueries(query);
   }
 

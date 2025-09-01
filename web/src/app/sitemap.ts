@@ -1,12 +1,22 @@
+import { QueryOptions } from "@/@types/supabase";
 import { baseSiteUrl } from "@/config/baseUrl";
-import { getPublishedArticles } from "@/lib/api-server/article.api";
+import { ArticleDBSelect } from "@/enums/article.enum";
+import { articleServerApi } from "@/lib/api-server/article.api";
 import { getAllCategory } from "@/lib/api-server/category.api";
 import { MetadataRoute } from "next";
 
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const articles = await getPublishedArticles();
+  const { getArticles } = articleServerApi;
+
+  const query: QueryOptions = {
+    select: ArticleDBSelect.ARTICILE_WITH_RELATIONS,
+    filters: [{ key: "status", operator: "eq", value: "published" }],
+    sort: [{ key: "published_at", direction: "desc" }],
+  };
+
+  const { articles } = await getArticles(query);
   const categories = await getAllCategory();
 
   const staticUrl: MetadataRoute.Sitemap = [

@@ -1,7 +1,7 @@
 import ArticleJsonLd from "@/components/organisms/pages/articles/ArticleJsonLd";
 import ArticleSlugTemplate from "@/components/templates/ArticleSlugTemplate";
 import { baseSiteUrl } from "@/config/baseUrl";
-import { getArticleBySlug } from "@/lib/api-server/article.api";
+import { articleServerApi } from "@/lib/api-server/article.api";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -10,6 +10,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const {getArticleBySlug} = articleServerApi;
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
   const imageUrl = article.url_to_image;
@@ -55,6 +56,8 @@ export default async function ArticleSlugPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const {getArticleBySlug} = articleServerApi;
+
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
 

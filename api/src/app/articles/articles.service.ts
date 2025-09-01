@@ -355,6 +355,7 @@ export class ArticlesService {
       articles,
       count,
       page: query.page,
+      hasNext: query.page * query.limit < (count ?? 0)
     };
 
     return response;

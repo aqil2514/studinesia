@@ -10,7 +10,7 @@ export default function GridContainer({
   ...props
 }: GridContainerProps) {
   return (
-    <div {...props} className={cn("grid grid-cols-1 md:grid-cols-[75%_auto] gap-4", className)}>
+    <div {...props} className={cn("grid grid-cols-1 md:grid-cols-[75%_auto] gap-4 items-start", className)}>
       {children}
     </div>
   );

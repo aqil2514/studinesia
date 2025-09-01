@@ -1,35 +1,34 @@
-import { Article, ArticleWithAuthorAndCategory } from "@/@types/article";
+import {
+  ArticleServerApi,
+  ArticleWithAuthorAndCategory,
+  ArticleWithRelationsResponse,
+} from "@/@types/article";
 import { ResponseWithData } from "@/@types/http-response";
+import { QueryOptions } from "@/@types/supabase";
 import { serverEndpoint } from "@/config/serverEndpoint";
 import axios from "axios";
 
-export async function getAllArticles() {
-  try {
-    const { data } = await axios.get(`${serverEndpoint}/articles`);
+export const articleServerApi: ArticleServerApi = {
+  getArticles,
+  getArticleBySlug,
+  getPreviewArticleBySlug,
+  getArticleByQuery
+};
 
-    return data as Article[];
+async function getArticles(query: QueryOptions) {
+  try {
+    const { data } = await axios.post<ArticleWithRelationsResponse>(
+      `${serverEndpoint}/articles/query`,
+      query
+    );
+    return data;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
 
-export async function getPublishedArticles() {
-  try {
-    const { data } = await axios.get(`${serverEndpoint}/articles`, {
-      params: {
-        mode: "published",
-      },
-    });
-
-    return data as Article[];
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-export async function getArticleBySlug(slug: string) {
+async function getArticleBySlug(slug: string) {
   try {
     const { data } = await axios.get(`${serverEndpoint}/articles/${slug}`);
     return data as ArticleWithAuthorAndCategory;
@@ -38,9 +37,12 @@ export async function getArticleBySlug(slug: string) {
     throw error;
   }
 }
-export async function getPreviewArticleBySlug(slug: string) {
+
+async function getPreviewArticleBySlug(slug: string) {
   try {
-    const { data } = await axios.get(`${serverEndpoint}/articles/${slug}/preview`);
+    const { data } = await axios.get(
+      `${serverEndpoint}/articles/${slug}/preview`
+    );
     return data as ArticleWithAuthorAndCategory;
   } catch (error) {
     console.error(error);
@@ -48,7 +50,7 @@ export async function getPreviewArticleBySlug(slug: string) {
   }
 }
 
-export async function getArticleByQuery(
+async function getArticleByQuery(
   query: string
 ): Promise<ResponseWithData<ArticleWithAuthorAndCategory[]>> {
   try {

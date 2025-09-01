@@ -1,3 +1,5 @@
+import { QueryOptions } from "./supabase";
+
 type ArticleStatus = "draft" | "published" | "archived" | "scheduled";
 
 export interface Article {
@@ -48,10 +50,20 @@ export interface Category {
   image_url: string;
 }
 
-export interface ArticleHttpResponse {
-  articles: Article[];
-  total: number;
-  page: number;
-  limit: number;
-  hasMore: boolean;
+export interface ArticleWithRelationsResponse {
+  articles: ArticleWithAuthorAndCategory[];
+  count?: number;
+  page?: number;
+  hasNext?: boolean;
+}
+
+export interface ArticleClientApi {
+  getArticles: (query: QueryOptions) => Promise<ArticleWithRelationsResponse>;
+}
+
+export interface ArticleServerApi {
+  getArticles: (query: QueryOptions) => Promise<ArticleWithRelationsResponse>;
+  getArticleBySlug(slug: string): Promise<ArticleWithAuthorAndCategory>;
+  getPreviewArticleBySlug(slug: string): Promise<ArticleWithAuthorAndCategory>;
+  getArticleByQuery(query: string): Promise<ResponseWithData<ArticleWithAuthorAndCategory[]>>
 }

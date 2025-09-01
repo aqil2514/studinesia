@@ -3,7 +3,6 @@
 import useSWR from "swr";
 import MainContainer from "../layouts/containers/MainContainer";
 import Loading from "@/app/loading";
-import { getArticlesByCategory } from "@/lib/api-client/article.api";
 import TwoStepBreadcrumb from "../molecules/breadcrumbs/TwoStepBreadcrumb";
 import { rubik } from "@/config/fonts";
 import GridContainer from "../layouts/containers/GridContainer";
@@ -11,20 +10,30 @@ import Sidebar from "../layouts/Sidebar";
 import { mapArticleToSummarized } from "@/lib/mapper/article.map";
 import CategoryArticleCard from "../molecules/cards/CategoryArticleCard";
 import Link from "next/link";
+import { articleClientApi } from "@/lib/api-client/article.api";
+import { QueryOptions } from "@/@types/supabase";
 
 export default function CategorySlugTemplate({
   categoryId,
 }: {
   categoryId: string;
 }) {
+  const { getArticles } = articleClientApi;
+  const query: QueryOptions = {
+    filters: [
+      { key: "status", operator: "eq", value: "published" },
+      { key: "category_id", operator: "eq", value: categoryId },
+    ],
+    sort: [{ key: "published_at", direction: "desc" }],
+  };
   const { data, isLoading } = useSWR(`${categoryId}-category`, () =>
-    getArticlesByCategory(categoryId)
+    getArticles(query)
   );
 
   if (!data || isLoading) return <Loading />;
 
-  const categoryName = data[0].category_id.name;
-  const summarizedArticles = data.map(mapArticleToSummarized);
+  const categoryName = data.articles[0].category_id.name;
+  const summarizedArticles = data.articles.map(mapArticleToSummarized);
 
   return (
     <MainContainer className="flex flex-col items-center justify-center md:block px-4 space-y-4 pt-4">
