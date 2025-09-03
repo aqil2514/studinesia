@@ -9,16 +9,8 @@ import { BasicTable } from "../../organisms/data-tables/BasicTable";
 import { articleColumns } from "../../organisms/columns/articleColumns";
 import TableFooter from "@/components/organisms/footer/TableFooter";
 import ArticleProvider, { useArticleData } from "@/providers/ArticleProvider";
-import BasicFilter from "@/components/molecules/filter/BasicFilter";
-import { SelectItemState } from "@/components/molecules/select/interface";
 import { Category } from "@/@types/category";
-
-const columns: SelectItemState[] = articleColumns
-  .map((col) => ({
-    key: col.id as string,
-    label: col.header as string,
-  }))
-  .filter((item) => item.key !== undefined);
+import FilterData from "@/components/featured/articles/FilterData";
 
 export const articleChannel = new BroadcastChannel("article_channel");
 interface Props {
@@ -56,8 +48,7 @@ export default function ArticleTemplate({
 }
 
 const InnerTemplate = () => {
-  const { articles, isRefreshing, refreshHandler, count, filters, setFilters } =
-    useArticleData();
+  const { articles, isRefreshing, refreshHandler, count } = useArticleData();
   return (
     <MainContainer className="space-y-4">
       <PageHeaderWithActions
@@ -70,11 +61,7 @@ const InnerTemplate = () => {
 
       {/* Controllers */}
       <div className="flex gap-4">
-        <BasicFilter
-          filters={filters}
-          setFilters={setFilters}
-          items={columns}
-        />
+        <FilterData />
       </div>
 
       <BasicTable columns={articleColumns} data={articles} />

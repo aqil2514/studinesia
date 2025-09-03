@@ -12,5 +12,5 @@ export type FilterOperator =
 export interface FilterState {
   key: string;
   operator: FilterOperator;
-  value: string;
+  value: string | number | boolean | string[];
 }

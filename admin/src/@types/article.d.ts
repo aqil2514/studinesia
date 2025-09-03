@@ -1,7 +1,7 @@
 import { ArticleSchemaType } from "@/schemas/article.schema";
 import { QueryOptions } from "./query";
 
-type ArticleStatus = "draft" | "published" | "archived" | "scheduled";
+export type ArticleStatus = "draft" | "published" | "archived" | "scheduled";
 
 export interface Article {
   id?: number;

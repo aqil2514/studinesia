@@ -9,15 +9,21 @@ import { SelectItemState } from "./interface";
 
 interface Props {
   items: SelectItemState[];
-  value:string;
-  onValueChange:(e:string) => void
+  value: string;
+  onValueChange: (e: string) => void;
+  label?: string;
 }
 
-export default function BasicSelect({ items, onValueChange, value }: Props) {
+export default function BasicSelect({
+  items,
+  onValueChange,
+  value,
+  label = "item",
+}: Props) {
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Pilih Item" />
+        <SelectValue placeholder={`Pilih ${label}`} />
       </SelectTrigger>
       <SelectContent>
         {items.map((item) => (
