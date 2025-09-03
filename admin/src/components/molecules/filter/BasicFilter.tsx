@@ -108,7 +108,7 @@ export default function BasicFilter({ filters, setFilters, items }: Props) {
             />
             <Input
               className="h-8"
-              value={filter.value}
+              value={filter.value as string}
               onChange={(e) => updateFilter(index, { value: e.target.value })}
               placeholder="Value..."
             />
