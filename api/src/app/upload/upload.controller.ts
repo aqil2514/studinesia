@@ -10,9 +10,9 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { UploadService } from './upload.service';
-import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/guards/roles.guard';
-import { Role } from 'src/decorators/role.decorator';
+import { JWTAuthGuard } from '../../guards/jwt-auth.guard';
+import { RolesGuard } from '../../guards/roles.guard';
+import { Role } from '../../decorators/role.decorator';
 
 @Controller('upload')
 export class UploadController {

@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { FacebookService } from 'src/config/facebook/facebook.service';
+import { FacebookService } from '../../config/facebook/facebook.service';
 
 @Controller('debug')
 export class DebugController {

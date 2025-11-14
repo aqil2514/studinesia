@@ -9,9 +9,9 @@ import {
   ArticleWithAuthorAndCategory,
   ArticleWithRelationsResponse,
 } from './articles.interface';
-import { SupabaseService } from 'src/config/supabase/supabase.service';
+import { SupabaseService } from '../../config/supabase/supabase.service';
 import { TagsService } from '../tags/tags.service';
-import { QueryOptions } from 'src/config/supabase/supabase.interface';
+import { QueryOptions } from '../../config/supabase/supabase.interface';
 
 @Injectable()
 export class ArticlesService {

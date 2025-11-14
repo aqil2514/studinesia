@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category, GetCategoryQuery } from './category.interface';
-import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/guards/roles.guard';
-import { Role } from 'src/decorators/role.decorator';
+import { JWTAuthGuard } from '../../guards/jwt-auth.guard';
+import { RolesGuard } from '../../guards/roles.guard';
+import { Role } from '../../decorators/role.decorator';
 
 @Controller('category')
 export class CategoryController {

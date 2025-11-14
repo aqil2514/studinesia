@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DebugController } from './debug.controller';
-import { FacebookModule } from 'src/config/facebook/facebook.module';
+import { FacebookModule } from '../../config/facebook/facebook.module';
 
 @Module({
   imports: [FacebookModule],

@@ -2,13 +2,13 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { ArticlesService } from './articles.service';
 import { ArticleDB } from './articles.interface';
-import { ResendService } from 'src/config/resend/resend.service';
+import { ResendService } from '../../config/resend/resend.service';
 import { NewsletterService } from '../newsletter/newsletter.service';
-import { baseSiteUrl } from 'src/config/sites';
-import { TwitterService } from 'src/config/twitter/twitter.service';
-import { generateTweet } from 'src/config/twitter/twitter.tweet';
-import { FacebookService } from 'src/config/facebook/facebook.service';
-import { createSocialPostMessage } from 'src/config/facebook/facebook.post';
+import { baseSiteUrl } from '../../config/sites';
+import { TwitterService } from '../../config/twitter/twitter.service';
+import { generateTweet } from '../../config/twitter/twitter.tweet';
+import { FacebookService } from '../../config/facebook/facebook.service';
+import { createSocialPostMessage } from '../../config/facebook/facebook.post';
 
 @Injectable()
 export class ArticlesSchedulerService {

@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { Tag } from './tags.interface';
 import { TagsService } from './tags.service';
-import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/guards/roles.guard';
-import { Role } from 'src/decorators/role.decorator';
+import { JWTAuthGuard } from '../../guards/jwt-auth.guard';
+import { RolesGuard } from '../../guards/roles.guard';
+import { Role } from '../../decorators/role.decorator';
 
 @Controller('tags')
 export class TagsController {

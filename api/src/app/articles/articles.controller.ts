@@ -17,10 +17,10 @@ import {
   ArticleWithAuthorAndCategory,
   GetQueryArticle,
 } from './articles.interface';
-import { JWTAuthGuard } from 'src/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/guards/roles.guard';
-import { Role } from 'src/decorators/role.decorator';
-import { QueryOptions } from 'src/config/supabase/supabase.interface';
+import { JWTAuthGuard } from '../../guards/jwt-auth.guard';
+import { RolesGuard } from '../../guards/roles.guard';
+import { Role } from '../../decorators/role.decorator';
+import { QueryOptions } from '../../config/supabase/supabase.interface';
 
 @Controller('articles')
 export class ArticlesController {

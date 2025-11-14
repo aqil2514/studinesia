@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ResendService } from 'src/config/resend/resend.service';
+import { ResendService } from '../../config/resend/resend.service';
 import { randomUUID } from 'crypto';
-import { SupabaseService } from 'src/config/supabase/supabase.service';
+import { SupabaseService } from '../../config/supabase/supabase.service';
 import { NewsletterCode, NewsletterDB } from './newsletter.interface';
 import { SupabaseClient } from '@supabase/supabase-js';
 
