@@ -36,4 +36,9 @@ export class TagsController {
   async createBulksNewTags(@Body() body: Tag[]) {
     return await this.tagsService.createBulksNewTags(body);
   }
+
+  @Post('/bulks/n8n')
+  async createBulksNewTagsN8N(@Body() body: Tag[]) {
+    return await this.tagsService.createBulksNewTags(body);
+  }
 }

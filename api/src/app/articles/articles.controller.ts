@@ -105,10 +105,20 @@ export class ArticlesController {
     return await this.articlesService.createNewArticle(payload);
   }
 
+  @Post("n8n")
+  async createNewArticleN8N(@Body() payload: ArticleDB) {
+    return await this.articlesService.createNewArticle(payload);
+  }
+
   @UseGuards(JWTAuthGuard, RolesGuard)
   @Role('admin')
   @Post('/article-tags')
   async createNewArticleTag(@Body() payload: ArticleTags[]) {
+    return await this.articlesService.createNewArticleTag(payload);
+  }
+  
+  @Post('/article-tags/n8n')
+  async createNewArticleTagN8N(@Body() payload: ArticleTags[]) {
     return await this.articlesService.createNewArticleTag(payload);
   }
 
@@ -145,5 +155,28 @@ export class ArticlesController {
     @Body('status') status: ArticleStatus,
   ) {
     return await this.articlesService.updateStatusArticleBySlug(slug, status);
+  }
+
+  @Post('n8n')
+  async mapArticle(@Body() body: any) {
+    const data = body.body;
+    const cleanedString = data
+      .replace('===ARTICLE_SCHEMA_OUTPUT===', '')
+      .replace('===END_OUTPUT===', '')
+      .trim();
+
+    function parseValidJson(jsonString) {
+      try {
+        // Menggunakan JSON.parse() untuk konversi langsung
+        return JSON.parse(jsonString);
+      } catch (error) {
+        console.error('Gagal mengurai string JSON:', error.message);
+        return null;
+      }
+    }
+
+    const finalObject = parseValidJson(cleanedString);
+
+    return { finalObject };
   }
 }

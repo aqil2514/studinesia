@@ -41,4 +41,27 @@ export class UploadController {
 
     return { url: result['secure_url'] };
   }
+
+  @Post('/image/n8n')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: memoryStorage(),
+    }),
+  )
+  async uploadImageN8N(
+    @UploadedFile() file: Express.Multer.File,
+    @Query('folder') folder: string,
+  ) {
+    if (!file) {
+      throw new BadRequestException('Tidak ada file yang diupload');
+    }
+
+    const result = await this.uploadService.uploadImage(
+      file.buffer,
+      folder || 'studinesia',
+    );
+
+    return { url: result['secure_url'] };
+  }
+
 }
