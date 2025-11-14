@@ -98,6 +98,21 @@ export async function createNewArticle(payload: ArticleDB, token: string) {
   }
 }
 
+export async function createNewArticleN8N(payload: ArticleDB) {
+  try {
+    const { data } = await axios.post(
+      `${serverEndpoint}/articles/n8n`,
+      payload,
+      {}
+    );
+
+    return data.data as ArticleDB[];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function updateArticle(payload: ArticleDB, token: string) {
   try {
     const { data } = await axios.put(`${serverEndpoint}/articles`, payload, {
@@ -123,6 +138,15 @@ export async function createNewArticleTags(
         Authorization: `Bearer ${token}`,
       },
     });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function createNewArticleTagsN8N(payload: ArticleTags[]) {
+  try {
+    await axios.post(`${serverEndpoint}/articles/article-tags/n8n`, payload);
   } catch (error) {
     console.error(error);
     throw error;

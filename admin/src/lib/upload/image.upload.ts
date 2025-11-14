@@ -22,3 +22,20 @@ export async function uploadImage(image: File, folder: string, token: string) {
     throw error;
   }
 }
+
+export async function uploadImageN8N(image: File, folder: string) {
+  const formData: FormData = new FormData();
+  formData.append("image", image);
+
+  try {
+    const { data } = await axios.postForm(
+      `${serverEndpoint}/upload/image/n8n?folder=${encodeURIComponent(folder)}`,
+      formData
+    );
+
+    return data.url as string;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
